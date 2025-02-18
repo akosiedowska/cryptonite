@@ -8,8 +8,9 @@ import { NgClass, CommonModule } from '@angular/common';
   styleUrl: './button.component.scss'
 })
 export class ButtonComponent {
-  @Input() text: string = ''
+  @Input() label: string = ''
   @Input() outlined: boolean = false
   @Input() disabled: boolean = false
+  @Input() class: string = ''
   @Input() type: 'button' | 'submit' | 'reset' = 'button'
 }

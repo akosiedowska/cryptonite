@@ -1,4 +1,4 @@
-@use '../../variables' as *;
+@use '../../../variables' as *;
 
 .header-wrapper {
     padding: 0 calc((100% - 1200px)/2);
@@ -29,5 +29,28 @@
         align-items: center;
         gap: 15px;
         list-style-type: none;
+
+        a {
+            color: $text-main;
+            transition: color .3s ease;
+
+            &.active {
+                font-weight: 500;
+            }
+
+            &:hover {
+                color: $cryptonite-green;
+            }
+        }
+
+        .username {
+            border-left: 2px solid $cryptonite-green;
+            padding-left: 15px;
+        }
+
+    }
+
+    a {
+        text-decoration: none;
     }
 }
