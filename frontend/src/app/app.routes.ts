@@ -5,6 +5,8 @@ import { LoginComponent } from '../features/login/login.component';
 import { LayoutComponent } from '../core/components/layout/layout.component';
 import { HomeComponent } from '../features/home/home.component';
 import { DashboardComponent } from '../features/dashboard/dashboard.component';
+import { isLoggedGuard } from '../is-logged.guard';
+import { UnauthorizedComponent } from '../features/unauthorized/unauthorized.component';
 
 export const routes: Routes = [
     // {
@@ -35,7 +37,12 @@ export const routes: Routes = [
     {
         path: 'dashboard',
         component: DashboardComponent,
-        title: "Dashboard page"
+        title: "Dashboard page",
+        canActivate: [isLoggedGuard]
+    },
+    {
+        path: 'unauthorized',
+        component: UnauthorizedComponent
     }
     //     ]
     // },
