@@ -1,0 +1,20 @@
+<div class="header-wrapper">
+    <div class="header">
+        <a [routerLink]="['']">
+            <div class="header__logo">
+                <mat-icon aria-hidden="false" aria-label="logo icon" fontIcon="diamond"
+                    class="material-icons-outlined"></mat-icon>
+                <div class="app-name">Cryptonite</div>
+            </div>
+        </a>
+        <ul class="header__links">
+            <li><a routerLink="about" routerLinkActive="active">About</a></li>
+            <li><a routerLink="currencies" routerLinkActive="active">Currencies</a></li>
+            <li *ngIf="userName"><a routerLink="dashboard" routerLinkActive="active">Dashboard</a></li>
+            <li *ngIf="!userName"><a routerLink="login"><app-button label="Log in" /></a></li>
+            <li *ngIf="!userName"><app-button label="Sign up" [outlined]="true" /></li>
+            <li *ngIf="userName" class="username">Hello, {{userName}}</li>
+            <li *ngIf="userName"><app-button label="Log out" (click)="logOut()" /></li>
+        </ul>
+    </div>
+</div>

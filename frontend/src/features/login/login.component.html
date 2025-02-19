@@ -1,0 +1,14 @@
+<div class="form-wrapper">
+    <h2>Log in</h2>
+    <form [formGroup]="loginForm" class="login-form" (submit)="handleSubmit()">
+        <mat-form-field>
+            <mat-label>Email</mat-label>
+            <input matInput placeholder="enter login" formControlName="name" required />
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Password</mat-label>
+            <input matInput placeholder="enter password" formControlName="password" required />
+        </mat-form-field>
+        <app-button label="Log in" class="large" type="submit" />
+    </form>
+</div>
