@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from "../core/components/header/header.component";
 import { FooterComponent } from "../core/components/footer/footer.component";
+import { CoinsService } from '../core/services/coins.service';
 
 @Component({
   selector: 'app-root',
@@ -11,4 +12,10 @@ import { FooterComponent } from "../core/components/footer/footer.component";
 })
 export class AppComponent {
   title = 'Cryptonite';
+
+  constructor(private coinService: CoinsService) { }
+
+  ngOnInit() {
+    this.coinService.fetchCoins()
+  }
 }
