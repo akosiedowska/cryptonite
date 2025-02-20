@@ -1,10 +1,5 @@
 import { Injectable, signal } from '@angular/core';
-
-export interface Coin {
-  name: string,
-  image: string,
-  current_price: number
-}
+import { Coin } from '../../types';
 
 @Injectable({
   providedIn: 'root',

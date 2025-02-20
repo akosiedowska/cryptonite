@@ -7,7 +7,7 @@ export const loginRouter = express.Router()
 
 loginRouter.post('/', async (req: Request, res: Response) => {
     const { username, password } = req.body
-
+    console.log('req body', req.body)
     try {
         const result = await pool.query("SELECT * FROM users WHERE name = $1", [username])
         const user = result.rows[0]
@@ -16,6 +16,8 @@ loginRouter.post('/', async (req: Request, res: Response) => {
             return
         }
         const passwordMatch = await bcrypt.compare(password, user.password)
+        console.log('user password', user.password)
+        console.log('user', user)
         if (!passwordMatch) {
             res.status(400).json({ message: "Invalid password" })
         } else {

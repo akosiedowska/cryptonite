@@ -1,11 +1,13 @@
 import express, { Request, Response } from 'express'
 import { Pool } from 'pg'
 import dotenv from 'dotenv'
+import cors from 'cors'
 import { usersRouter } from './controllers/users'
 import { loginRouter } from './controllers/login'
 
 dotenv.config()
 const app = express()
+app.use(cors())
 const port = 8080
 
 export const pool = new Pool({

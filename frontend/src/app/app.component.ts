@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { HeaderComponent } from "../core/components/header/header.component";
-import { FooterComponent } from "../core/components/footer/footer.component";
-import { CoinsService } from '../core/services/coins.service';
+import { HeaderComponent } from "./core/components/header/header.component";
+import { FooterComponent } from "./core/components/footer/footer.component";
+import { CoinsService } from './core/services/coins.service';
 
 @Component({
   selector: 'app-root',
