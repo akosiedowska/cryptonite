@@ -1,6 +1,6 @@
-import express, { Request, Response } from "express";
+import express, { Request, Response } from "express"
 import bcrypt from "bcryptjs"
-import { pool } from "../index";
+import { pool } from "../index"
 
 export const usersRouter = express.Router()
 
