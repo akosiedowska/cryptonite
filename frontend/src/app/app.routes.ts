@@ -1,12 +1,12 @@
 import { Routes } from '@angular/router';
-import { CurrenciesComponent } from '../features/currencies/currencies.component';
-import { AboutComponent } from '../features/about/about.component';
-import { LoginComponent } from '../features/login/login.component';
+import { CurrenciesComponent } from '../pages/currencies/currencies.component';
+import { AboutComponent } from '../pages/about/about.component';
+import { LoginComponent } from '../pages/login/login.component';
 import { LayoutComponent } from '../core/components/layout/layout.component';
-import { HomeComponent } from '../features/home/home.component';
-import { DashboardComponent } from '../features/dashboard/dashboard.component';
+import { HomeComponent } from '../pages/home/home.component';
+import { DashboardComponent } from '../pages/dashboard/dashboard.component';
 import { isLoggedGuard } from '../is-logged.guard';
-import { UnauthorizedComponent } from '../features/unauthorized/unauthorized.component';
+import { UnauthorizedComponent } from '../pages/unauthorized/unauthorized.component';
 
 export const routes: Routes = [
     // {
