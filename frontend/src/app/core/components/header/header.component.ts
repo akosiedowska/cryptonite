@@ -24,6 +24,7 @@ export class HeaderComponent {
   }
 
   logOut() {
+    this.authService.currentUser.set(null)
     this.userName = null
     this.router.navigate(['/'])
   }
