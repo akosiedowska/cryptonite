@@ -23,6 +23,11 @@
             background-color: $cryptonite-green-light;
         }
     }
+
+    &:disabled {
+        background-color: $disabled-gray;
+        cursor: auto;
+    }
 }
 
 .large {

@@ -6,7 +6,6 @@ import { ButtonComponent } from '../../../shared/components/button/button.compon
 import { Router, RouterLink, RouterModule } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { AuthService } from '../../services/auth.service';
-import { User } from '../../../types';
 
 @Component({
   selector: 'app-header',
@@ -27,5 +26,6 @@ export class HeaderComponent {
     this.authService.currentUser.set(null)
     this.userName = null
     this.router.navigate(['/'])
+    localStorage.removeItem('CryptoniteUser')
   }
 }

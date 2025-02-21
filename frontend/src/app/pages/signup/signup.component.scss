@@ -11,7 +11,13 @@
     flex-direction: column;
     width: 300px;
 
-    .mat-mdc-form-field-focus-overlay:focused {
-        border-bottom: 1px solid $cryptonite-green !important;
+    // .mat-mdc-form-field-focus-overlay:focused {
+    //     border-bottom: 1px solid $cryptonite-green !important;
+    // }
+    .error-message {
+        font-size: 12px;
+        color: #ef4444;
+        text-align: center;
+        margin-bottom: 15px;
     }
 }
