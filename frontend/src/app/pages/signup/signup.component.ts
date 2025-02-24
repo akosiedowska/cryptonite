@@ -15,7 +15,7 @@ import { CommonModule } from '@angular/common';
   encapsulation: ViewEncapsulation.None,
 })
 export class SignupComponent {
-  http = inject(HttpClient)
+  // http = inject(HttpClient)
   errorMessage: string | null = ''
 
   signupForm = new FormGroup({
@@ -25,7 +25,7 @@ export class SignupComponent {
     confirmPassword: new FormControl('', [Validators.required]),
   }, { validators: matchPasswordsValidator })
 
-  constructor(private authService: AuthService) {
+  constructor(private authService: AuthService, public http: HttpClient) {
     this.signupForm.valueChanges.subscribe(() => {
       this.authService.errorMessage.set(null)
     })
