@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, effect, inject, ViewEncapsulation } from '@angular/core';
 import { ReactiveFormsModule, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { ButtonComponent } from '../../shared/components/button/button.component';
@@ -12,21 +12,31 @@ import { AuthService } from '../../core/services/auth.service';
   selector: 'app-login',
   imports: [ReactiveFormsModule, MatInputModule, ButtonComponent],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.scss'
+  styleUrl: './login.component.scss',
+  encapsulation: ViewEncapsulation.None,
 })
 export class LoginComponent {
   http = inject(HttpClient)
+  errorMessage: string | null = ''
 
   loginForm = new FormGroup({
-    name: new FormControl('', Validators.required),
+    username: new FormControl('', Validators.required),
     password: new FormControl('', Validators.required)
   })
 
-  constructor(public userService: UserService, private router: Router, public authService: AuthService) { }
+  constructor(public userService: UserService, private router: Router, public authService: AuthService) {
+    this.loginForm.valueChanges.subscribe(() => {
+      this.authService.errorMessage.set(null)
+    })
+    effect(() => {
+      this.errorMessage = authService.errorMessage()
+    })
+  }
 
   handleSubmit() {
-    if (this.loginForm.value.name && this.loginForm.value.password) {
-      this.authService.login(this.loginForm.value.name, this.loginForm.value.password)
+    const { username, password } = this.loginForm.value
+    if (username && password) {
+      this.authService.login(username.trim(), password.trim())
     }
   }
 }

@@ -16,10 +16,15 @@ export class AuthService {
   login(username: string, password: string) {
     this.http
       .post<User>(`${BASE_URL}/login`, { username, password })
-      .subscribe(response => {
-        localStorage.setItem('CryptoniteUser', JSON.stringify(response))
-        this.currentUser.set(response)
-        this.router.navigate(['/dashboard'])
+      .subscribe({
+        next: response => {
+          localStorage.setItem('CryptoniteUser', JSON.stringify(response))
+          this.currentUser.set(response)
+          this.router.navigate(['/dashboard'])
+        },
+        error: error => {
+          this.errorMessage.set(error.error.error || 'Unexpected error occured')
+        }
       })
   }
 
@@ -27,14 +32,13 @@ export class AuthService {
     this.http
       .post(`${BASE_URL}/users`, { username, email, password })
       .subscribe({
-        next: (response) => {
+        next: response => {
           if (response) {
             this.login(username, password)
           }
         },
-        error: (error) => {
+        error: error => {
           this.errorMessage.set(error.error.error || 'Unexpected error occured')
-          throw error
         }
       })
   }

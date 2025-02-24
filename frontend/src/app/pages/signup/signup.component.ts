@@ -38,6 +38,6 @@ export class SignupComponent {
     const { username, email, password } = this.signupForm.value
 
     if (username && email && password)
-      this.authService.signup(username, email, password)
+      this.authService.signup(username.trim(), email.trim(), password.trim())
   }
 }
