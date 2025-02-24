@@ -18,15 +18,15 @@ usersRouter.post('/', async (req: Request, res: Response) => {
     //     console.log('errror', err)
     //     res.status(201).send(`User ${results.rows[0].name} added.`)
     // })
-
+    const createdDate = new Date().toISOString()
     try {
         const userAlreadyExists = await pool.query("SELECT EXISTS (SELECT 1 FROM users WHERE name=$1)", [username])
         if (userAlreadyExists.rows[0].exists) {
             res.status(400).json({ error: 'User with such name already exists' })
         } else {
             const result = await pool.query(
-                "INSERT INTO users (name, email, password) VALUES ($1, $2, $3) RETURNING *",
-                [username, email, hashedPassword]
+                'INSERT INTO users (name, email, password, created_date) VALUES ($1, $2, $3, $4) RETURNING *',
+                [username, email, hashedPassword, createdDate]
             );
 
             res.status(201).json({
