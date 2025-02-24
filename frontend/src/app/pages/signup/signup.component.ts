@@ -1,4 +1,4 @@
-import { Component, inject, ViewEncapsulation } from '@angular/core';
+import { Component, effect, inject, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { ButtonComponent } from '../../shared/components/button/button.component';
@@ -16,6 +16,7 @@ import { CommonModule } from '@angular/common';
 })
 export class SignupComponent {
   http = inject(HttpClient)
+  errorMessage: string | null = ''
 
   signupForm = new FormGroup({
     username: new FormControl('', [Validators.required, Validators.minLength(3)]),
@@ -25,20 +26,18 @@ export class SignupComponent {
   }, { validators: matchPasswordsValidator })
 
   constructor(private authService: AuthService) {
-    this.signupForm.valueChanges.subscribe((value) => {
-      console.log('Form Values:', value);
-    });
+    this.signupForm.valueChanges.subscribe(() => {
+      this.authService.errorMessage.set(null)
+    })
+    effect(() => {
+      this.errorMessage = authService.errorMessage()
+    })
   }
 
   handleSubmit() {
-    if (this.signupForm.value.username && this.signupForm.value.email && this.signupForm.value.password)
-      this.authService.signup(this.signupForm.value.username, this.signupForm.value.email, this.signupForm.value.password)
-  }
+    const { username, email, password } = this.signupForm.value
 
-  ngOnInit() {
-    this.signupForm.valueChanges.subscribe(() => {
-      console.log('Form Errors:', this.signupForm.errors);
-    });
+    if (username && email && password)
+      this.authService.signup(username, email, password)
   }
-
 }

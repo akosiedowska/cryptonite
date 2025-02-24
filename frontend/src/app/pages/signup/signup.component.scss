@@ -14,4 +14,12 @@
     .mat-mdc-form-field-subscript-wrapper:has(.mat-mdc-form-field-error-wrapper) {
         margin-bottom: 15px !important;
     }
+
+    .error-message {
+        margin-bottom: 16px;
+        padding: 0 16px;
+        text-align: center;
+        font-size: 12px;
+        color: #ba1a1a;
+    }
 }

@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 })
 export class AuthService {
   currentUser = signal<User | undefined | null>(undefined)
+  errorMessage = signal<string | null>(null)
 
   constructor(public http: HttpClient, public router: Router) { }
 
@@ -25,9 +26,15 @@ export class AuthService {
   signup(username: string, email: string, password: string) {
     this.http
       .post(`${BASE_URL}/users`, { username, email, password })
-      .subscribe(response => {
-        if (response) {
-          this.login(username, password)
+      .subscribe({
+        next: (response) => {
+          if (response) {
+            this.login(username, password)
+          }
+        },
+        error: (error) => {
+          this.errorMessage.set(error.error.error || 'Unexpected error occured')
+          throw error
         }
       })
   }
