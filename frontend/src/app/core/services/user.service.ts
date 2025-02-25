@@ -1,9 +1,5 @@
 import { Injectable, signal } from '@angular/core';
 
-// interface User {
-//   email: string
-// }
-
 @Injectable({
   providedIn: 'root'
 })

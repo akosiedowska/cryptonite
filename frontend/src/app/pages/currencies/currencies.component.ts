@@ -1,6 +1,7 @@
 import { Component, effect, signal, OnInit } from '@angular/core';
-import { Coin, CoinsService } from '../../core/services/coins.service';
 import { CommonModule } from '@angular/common';
+import { CoinsService } from '../../core/services/coins.service';
+import { Coin } from '../../types';
 
 @Component({
   selector: 'app-currencies',

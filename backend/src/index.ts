@@ -1,11 +1,13 @@
 import express, { Request, Response } from 'express'
 import { Pool } from 'pg'
 import dotenv from 'dotenv'
+import cors from 'cors'
 import { usersRouter } from './controllers/users'
 import { loginRouter } from './controllers/login'
 
 dotenv.config()
 const app = express()
+app.use(cors())
 const port = 8080
 
 export const pool = new Pool({
@@ -19,11 +21,6 @@ export const pool = new Pool({
 app.use(express.json())
 app.use('/users', usersRouter)
 app.use('/login', loginRouter)
-
-// app.get('/users', async (req: Request, res: Response) => {
-//     const result = await pool.query('SELECT * FROM users')
-//     res.json(result.rows)
-// })
 
 app.get('/', (req: Request, res: Response) => {
     res.send('Hello from backend')

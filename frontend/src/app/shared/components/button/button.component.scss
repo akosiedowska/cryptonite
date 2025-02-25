@@ -1,4 +1,4 @@
-@use '../../../variables' as *;
+@use '../../../../variables' as *;
 
 .button {
     width: 100%;
@@ -22,6 +22,11 @@
         &:hover {
             background-color: $cryptonite-green-light;
         }
+    }
+
+    &:disabled {
+        background-color: $disabled-gray;
+        cursor: auto;
     }
 }
 
