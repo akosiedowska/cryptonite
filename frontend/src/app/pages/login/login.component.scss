@@ -1,4 +1,4 @@
-@use '../../variables' as *;
+@use '../../../variables' as *;
 
 .form-wrapper {
     display: flex;
@@ -11,7 +11,15 @@
     flex-direction: column;
     width: 300px;
 
-    .mat-mdc-form-field-focus-overlay:focused {
-        border-bottom: 1px solid $cryptonite-green !important;
+    .mat-mdc-form-field-subscript-wrapper:has(.mat-mdc-form-field-error-wrapper) {
+        margin-bottom: 15px !important;
+    }
+
+    .error-message {
+        margin-bottom: 16px;
+        padding: 0 16px;
+        text-align: center;
+        font-size: 12px;
+        color: #ba1a1a;
     }
 }

@@ -5,6 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { ButtonComponent } from '../../../shared/components/button/button.component';
 import { Router, RouterLink, RouterModule } from '@angular/router';
 import { UserService } from '../../services/user.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -13,15 +14,17 @@ import { UserService } from '../../services/user.service';
   styleUrl: './header.component.scss'
 })
 export class HeaderComponent {
-  userName = ''
-  constructor(public userService: UserService, private router: Router) {
+  userName: undefined | null | string = undefined
+  constructor(public userService: UserService, private router: Router, public authService: AuthService) {
     effect(() => {
-      this.userName = this.userService.getUser()
+      this.userName = this.authService.currentUser()?.username
     })
   }
 
   logOut() {
-    this.userName = ''
+    this.authService.currentUser.set(null)
+    this.userName = null
     this.router.navigate(['/'])
+    localStorage.removeItem('CryptoniteUser')
   }
 }

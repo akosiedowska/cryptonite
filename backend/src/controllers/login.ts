@@ -12,7 +12,7 @@ loginRouter.post('/', async (req: Request, res: Response) => {
         const result = await pool.query("SELECT * FROM users WHERE name = $1", [username])
         const user = result.rows[0]
         if (!user) {
-            res.status(400).json({ error: "Invalid username" })
+            res.status(400).json({ message: "Invalid username" })
             return
         }
         const passwordMatch = await bcrypt.compare(password, user.password)
@@ -30,6 +30,6 @@ loginRouter.post('/', async (req: Request, res: Response) => {
 
     } catch (err) {
         console.error("Database error:", err);
-        res.status(500).json({ error: "Internal server error" });
+        res.status(500).json({ message: "Internal server error" });
     }
 })

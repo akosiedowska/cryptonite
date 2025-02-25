@@ -2,13 +2,22 @@
     <h2>Log in</h2>
     <form [formGroup]="loginForm" class="login-form" (submit)="handleSubmit()">
         <mat-form-field>
-            <mat-label>Email</mat-label>
-            <input matInput placeholder="enter login" formControlName="name" required />
+            <mat-label>Username</mat-label>
+            <input matInput placeholder="enter username" formControlName="username" required />
+            @if (loginForm.get('username')?.hasError('required')) {
+            <mat-error> Username is required</mat-error>
+            }
         </mat-form-field>
         <mat-form-field>
             <mat-label>Password</mat-label>
-            <input matInput placeholder="enter password" formControlName="password" required />
+            <input matInput placeholder="enter password" formControlName="password" type="password" required />
+            @if (loginForm.get('password')?.hasError('required')) {
+            <mat-error> Password is required</mat-error>
+            }
         </mat-form-field>
+        @if (errorMessage){
+        <div class="error-message">{{errorMessage}}</div>
+        }
         <app-button label="Log in" class="large" type="submit" />
     </form>
 </div>
