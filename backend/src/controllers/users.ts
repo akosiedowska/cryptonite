@@ -5,7 +5,7 @@ import { verifyToken } from "../utils/middleware"
 
 export const usersRouter = express.Router()
 
-usersRouter.get('/', verifyToken, async (req: Request, res: Response) => {
+usersRouter.get('/', async (req: Request, res: Response) => {
     try {
         const result = await pool.query('SELECT * FROM users')
         res.json(result.rows)
