@@ -17,7 +17,6 @@ export class HeaderComponent {
   userName: undefined | null | string = undefined
   constructor(public userService: UserService, private router: Router, public authService: AuthService) {
     effect(() => {
-      // this.userName = this.userService.getUser()
       this.userName = this.authService.currentUser()?.username
     })
   }

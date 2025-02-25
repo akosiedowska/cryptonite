@@ -22,11 +22,6 @@ app.use(express.json())
 app.use('/users', usersRouter)
 app.use('/login', loginRouter)
 
-// app.get('/users', async (req: Request, res: Response) => {
-//     const result = await pool.query('SELECT * FROM users')
-//     res.json(result.rows)
-// })
-
 app.get('/', (req: Request, res: Response) => {
     res.send('Hello from backend')
 })

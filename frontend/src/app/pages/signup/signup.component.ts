@@ -15,7 +15,6 @@ import { CommonModule } from '@angular/common';
   encapsulation: ViewEncapsulation.None,
 })
 export class SignupComponent {
-  // http = inject(HttpClient)
   errorMessage: string | null = ''
 
   signupForm = new FormGroup({

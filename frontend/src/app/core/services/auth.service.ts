@@ -23,7 +23,7 @@ export class AuthService {
           this.router.navigate(['/dashboard'])
         },
         error: error => {
-          this.errorMessage.set(error.error.error || 'Unexpected error occured')
+          this.errorMessage.set(error.error.message || 'Unexpected error occured')
         }
       })
   }
@@ -38,7 +38,7 @@ export class AuthService {
           }
         },
         error: error => {
-          this.errorMessage.set(error.error.error || 'Unexpected error occured')
+          this.errorMessage.set(error.error.message || 'Unexpected error occured')
         }
       })
   }

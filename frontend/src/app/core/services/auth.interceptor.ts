@@ -1,7 +1,7 @@
 import { HttpInterceptorFn } from '@angular/common/http';
 
 export const authInterceptor: HttpInterceptorFn = (request, next) => {
-    const user = localStorage.getItem('CryptoniteUsern')
+    const user = localStorage.getItem('CryptoniteUser')
     const token = user ? JSON.parse(user)?.token : ''
     request = request.clone({
         setHeaders: {

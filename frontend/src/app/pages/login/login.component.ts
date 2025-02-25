@@ -14,7 +14,6 @@ import { AuthService } from '../../core/services/auth.service';
   encapsulation: ViewEncapsulation.None,
 })
 export class LoginComponent {
-  // http = inject(HttpClient)
   errorMessage: string | null = ''
 
   loginForm = new FormGroup({
