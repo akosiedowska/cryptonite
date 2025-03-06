@@ -3,7 +3,7 @@ import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from "./core/components/header/header.component";
 import { FooterComponent } from "./core/components/footer/footer.component";
 import { CoinsService } from './core/services/coins.service';
-import { AuthService } from './core/services/auth.service';
+import { CurrentUserService } from './core/services/current-user.service';
 
 @Component({
   selector: 'app-root',
@@ -12,16 +12,12 @@ import { AuthService } from './core/services/auth.service';
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  title = 'Cryptonite';
+  title = 'Cryptonite'
 
-  constructor(private coinService: CoinsService, private authService: AuthService) { }
+  constructor(private coinService: CoinsService, private currentUserService: CurrentUserService) { }
 
   ngOnInit() {
     this.coinService.fetchCoins()
-    const loggedUser = window.localStorage.getItem('CryptoniteUser')
-    if (loggedUser) {
-      const user = JSON.parse(loggedUser)
-      this.authService.currentUser.set(user)
-    }
+    this.currentUserService.initializeCurrentUser()
   }
 }

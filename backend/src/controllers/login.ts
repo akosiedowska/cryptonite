@@ -11,6 +11,7 @@ loginRouter.post('/', async (req: Request, res: Response) => {
     try {
         const result = await pool.query("SELECT * FROM users WHERE name = $1", [username])
         const user = result.rows[0]
+
         if (!user) {
             res.status(400).json({ message: "Invalid username" })
             return
@@ -19,13 +20,18 @@ loginRouter.post('/', async (req: Request, res: Response) => {
         if (!passwordMatch) {
             res.status(400).json({ message: "Invalid password" })
         } else {
-            const userForToken = {
+            const tokenData = {
                 username: user.name,
                 id: user.id
             }
 
-            const token = jwt.sign(userForToken, process.env.SECRET as Secret, { expiresIn: 60 * 60 })
-            res.status(200).send({ token, username: user.name, id: user.id })
+            const accessToken = jwt.sign(tokenData, process.env.ACCESS_TOKEN_SECRET as Secret, { expiresIn: '10s' })
+            const refreshToken = jwt.sign(tokenData, process.env.REFRESH_TOKEN_SECRET as Secret, { expiresIn: '1d' })
+
+            await pool.query("UPDATE users SET refresh_token = $1 WHERE id = $2", [refreshToken, user.id])
+
+            res.cookie('jwt', refreshToken, { httpOnly: true, secure: true, sameSite: 'none', maxAge: 24 * 60 * 60 * 1000 })
+            res.status(200).send({ accessToken, user: user })
         }
 
     } catch (err) {

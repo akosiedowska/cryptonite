@@ -1,13 +1,13 @@
 import express, { Request, Response } from "express"
 import bcrypt from "bcryptjs"
 import { pool } from "../index"
-import { verifyToken } from "../utils/middleware"
+import { verifyToken } from "../middleware/verifyToken"
 
 export const usersRouter = express.Router()
 
 usersRouter.get('/', async (req: Request, res: Response) => {
     try {
-        const result = await pool.query('SELECT * FROM users')
+        const result = await pool.query('SELECT * FROM users_public')
         res.json(result.rows)
 
     } catch (err) {
@@ -19,7 +19,7 @@ usersRouter.get('/:id', verifyToken, async (req: Request, res: Response) => {
     const id = req.params.id
 
     try {
-        const result = await pool.query('SELECT * FROM users WHERE id=$1', [id])
+        const result = await pool.query('SELECT * FROM users_public WHERE id=$1', [id])
         res.json(result.rows)
     } catch (err) {
         res.status(400).json({ message: "User not found" })
@@ -42,11 +42,11 @@ usersRouter.post('/', async (req: Request, res: Response) => {
             );
 
             res.status(201).json({
-                message: `User ${result.rows[0].name} added.`,
-            });
+                message: `User ${result.rows[0].name} added.`
+            })
         }
     } catch (err) {
         console.error("Database error:", err);
-        res.status(500).json({ error: "Internal server error" });
+        res.status(500).json({ error: "Internal server error" })
     }
 })
