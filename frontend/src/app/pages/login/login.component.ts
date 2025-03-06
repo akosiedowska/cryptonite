@@ -4,6 +4,7 @@ import { MatInputModule } from '@angular/material/input';
 import { ButtonComponent } from '../../shared/components/button/button.component';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../core/services/auth.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -15,19 +16,22 @@ import { AuthService } from '../../core/services/auth.service';
 })
 export class LoginComponent {
   errorMessage: string | null = ''
+  redirectMessage: string | null = ''
 
   loginForm = new FormGroup({
     username: new FormControl('', Validators.required),
     password: new FormControl('', Validators.required)
   })
 
-  constructor(public authService: AuthService, public http: HttpClient) {
+  constructor(public authService: AuthService, public http: HttpClient, public router: Router) {
     this.loginForm.valueChanges.subscribe(() => {
       this.authService.errorMessage.set(null)
     })
     effect(() => {
       this.errorMessage = authService.errorMessage()
     })
+    const navigation = this.router.getCurrentNavigation()
+    this.redirectMessage = navigation?.extras.state?.['message'] || ''
   }
 
   handleSubmit() {

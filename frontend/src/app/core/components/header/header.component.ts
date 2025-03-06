@@ -1,11 +1,11 @@
-import { Component, effect } from '@angular/core';
+import { Component, effect, signal } from '@angular/core';
 import { CommonModule } from '@angular/common'
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { ButtonComponent } from '../../../shared/components/button/button.component';
-import { Router, RouterLink, RouterModule } from '@angular/router';
-import { UserService } from '../../services/user.service';
+import { RouterLink, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { CurrentUserService } from '../../services/current-user.service';
 
 @Component({
   selector: 'app-header',
@@ -14,17 +14,16 @@ import { AuthService } from '../../services/auth.service';
   styleUrl: './header.component.scss'
 })
 export class HeaderComponent {
-  userName: undefined | null | string = undefined
-  constructor(public userService: UserService, private router: Router, public authService: AuthService) {
+  userName = signal<undefined | null | string>(null)
+
+  constructor(private currentUserService: CurrentUserService, private authService: AuthService) {
     effect(() => {
-      this.userName = this.authService.currentUser()?.username
+      this.userName.set(this.currentUserService.getCurrentUser()?.name)
     })
   }
 
-  logOut() {
-    this.authService.currentUser.set(null)
-    this.userName = null
-    this.router.navigate(['/'])
-    localStorage.removeItem('CryptoniteUser')
+  handleLogOut() {
+    this.authService.logout()
+    this.userName.set(null)
   }
 }

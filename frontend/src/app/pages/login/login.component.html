@@ -1,5 +1,6 @@
 <div class="form-wrapper">
     <h2>Log in</h2>
+    <div class="redirect-message">{{redirectMessage}}</div>
     <form [formGroup]="loginForm" class="login-form" (submit)="handleSubmit()">
         <mat-form-field>
             <mat-label>Username</mat-label>

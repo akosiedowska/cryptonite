@@ -2,12 +2,19 @@ import express, { Request, Response } from 'express'
 import { Pool } from 'pg'
 import dotenv from 'dotenv'
 import cors from 'cors'
+import cookieParser from 'cookie-parser'
 import { usersRouter } from './controllers/users'
 import { loginRouter } from './controllers/login'
+import { refreshRouter } from './controllers/refreshToken'
+import { corsOptions } from './config/corsOptions'
+import { credentials } from './middleware/credentials'
+import { logoutRouter } from './controllers/logout'
 
 dotenv.config()
 const app = express()
-app.use(cors())
+app.use(cookieParser())
+app.use(credentials)
+app.use(cors(corsOptions))
 const port = 8080
 
 export const pool = new Pool({
@@ -21,6 +28,8 @@ export const pool = new Pool({
 app.use(express.json())
 app.use('/users', usersRouter)
 app.use('/login', loginRouter)
+app.use('/refresh', refreshRouter)
+app.use('/logout', logoutRouter)
 
 app.get('/', (req: Request, res: Response) => {
     res.send('Hello from backend')
