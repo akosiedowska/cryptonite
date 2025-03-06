@@ -12,7 +12,6 @@ import { CommonModule } from '@angular/common';
   imports: [ReactiveFormsModule, MatInputModule, ButtonComponent, CommonModule],
   templateUrl: './signup.component.html',
   styleUrl: './signup.component.scss',
-  encapsulation: ViewEncapsulation.None,
 })
 export class SignupComponent {
   errorMessage: string | null = ''

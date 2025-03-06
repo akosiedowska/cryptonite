@@ -12,7 +12,6 @@ import { Router } from '@angular/router';
   imports: [ReactiveFormsModule, MatInputModule, ButtonComponent],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
-  encapsulation: ViewEncapsulation.None,
 })
 export class LoginComponent {
   errorMessage: string | null = ''

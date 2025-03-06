@@ -11,8 +11,8 @@
     flex-direction: column;
     width: 300px;
 
-    .mat-mdc-form-field-subscript-wrapper:has(.mat-mdc-form-field-error-wrapper) {
-        margin-bottom: 15px !important;
+    .mat-mdc-form-field.ng-invalid.ng-touched {
+        margin-bottom: 15px;
     }
 
     .error-message {
@@ -22,8 +22,8 @@
         font-size: 12px;
         color: $error-red;
     }
-
 }
+
 
 .redirect-message {
     margin-bottom: 16px;
