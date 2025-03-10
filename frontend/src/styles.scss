@@ -16,3 +16,20 @@ body {
     font-family: Roboto, "Helvetica Neue", sans-serif;
     color: $text-main;
 }
+
+// form styles overrrides:
+.mdc-floating-label.mat-mdc-floating-label.mdc-floating-label--float-above {
+    color: $cryptonite-green-hover;
+}
+
+.mdc-text-field--filled:not(.mdc-text-field--disabled) .mdc-text-field__input {
+    caret-color: $cryptonite-green-hover !important;
+}
+
+.mdc-text-field--filled:not(.mdc-text-field--disabled).mdc-text-field--focused .mdc-floating-label {
+    color: $cryptonite-green-hover !important;
+}
+
+.mdc-text-field--filled:not(.mdc-text-field--disabled) .mdc-line-ripple::after {
+    border-bottom-color: $cryptonite-green-hover !important;
+}
