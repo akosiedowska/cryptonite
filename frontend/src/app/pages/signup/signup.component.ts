@@ -12,14 +12,13 @@ import { CommonModule } from '@angular/common';
   imports: [ReactiveFormsModule, MatInputModule, ButtonComponent, CommonModule],
   templateUrl: './signup.component.html',
   styleUrl: './signup.component.scss',
-  encapsulation: ViewEncapsulation.None,
 })
 export class SignupComponent {
   errorMessage: string | null = ''
 
   signupForm = new FormGroup({
-    username: new FormControl('', [Validators.required, Validators.minLength(3)]),
-    email: new FormControl('', [Validators.required, Validators.email]),
+    username: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(60)]),
+    email: new FormControl('', [Validators.required, Validators.email, Validators.maxLength(256)]),
     password: new FormControl('', [Validators.required, Validators.minLength(6)]),
     confirmPassword: new FormControl('', [Validators.required]),
   }, { validators: matchPasswordsValidator })

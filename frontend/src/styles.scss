@@ -16,3 +16,31 @@ body {
     font-family: Roboto, "Helvetica Neue", sans-serif;
     color: $text-main;
 }
+
+html {
+    form {
+        @include mat.theme-overrides((primary: $cryptonite-green-hover,
+            ));
+    }
+}
+
+
+// form styles overrrides: 
+
+// form {
+//     mat-form-field {
+//         &:not(.mat-form-field-invalid) {
+//             .mdc-text-field--filled:not(.mdc-text-field--disabled) .mdc-text-field__input {
+//                 caret-color: $cryptonite-green-hover !important;
+//             }
+
+//             .mdc-text-field--filled:not(.mdc-text-field--disabled).mdc-text-field--focused .mdc-floating-label {
+//                 color: $cryptonite-green-hover !important;
+//             }
+
+//             .mdc-text-field--filled:not(.mdc-text-field--disabled) .mdc-line-ripple::after {
+//                 border-bottom-color: $cryptonite-green-hover !important;
+//             }
+//         }
+//     }
+// }
