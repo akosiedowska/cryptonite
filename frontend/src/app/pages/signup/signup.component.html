@@ -10,6 +10,9 @@
             @if (signupForm.get('username')?.hasError('minlength')) {
             <mat-error class=> Username must be at least 3 characters long.</mat-error>
             }
+            @if (signupForm.get('username')?.hasError('maxlength')) {
+            <mat-error class=> Username must be max 60 characters long.</mat-error>
+            }
         </mat-form-field>
         <mat-form-field>
             <mat-label>Email</mat-label>
@@ -19,6 +22,9 @@
             }
             @if (signupForm.get('email')?.hasError('email')) {
             <mat-error> Email is incorrect</mat-error>
+            }
+            @if (signupForm.get('email')?.hasError('maxlength')) {
+            <mat-error class=> Email must be max 256 characters long.</mat-error>
             }
         </mat-form-field>
         <mat-form-field>
