@@ -2,6 +2,7 @@ import express, { Request, Response } from "express"
 import bcrypt from "bcryptjs"
 import jwt, { Secret } from 'jsonwebtoken'
 import { pool } from "../index"
+import { getTokenDynamicPart } from "../helpers"
 
 export const loginRouter = express.Router()
 
@@ -27,8 +28,8 @@ loginRouter.post('/', async (req: Request, res: Response) => {
 
             const accessToken = jwt.sign(tokenData, process.env.ACCESS_TOKEN_SECRET as Secret, { expiresIn: '10s' })
             const refreshToken = jwt.sign(tokenData, process.env.REFRESH_TOKEN_SECRET as Secret, { expiresIn: '1d' })
-
-            await pool.query("UPDATE users SET refresh_token = $1 WHERE id = $2", [refreshToken, user.id])
+            const dynamicToken = getTokenDynamicPart(refreshToken)
+            await pool.query("UPDATE users SET refresh_token = $1 WHERE id = $2", [dynamicToken, user.id])
 
             res.cookie('jwt', refreshToken, { httpOnly: true, secure: true, sameSite: 'none', maxAge: 24 * 60 * 60 * 1000 })
             res.status(200).send({ accessToken, user: user })

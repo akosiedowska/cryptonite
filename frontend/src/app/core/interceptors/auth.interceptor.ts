@@ -22,7 +22,6 @@ export class AuthInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
 
     if (this.currentUserService.getCurrentUser() && AuthInterceptor.accessToken && this.isTokenExpired()) {
-      console.log('is token expired', this.isTokenExpired())
       if (!request.url.includes('/login') && !request.url.includes('/refresh')) {
         return this.handle401Error(request, next)
       }
@@ -79,7 +78,6 @@ export class AuthInterceptor implements HttpInterceptor {
   private isTokenExpired(): boolean {
     const decodedToken = jwtDecode<DecodedToken>(AuthInterceptor.accessToken)
     const currentTime = Date.now() / 1000
-    console.log('decoded', decodedToken)
     return decodedToken.exp < currentTime
   }
 

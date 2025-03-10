@@ -10,7 +10,6 @@ export const verifyToken = (req: AuthRequest, res: Response, next: NextFunction)
     const token = req.header('Authorization')?.split(' ')[1]
 
     if (!token) {
-        console.log('no token')
         res.status(401).json({ message: "Invalid token" })
         return
     }
