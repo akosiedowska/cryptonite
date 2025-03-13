@@ -1,0 +1,13 @@
+@use '../../../../variables' as *;
+@use '@angular/material' as mat;
+
+.loading-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    color: $cryptonite-green;
+
+    @include mat.progress-spinner-overrides((active-indicator-color: $cryptonite-green,
+        ));
+}

@@ -1,11 +1,45 @@
+@use '../../../../variables' as *;
+
 .footer-wrapper {
     padding: 0 calc((100% - 1200px)/2);
+    background-color: $light-background;
 
     .footer {
         display: flex;
         align-items: center;
-        justify-content: center;
-        padding: 15px;
+        justify-content: space-between;
+        padding: 20px 15px;
         max-width: 1200px;
+
+        &__logo {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: $cryptonite-green;
+
+            .app-name {
+                font-size: 20px;
+            }
+        }
+
+        &__socials {
+            display: flex;
+            gap: 15px;
+
+            .fa-brands {
+                font-size: 20px;
+                color: $text-main;
+                transition: color .3s ease;
+                cursor: pointer;
+
+                &:hover {
+                    color: $cryptonite-green;
+                }
+            }
+        }
+
+        &__copyrights {
+            font-size: .8rem;
+        }
     }
 }
