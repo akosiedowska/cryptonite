@@ -1,0 +1,24 @@
+@use '../../../../../variables' as *;
+
+:host {
+    display: flex;
+    align-items: center;
+}
+
+.mat-icon {
+    font-size: 1rem;
+    width: 1rem;
+    height: 1rem;
+    opacity: 0;
+    transition: opacity .3s ease;
+    cursor: pointer;
+}
+
+.active {
+    color: $cryptonite-green;
+    opacity: 1;
+}
+
+:host-context(.header-cell:hover) .mat-icon {
+    opacity: 1;
+}
