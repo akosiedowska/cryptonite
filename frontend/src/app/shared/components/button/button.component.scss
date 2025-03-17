@@ -1,7 +1,7 @@
 @use '../../../../variables' as *;
 
 .button {
-    width: 100%;
+    // width: 100%;
     padding: 8px 16px;
     border-radius: 8px;
     border: none;
@@ -33,4 +33,16 @@
 .large {
     height: 46px;
     font-size: 16px;
+}
+
+.wide {
+    width: 100%;
+}
+
+.reset {
+    background-color: $reset-btn;
+
+    &:hover {
+        background-color: $reset-btn-hover;
+    }
 }

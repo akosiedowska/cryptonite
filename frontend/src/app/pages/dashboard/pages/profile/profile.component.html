@@ -1,0 +1,89 @@
+<div class="profile">
+    <div class="row">
+        <div class="label">Avatar</div>
+        <div>
+            <div class="avatar-placeholder">{{getInitials(user.name)}}</div>
+        </div>
+    </div>
+    <form [formGroup]="userForm" class="user-form" (submit)="updateUser()">
+        <div class="row">
+            <label class="label">Username</label>
+            <input class="input" formControlName="username" required>
+            @if (userForm.get('username')?.hasError('required')) {
+            <div class="error-message"> Username is required</div>
+            }
+            @if (userForm.get('username')?.hasError('minlength')) {
+            <div class="error-message"> Username must be at least 3 characters long.</div>
+            }
+            @if (userForm.get('username')?.hasError('maxlength')) {
+            <div class="error-message"> Username must be max 60 characters long.</div>
+            }
+        </div>
+        <div class="row">
+            <div class="label">Member since</div>
+            <input [value]="user.created_date | date: 'shortDate'" class="input" disabled>
+        </div>
+        <div class="row">
+            <div class="label">Email</div>
+            <input class="input" formControlName="email" required type="email">
+            @if (userForm.get('email')?.hasError('required')) {
+            <div class="error-message"> Email is required</div>
+            }
+            @if (userForm.get('email')?.hasError('email')) {
+            <div class="error-message"> Email is incorrect</div>
+            }
+            @if (userForm.get('email')?.hasError('maxlength')) {
+            <div class="error-message"> Email must be max 256 characters long.</div>
+            }
+        </div>
+        @if (userErrorMessage()){
+        <div class="error-message">{{userErrorMessage()}}</div>
+        }
+        <div class="btn-container">
+            <app-button label="Cancel" class="reset" (click)="handleCancel('user')" />
+            <app-button label="Save" type="submit" [disabled]="userForm.invalid" />
+        </div>
+    </form>
+    <form [formGroup]="passwordForm" class="password-form" (submit)="updatePassword()">
+        <div class="row">
+            <label class="label">New password</label>
+            <input class="input" placeholder="enter password" formControlName="password" type="password" required>
+            @if (passwordForm.get('password')?.hasError('required') && passwordForm.get('password')?.touched)
+            {
+            <div class="error-message">Password is required.</div>
+            }
+            @if (passwordForm.get('password')?.hasError('minlength') && passwordForm.get('password')?.touched)
+            {
+            <div class="error-message">Password must be at least 6 characters long.</div>
+            }
+        </div>
+        <div class="row">
+            <label class="label">Confirm new password</label>
+            <input class="input" placeholder="confirm password" formControlName="confirmPassword" type="password"
+                required pattern="{{passwordForm.value.password}}">
+            @if (passwordForm.get('confirmPassword')?.hasError('required') &&
+            passwordForm.get('confirmPassword')?.touched) {
+            <div class="error-message">Confirm new password.</div>
+            }
+            @if (passwordForm.hasError('matchPasswordError') && passwordForm.get('confirmPassword')?.touched) {
+            <div class="error-message">Passwords do not match.</div>
+            }
+        </div>
+        <div class="row">
+            <label class="label">Enter your password</label>
+            <input class="input" placeholder="enter current password" formControlName="currentPassword" type="password"
+                required>
+            @if (passwordForm.get('currentPassword')?.hasError('required') &&
+            passwordForm.get('currentPassword')?.touched) {
+            <div class="error-message">Password is required.</div>
+            }
+        </div>
+        @if (passwordErrorMessage()){
+        <div class="error-message">{{passwordErrorMessage()}}</div>
+        }
+        <div class="btn-container">
+            <app-button label="Cancel" class="reset" (click)="handleCancel('password')" />
+            <app-button label="Save" type="submit" [disabled]="passwordForm.invalid" />
+        </div>
+    </form>
+</div>

@@ -13,7 +13,6 @@ export const verifyToken = (req: AuthRequest, res: Response, next: NextFunction)
         res.status(401).json({ message: "Invalid token" })
         return
     }
-
     jwt.verify(
         token,
         process.env.ACCESS_TOKEN_SECRET as Secret,

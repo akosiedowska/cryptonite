@@ -24,6 +24,7 @@ export class AuthInterceptor implements HttpInterceptor {
     if (this.currentUserService.getCurrentUser() && AuthInterceptor.accessToken && this.isTokenExpired()) {
       if (!request.url.includes('/login') && !request.url.includes('/refresh')) {
         return this.handle401Error(request, next)
+        // && !request.url.includes('/password')
       }
     }
 
