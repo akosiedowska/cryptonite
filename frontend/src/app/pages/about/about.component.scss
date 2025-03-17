@@ -1,0 +1,128 @@
+@use '../../../variables' as *;
+
+.hero-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: calc(100vh - 62px);
+
+    &__content {
+        display: flex;
+        flex-direction: column;
+        align-self: start;
+        margin-top: 10vh;
+
+        h1 {
+            font-size: 3rem;
+        }
+
+        p {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+
+
+        a {
+            display: block;
+            margin-top: 2rem;
+            margin-left: auto;
+
+            app-button {
+                button.button {
+                    font-size: 1.2rem !important;
+                }
+
+            }
+        }
+    }
+
+    &__img {
+        // width: 100vh;
+        position: relative;
+        width: 70%;
+    }
+
+}
+
+.section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    height: 60vh;
+
+    &__img {
+        width: 60%;
+    }
+
+    &__content {
+        flex-grow: 1;
+
+        .title-wrapper {
+            position: relative;
+        }
+
+        .title {
+            font-size: 2rem;
+            z-index: 2;
+
+            &::before {
+                content: '';
+                height: 20px;
+                min-width: 700px;
+                background-color: $cryptonite-green;
+                position: absolute;
+                bottom: 0px;
+                right: -10px;
+                z-index: -1;
+                max-width: 50vw;
+            }
+
+            &--right::before {
+                left: unset;
+                left: -10px;
+            }
+
+            &--left {
+                text-align: right;
+            }
+        }
+
+
+        ul {
+            display: flex;
+            flex-direction: column;
+            gap: .5rem;
+        }
+
+        li {
+            font-size: 1.25rem;
+        }
+    }
+}
+
+.attribution {
+    display: flex;
+    justify-content: center;
+
+    p {
+        font-size: .75rem;
+
+        a {
+            text-decoration: none;
+            color: $cryptonite-green;
+        }
+    }
+}
+
+@media (max-width: 1050px) {
+    .hero-section {
+        h1 {
+            font-size: 2rem;
+        }
+
+        p {
+            font-size: 1.25rem;
+        }
+    }
+}
