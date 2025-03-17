@@ -1,0 +1,77 @@
+@use '../../../../../variables' as *;
+
+.profile {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+
+    .row {
+        display: grid;
+        grid-template-columns: 200px 300px;
+        align-items: center;
+
+        .label {
+            color: $text-gray;
+        }
+
+        .error-message {
+            grid-column: span 2;
+            text-align: right;
+        }
+    }
+
+    .user-form,
+    .password-form {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        padding: 1.5rem 0;
+
+        .btn-container {
+            display: flex;
+            gap: 20px;
+            justify-content: end;
+        }
+
+        .error-message {
+            margin-top: 8px;
+            padding: 0 16px;
+            text-align: end;
+            font-size: 12px;
+            color: #ba1a1a;
+        }
+    }
+}
+
+.user-form {
+    border-bottom: 1px solid $text-gray;
+    border-top: 1px solid $text-gray;
+
+}
+
+.avatar-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    width: 40px;
+    font-size: 1.25rem;
+    border-radius: 50%;
+    background-color: $cryptonite-green;
+    color: $light-background;
+    text-transform: uppercase;
+    font-weight: 500;
+}
+
+.input {
+    width: 100%;
+    padding: .5em .5em;
+    border-radius: 4px;
+    border: 1px solid $text-gray;
+    outline: none;
+    font-size: 1rem;
+
+    &:focus {
+        border: 1px solid $cryptonite-green;
+    }
+}

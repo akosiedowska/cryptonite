@@ -1,4 +1,4 @@
-import { Component, effect, inject, ViewEncapsulation } from '@angular/core';
+import { Component, effect } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { ButtonComponent } from '../../shared/components/button/button.component';

@@ -11,8 +11,14 @@
     flex-direction: column;
     width: 300px;
 
-    .mat-mdc-form-field.ng-invalid.ng-touched {
+    // .mat-mdc-form-field.ng-invalid.ng-touched {
+    //     margin-bottom: 15px;
+
+    // }
+
+    .mat-form-field-invalid {
         margin-bottom: 15px;
+
     }
 
     .error-message {

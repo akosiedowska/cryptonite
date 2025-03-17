@@ -2,12 +2,15 @@ import { Routes } from '@angular/router';
 import { CurrenciesComponent } from './pages/currencies/currencies.component';
 import { AboutComponent } from './pages/about/about.component';
 import { LoginComponent } from './pages/login/login.component';
-import { LayoutComponent } from './core/components/layout/layout.component';
+// import { LayoutComponent } from './core/components/layout/layout.component';
 import { HomeComponent } from './pages/home/home.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { authGuard } from './core/guards/auth.guard';
 import { UnauthorizedComponent } from './pages/unauthorized/unauthorized.component';
 import { SignupComponent } from './pages/signup/signup.component';
+import { ProfileComponent } from './pages/dashboard/pages/profile/profile.component';
+import { TransactionsComponent } from './pages/dashboard/pages/transactions/transactions.component';
+import { FavouritesComponent } from './pages/dashboard/pages/favourites/favourites.component';
 
 export const routes: Routes = [
     // {
@@ -44,7 +47,26 @@ export const routes: Routes = [
         path: 'dashboard',
         component: DashboardComponent,
         title: "Dashboard page",
-        canActivate: [authGuard]
+        canActivate: [authGuard],
+        children: [
+            {
+                path: '',
+                redirectTo: 'profile',
+                pathMatch: 'full'
+            },
+            {
+                path: 'profile',
+                component: ProfileComponent
+            },
+            {
+                path: 'transactions',
+                component: TransactionsComponent
+            },
+            {
+                path: 'favourites',
+                component: FavouritesComponent
+            }
+        ]
     },
     {
         path: 'unauthorized',

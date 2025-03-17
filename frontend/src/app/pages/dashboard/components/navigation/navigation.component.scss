@@ -1,0 +1,24 @@
+@use '../../../../../variables' as *;
+
+.navigation {
+    display: flex;
+    flex-direction: column;
+    gap: .75rem;
+    padding: 20px;
+    margin: 0;
+    list-style-type: none;
+
+    li a {
+        text-decoration: none;
+        color: $text-main;
+        transition: color .3s ease;
+
+        &.active {
+            font-weight: 500;
+        }
+
+        &:hover {
+            color: $cryptonite-green;
+        }
+    }
+}
