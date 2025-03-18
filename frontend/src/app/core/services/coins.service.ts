@@ -64,6 +64,8 @@ export class CoinsService {
   }
 
   setPage(page: number) {
+    console.log('page', page)
+    console.log('total results', this.totalResults)
     if (page < 1 || page > (this.totalResults() / this.perPage())) return
     this.page.set(page)
     this.fetchCoins()

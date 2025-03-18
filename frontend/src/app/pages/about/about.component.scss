@@ -69,17 +69,15 @@
             &::before {
                 content: '';
                 height: 20px;
-                min-width: 700px;
+                min-width: 50vw;
                 background-color: $cryptonite-green;
                 position: absolute;
                 bottom: 0px;
                 right: -10px;
                 z-index: -1;
-                max-width: 50vw;
             }
 
             &--right::before {
-                left: unset;
                 left: -10px;
             }
 
