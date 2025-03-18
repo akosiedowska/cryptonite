@@ -16,9 +16,7 @@ export class CoinsService {
   isLoading = false
   errorMessage = signal<string>('')
 
-  constructor() {
-    effect(() => console.log('query', this.query()))
-  }
+  constructor() { }
 
   async fetchCoins() {
     try {
@@ -64,7 +62,7 @@ export class CoinsService {
   }
 
   setPage(page: number) {
-    if (page < 1 || page > (this.totalResults() / this.perPage())) return
+    if (page < 1 || page > (Math.ceil(this.totalResults() / this.perPage()))) return
     this.page.set(page)
     this.fetchCoins()
   }
