@@ -88,7 +88,7 @@
     </table>
 </div>
 
-@if(this.coinService.isLoading) {
+@if(this.coinService.isLoading && coins().length === 0) {
 <app-loader></app-loader>
 }
 
