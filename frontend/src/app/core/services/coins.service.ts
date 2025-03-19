@@ -1,4 +1,4 @@
-import { effect, Injectable, signal } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { Coin, ListCoinElement } from '../../types';
 import { environment } from '../../../environments';
 

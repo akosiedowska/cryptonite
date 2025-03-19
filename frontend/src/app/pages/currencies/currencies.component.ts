@@ -8,7 +8,7 @@ import { CoinsService } from '../../core/services/coins.service';
 import { formatNumber } from './helpers';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
-import { debounceTime, interval, Subject, Subscription, switchMap } from 'rxjs';
+import { debounceTime, interval, Subject, Subscription } from 'rxjs';
 import { LoaderComponent } from '../../shared/components/loader/loader.component';
 import { EmptyComponent } from '../../shared/components/empty/empty.component';
 import { SortComponent } from './components/sort/sort.component';

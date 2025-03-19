@@ -65,7 +65,7 @@ export class AuthService {
     this.http.post(`${BASE_URL}/logout`, {}, { withCredentials: true }).subscribe(() => {
       AuthInterceptor.accessToken = ''
       this.currentUserService.clearCurrentUser()
-      this.router.navigate(['/login'])
+      this.router.navigate(['/login'], { state: { message: 'Session expired. You must log in again.' } })
     })
   }
 }
