@@ -14,7 +14,7 @@
 </div>
 
 <div class="table-container">
-    <table mat-table [dataSource]="coins()">
+    <table mat-table [dataSource]="coins$">
         <ng-container matColumnDef="name">
             <th mat-header-cell *matHeaderCellDef>
                 <div class="header-cell">
@@ -88,20 +88,21 @@
     </table>
 </div>
 
-@if(this.coinService.isLoading && coins().length === 0) {
+@if((isLoading$ | async) && (coins$ | async)?.length === 0) {
 <app-loader></app-loader>
 }
 
-@if(this.coinService.errorMessage()) {
-<app-error [message]="this.coinService.errorMessage()"></app-error>
+@if(errorMessage$ | async) {
+<app-error [message]="errorMessage$ | async"></app-error>
 }
-@else if(coins().length === 0) {
+
+@else if((coins$ | async)?.length === 0 && !(isLoading$ | async) ) {
 <app-empty></app-empty>
 }
 
 
-<mat-paginator [pageSize]="pagination().perPage" [length]="pagination().totalResults" (page)="changePage($event)"
-    [pageIndex]="pagination().page - 1" showFirstLastButtons hidePageSize>
+<mat-paginator [pageSize]="pagination().perPage | async" [length]="pagination().totalResults | async"
+    (page)="changePage($event)" [pageIndex]="((pagination().page | async ) ?? 0) - 1" showFirstLastButtons hidePageSize>
 </mat-paginator>
 
 <div class="attribution">

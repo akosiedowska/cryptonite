@@ -4,6 +4,11 @@ import { routes } from './app.routes';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { AuthInterceptorProvider } from './core/interceptors/auth.interceptor';
+import { provideEffects } from '@ngrx/effects';
+import { CoinsEffects } from './core/store/coins/coins.effects';
+import { provideStore } from '@ngrx/store';
+import { coinsReducer } from './core/store/coins/coins.reducer';
+import { userReducer } from './core/store/user/user.reducer';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -11,6 +16,8 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideAnimationsAsync(),
     provideHttpClient(withInterceptorsFromDi()),
-    AuthInterceptorProvider
+    AuthInterceptorProvider,
+    provideStore({ coins: coinsReducer, user: userReducer }),
+    provideEffects(CoinsEffects)
   ]
 };

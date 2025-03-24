@@ -1,11 +1,15 @@
-import { Injectable, signal } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { User } from '../../types';
+import { Store } from '@ngrx/store';
+import { clearUser, setUser } from '../store/user/user.actions';
+import { selectCurrentUser } from '../store/user/user.selector';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CurrentUserService {
-  private currentUser = signal<User | null | undefined>(null)
+  private store = inject(Store)
+  private user$ = this.store.select(selectCurrentUser)
   constructor() {
     this.initializeCurrentUser()
   }
@@ -14,21 +18,23 @@ export class CurrentUserService {
     const userJSON = localStorage.getItem('CryptoniteUser')
     if (userJSON) {
       const user = JSON.parse(userJSON)
-      this.currentUser.set(user)
+      this.store.dispatch(setUser({ user }))
     }
   }
 
   setCurrentUser(user: User) {
-    this.currentUser.set(user)
+    this.store.dispatch(setUser({ user }))
     localStorage.setItem('CryptoniteUser', JSON.stringify(user))
   }
 
   getCurrentUser() {
-    return this.currentUser()
+    return this.user$.subscribe(user => {
+      return user
+    })
   }
 
   clearCurrentUser() {
-    this.currentUser.set(null)
+    this.store.dispatch(clearUser())
     localStorage.removeItem('CryptoniteUser')
   }
 } 

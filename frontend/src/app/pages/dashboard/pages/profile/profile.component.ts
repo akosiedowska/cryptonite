@@ -1,5 +1,5 @@
-import { Component, effect, signal } from '@angular/core';
-import { DatePipe } from '@angular/common';
+import { Component, inject, signal } from '@angular/core';
+import { CommonModule, DatePipe } from '@angular/common';
 import { getInitials } from '../../../../helpers';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ButtonComponent } from '../../../../shared/components/button/button.component';
@@ -8,18 +8,25 @@ import { BASE_URL } from '../../../../constants';
 import { MatInputModule } from '@angular/material/input';
 import { matchPasswordsValidator } from '../../../signup/helpers';
 import { AuthInterceptor } from '../../../../core/interceptors/auth.interceptor';
+import { Store } from '@ngrx/store';
+import { selectCurrentUser } from '../../../../core/store/user/user.selector';
+import { take } from 'rxjs';
+import { setUser } from '../../../../core/store/user/user.actions';
+import { User } from '../../../../core/store/user/user.model';
 
 @Component({
   selector: 'app-profile',
-  imports: [DatePipe, ReactiveFormsModule, ButtonComponent, MatInputModule],
+  imports: [DatePipe, ReactiveFormsModule, ButtonComponent, MatInputModule, CommonModule],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss'
 })
 export class ProfileComponent {
   user = JSON.parse(localStorage.getItem('CryptoniteUser') || '')
+  private store = inject(Store)
+  user$ = this.store.select(selectCurrentUser)
   userForm = new FormGroup({
-    username: new FormControl(this.user.name, [Validators.required, Validators.minLength(3), Validators.maxLength(60)]),
-    email: new FormControl(this.user.email, [Validators.required, Validators.email, Validators.maxLength(256)])
+    username: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(60)]),
+    email: new FormControl('', [Validators.required, Validators.email, Validators.maxLength(256)])
   })
   passwordForm = new FormGroup({
     currentPassword: new FormControl('', [Validators.required]),
@@ -39,26 +46,41 @@ export class ProfileComponent {
     })
   }
 
+  ngOnInit() {
+    this.user$.pipe(take(1)).subscribe(user => {
+      if (user) {
+        this.userForm.patchValue({
+          username: user.name,
+          email: user.email
+        })
+      }
+    })
+  }
+
   updateUser() {
     if (this.userForm.invalid) return
+    this.user$.pipe(take(1)).subscribe((user: User | null) => {
 
-    const updatedUser = {
-      name: this.userForm.value.username,
-      email: this.userForm.value.email
-    }
+      const updatedUser: User = {
+        ...user,
+        name: this.userForm.value.username ?? user?.name,
+        email: this.userForm.value.email ?? user?.email
+      }
 
-    this.http
-      .put<{ accessToken: string }>(`${BASE_URL}/users/${this.user.id}`, updatedUser, { withCredentials: true })
-      .subscribe({
-        next: response => {
-          this.user = { ...this.user, ...updatedUser }
-          localStorage.setItem('CryptoniteUser', JSON.stringify(this.user))
-          AuthInterceptor.accessToken = response.accessToken
-        },
-        error: error => {
-          this.userErrorMessage.set(error.error?.message || 'Unexpected error occured')
-        }
-      })
+      this.http
+        .put<{ newAccessToken: string }>(`${BASE_URL}/users/${this.user.id}`, updatedUser, { withCredentials: true })
+        .subscribe({
+          next: response => {
+            this.store.dispatch(setUser({ user: updatedUser }))
+            localStorage.setItem('CryptoniteUser', JSON.stringify(updatedUser))
+            console.log('response put', response)
+            AuthInterceptor.accessToken = response.newAccessToken
+          },
+          error: error => {
+            this.userErrorMessage.set(error.error?.message || 'Unexpected error occured')
+          }
+        })
+    })
   }
 
   updatePassword() {
@@ -79,11 +101,6 @@ export class ProfileComponent {
         }
       })
     this.passwordForm.reset()
-  }
-
-  handlePasswordSubmit() {
-    if (this.userForm.invalid) return
-    console.log()
   }
 
   handleCancel(type: string) {
