@@ -4,6 +4,8 @@ import jwt, { Secret } from 'jsonwebtoken'
 import { pool } from "../index"
 import { verifyToken } from "../middleware/verifyToken"
 import { getTokenDynamicPart } from "../helpers"
+import { validateUserData } from "../middleware/validateUserData"
+import { validationResult } from "express-validator"
 
 export const usersRouter = express.Router()
 
@@ -28,7 +30,15 @@ usersRouter.get('/:id', verifyToken, async (req: Request, res: Response) => {
     }
 })
 
-usersRouter.post('/', async (req: Request, res: Response) => {
+usersRouter.post('/', validateUserData, async (req: Request, res: Response) => {
+
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) {
+        // res.status(400).json({ errors: errors.array() })
+        res.status(400).json({ message: errors.array()[0].msg })
+        return
+    }
+
     const { username, email, password } = req.body
     const hashedPassword = bcrypt.hashSync(password, 10)
     const createdDate = new Date().toISOString()
