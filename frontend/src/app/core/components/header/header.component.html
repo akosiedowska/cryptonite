@@ -10,11 +10,12 @@
         <ul class="header__links">
             <li><a routerLink="about" routerLinkActive="active">About</a></li>
             <li><a routerLink="currencies" routerLinkActive="active">Currencies</a></li>
-            <li *ngIf="userName()"><a routerLink="dashboard" routerLinkActive="active">Dashboard</a></li>
-            <li *ngIf="!userName()"><a routerLink="login"><app-button label="Log in" /></a></li>
-            <li *ngIf="!userName()"><a routerLink="signup"><app-button label="Sign up" [outlined]="true" /></a></li>
-            <li *ngIf="userName()" class="username">Hello, {{userName()}}</li>
-            <li *ngIf="userName()"><app-button label="Log out" (click)="handleLogOut()" /></li>
+            <li *ngIf="user$ | async"><a routerLink="dashboard" routerLinkActive="active">Dashboard</a></li>
+            <li *ngIf="!(user$ | async)"><a routerLink="login"><app-button label="Log in" /></a></li>
+            <li *ngIf="!(user$ | async)"><a routerLink="signup"><app-button label="Sign up" [outlined]="true" /></a>
+            </li>
+            <li *ngIf="user$ | async" class="username">Hello, {{(user$ | async)?.name}}</li>
+            <li *ngIf="user$ | async"><app-button label="Log out" (click)="handleLogOut()" /></li>
         </ul>
     </div>
 </div>

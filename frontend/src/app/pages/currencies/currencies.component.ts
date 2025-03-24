@@ -1,4 +1,4 @@
-import { Component, computed } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
@@ -13,6 +13,9 @@ import { LoaderComponent } from '../../shared/components/loader/loader.component
 import { EmptyComponent } from '../../shared/components/empty/empty.component';
 import { SortComponent } from './components/sort/sort.component';
 import { ErrorComponent } from '../../shared/components/error/error.component';
+import { Store } from '@ngrx/store';
+import { selectCoins, selectErrorMessage, selectIsLoading } from '../../core/store/coins/coins.selectors';
+import { CoinsLoadActions, CoinsParamsActions } from '../../core/store/coins/coins.actions';
 
 @Component({
   selector: 'app-currencies',
@@ -21,7 +24,10 @@ import { ErrorComponent } from '../../shared/components/error/error.component';
   styleUrl: './currencies.component.scss'
 })
 export class CurrenciesComponent {
-  coins = computed(() => this.coinService.getCoins())
+  store = inject(Store)
+  coins$ = this.store.select(selectCoins)
+  isLoading$ = this.store.select(selectIsLoading)
+  errorMessage$ = this.store.select(selectErrorMessage)
   pagination = computed(() => this.coinService.getPagination())
   displayedColumns = ['name', 'price', 'change', 'change-7d', 'total-volume', 'market-cap', 'actions']
   formatNumber = formatNumber
@@ -31,16 +37,15 @@ export class CurrenciesComponent {
 
   constructor(public coinService: CoinsService) {
     this.searchSubject.pipe(debounceTime(500)).subscribe(value => {
-      if (value.length > 1) {
-        this.coinService.setQuery(value)
-        this.coinService.fetchCoins()
-      }
+      this.store.dispatch(CoinsParamsActions.setQuery({ query: value }))
+      this.store.dispatch(CoinsParamsActions.setPage({ page: 1 }))
     })
   }
 
   ngOnInit() {
-    this.subscription = interval(10000)
-      .subscribe(() => this.coinService.fetchCoins())
+    // refreshing currencies data - table, change if needed to 10 000
+    this.subscription = interval(1000000)
+      .subscribe(() => this.store.dispatch(CoinsLoadActions.loadCoins()))
   }
 
   ngOnDestroy() {
@@ -52,17 +57,16 @@ export class CurrenciesComponent {
   }
 
   changePage(event: PageEvent) {
-    this.coinService.setPage(event.pageIndex + 1)
+    this.store.dispatch(CoinsParamsActions.setPage({ page: event.pageIndex + 1 }))
   }
 
   changeOrder(order: string) {
-    this.coinService.setOrder(order)
+    this.store.dispatch(CoinsParamsActions.setOrder({ order }))
   }
 
   clearSearch() {
     this.search = '';
     this.searchSubject.next(this.search)
-    this.coinService.setQuery('')
-    this.coinService.fetchCoins()
+    this.store.dispatch(CoinsParamsActions.setQuery({ query: '' }))
   }
 }

@@ -2,8 +2,9 @@ import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from "./core/components/header/header.component";
 import { FooterComponent } from "./core/components/footer/footer.component";
-import { CoinsService } from './core/services/coins.service';
 import { CurrentUserService } from './core/services/current-user.service';
+import { Store } from '@ngrx/store';
+import { CoinsLoadActions } from './core/store/coins/coins.actions';
 
 @Component({
   selector: 'app-root',
@@ -14,10 +15,10 @@ import { CurrentUserService } from './core/services/current-user.service';
 export class AppComponent {
   title = 'Cryptonite'
 
-  constructor(private coinService: CoinsService, private currentUserService: CurrentUserService) { }
+  constructor(private currentUserService: CurrentUserService, private store: Store) { }
 
   ngOnInit() {
-    this.coinService.fetchCoins()
+    this.store.dispatch(CoinsLoadActions.loadCoins())
     this.currentUserService.initializeCurrentUser()
   }
 }

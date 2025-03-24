@@ -2,7 +2,7 @@ export interface User {
     name: string,
     email: string,
     password: string,
-    createdDate: string,
+    created_date: string,
     id: string
 }
 

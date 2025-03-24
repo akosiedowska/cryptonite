@@ -1,16 +1,18 @@
-import { Injectable, signal } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { User } from '../../types';
 import { HttpClient } from '@angular/common/http';
 import { BASE_URL } from '../../constants';
 import { Router } from '@angular/router';
 import { AuthInterceptor } from '../interceptors/auth.interceptor';
 import { CurrentUserService } from './current-user.service';
+import { Store } from '@ngrx/store';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   errorMessage = signal<string | null>(null)
+  private store = inject(Store)
 
   constructor(public http: HttpClient, public router: Router, private currentUserService: CurrentUserService) {
     this.refreshTokenOnPageReload()
@@ -65,7 +67,7 @@ export class AuthService {
     this.http.post(`${BASE_URL}/logout`, {}, { withCredentials: true }).subscribe(() => {
       AuthInterceptor.accessToken = ''
       this.currentUserService.clearCurrentUser()
-      this.router.navigate(['/login'], { state: { message: 'Session expired. You must log in again.' } })
+      this.router.navigate(['/login'])
     })
   }
 }
