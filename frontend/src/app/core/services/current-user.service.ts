@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { User } from '../../types';
+import { User } from '../store/user/user.model';
 import { Store } from '@ngrx/store';
 import { clearUser, setUser } from '../store/user/user.actions';
 import { selectCurrentUser } from '../store/user/user.selector';

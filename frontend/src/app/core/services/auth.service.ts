@@ -1,5 +1,5 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { User } from '../../types';
+import { User } from '../store/user/user.model';
 import { HttpClient } from '@angular/common/http';
 import { BASE_URL } from '../../constants';
 import { Router } from '@angular/router';

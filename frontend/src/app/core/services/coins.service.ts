@@ -1,6 +1,7 @@
 import { inject, Injectable } from '@angular/core';
-import { Coin, ListCoinElement } from '../../types';
-import { environment } from '../../../environments';
+import { ListCoinElement } from '../../types';
+import { Coin } from '../store/coins/coins.model';
+import { environment } from '../../../environmets';
 import { HttpClient } from '@angular/common/http';
 import { catchError, combineLatest, map, Observable, of, switchMap } from 'rxjs';
 import { Store } from '@ngrx/store';
