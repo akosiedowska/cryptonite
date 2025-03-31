@@ -1,1 +1,3 @@
-<p>favourites works!</p>
+<app-coins-table [dataSource]="(favouriteCoins$ | async) ?? []" [showPagination]="((totalResults$ | async) || 0) > 10"
+    [isFavouritesTable]="true" [perPage]="10" [page]="page$ | async" [totalResults]="totalResults$ | async">
+</app-coins-table>

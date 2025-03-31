@@ -2,6 +2,7 @@ export interface Coin {
     name: string,
     image: string,
     current_price: number,
+    symbol: string,
     market_cap: number,
     price_change_percentage_7d_in_currency: number,
     price_change_percentage_24h: number,
@@ -9,12 +10,12 @@ export interface Coin {
 }
 
 export interface CoinsState {
-    coins: Coin[];
-    totalResults: number;
-    perPage: number;
-    page: number;
-    query: string;
-    order: string;
-    isLoading: boolean;
-    errorMessage: string | null;
+    coins: Coin[],
+    totalResults: number,
+    perPage: number,
+    page: number,
+    query: string,
+    order: string,
+    isLoading: boolean,
+    errorMessage: string | null,
 }

@@ -1,0 +1,104 @@
+<div class="table-container">
+    <table mat-table [dataSource]="dataSource">
+        <ng-container matColumnDef="favourites" *ngIf="user$ | async">
+            <th mat-header-cell *matHeaderCellDef></th>
+            <td mat-cell *matCellDef="let coin">
+                <mat-icon fontIcon="kid_star" class="material-symbols-outlined"
+                    [ngClass]="{ 'filled-icon': (favourites$ | async)?.includes(coin.id) }"
+                    (click)="toggleFavourite(coin.id)"></mat-icon>
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef>
+                <div class="header-cell">
+                    <span>Name</span>
+                    <app-sort order="id" [isFavouriteTable]="isFavouritesTable"></app-sort>
+                </div>
+            </th>
+            <td mat-cell *matCellDef="let coin">
+                <div class="name-cell">
+                    <img [src]="coin.image" class="name-cell__img" />
+                    {{coin.name}}
+                </div>
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="price">
+            <th mat-header-cell *matHeaderCellDef> Price </th>
+            <td mat-cell *matCellDef="let coin">{{coin.current_price}}&euro; </td>
+        </ng-container>
+        <ng-container matColumnDef="change">
+            <th mat-header-cell *matHeaderCellDef>24H change </th>
+            <td mat-cell *matCellDef="let coin">
+                <div class="change-cell">
+                    {{coin.price_change_percentage_24h?.toFixed(2)
+                    }}%
+                    <mat-icon [fontIcon]="coin.price_change_percentage_24h < 0 ? 'trending_down' : 'trending_up'"
+                        class="material-icons-outlined"
+                        [ngClass]="coin.price_change_percentage_24h < 0 ? 'trending-down' : 'trending-up'">
+                    </mat-icon>
+                </div>
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="change-7d">
+            <th mat-header-cell *matHeaderCellDef>7D change </th>
+            <td mat-cell *matCellDef="let coin">
+                <div class="change-cell">
+                    {{coin.price_change_percentage_7d_in_currency?.toFixed(2)}}%
+                    <mat-icon [fontIcon]="coin.price_change_percentage_7d_in_currency
+ < 0 ? 'trending_down' : 'trending_up'" class="material-icons-outlined" [ngClass]="coin.price_change_percentage_7d_in_currency
+ < 0 ? 'trending-down' : 'trending-up'">
+                    </mat-icon>
+                </div>
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="total-volume">
+            <th mat-header-cell *matHeaderCellDef>
+                <div class="header-cell">
+                    <span>Total volume</span>
+                    <app-sort order="volume" [isFavouriteTable]="isFavouritesTable"></app-sort>
+                </div>
+
+            </th>
+            <td mat-cell *matCellDef="let coin">{{formatNumber(coin.total_volume)}}</td>
+        </ng-container>
+        <ng-container matColumnDef="market-cap">
+            <th mat-header-cell *matHeaderCellDef>
+                <div class="header-cell">
+                    <span>Market cap</span>
+                    <app-sort order="market_cap" [isFavouriteTable]="isFavouritesTable"></app-sort>
+                </div>
+
+            </th>
+            <td mat-cell *matCellDef="let coin">{{formatNumber(coin.market_cap)}}</td>
+        </ng-container>
+        <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef> Actions </th>
+            <td mat-cell *matCellDef="let coin"><app-button label="Trade" /></td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns" class="header"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+</div>
+
+@if(errorMessage$ | async) {
+<app-error [message]="errorMessage$ | async"></app-error>
+}
+@else if(isLoading && dataSource.length === 0) {
+<app-loader></app-loader>
+}
+@else if(dataSource.length === 0 && !isLoading && !(errorMessage$ | async) ) {
+<app-empty></app-empty>
+}
+
+
+@if(showPagination) {
+<mat-paginator [pageSize]="perPage" [length]="totalResults" (page)="changePage($event)" [pageIndex]="(page ?? 0) - 1"
+    showFirstLastButtons hidePageSize>
+</mat-paginator>
+}
+
+
+<div class="attribution">
+    Data provided by <a href="https://www.coingecko.com/en/api" target="_blank"><img src="ColorBlack.png"></a>
+</div>

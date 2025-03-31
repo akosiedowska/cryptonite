@@ -9,3 +9,26 @@ export const getInitials = (username: string) => {
 
     return initials
 }
+
+export const formatNumber = (value: number) => {
+    let formattedValue
+    let suffix
+
+    switch (true) {
+        case value > 1000000000000:
+            formattedValue = value / 1000000000000
+            suffix = 'T'
+            break
+        case value > 1000000000:
+            formattedValue = value / 1000000000
+            suffix = 'B'
+            break
+        case value > 1000000:
+            formattedValue = value / 1000000
+            suffix = 'M'
+            break
+        default: return value
+    }
+
+    return formattedValue.toFixed(2) + suffix
+}

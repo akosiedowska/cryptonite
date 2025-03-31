@@ -3,9 +3,11 @@ import { CoinsService } from '../../../../core/services/coins.service';
 import { MatIconModule } from '@angular/material/icon';
 import { Store } from '@ngrx/store';
 import { selectOrder } from '../../../../core/store/coins/coins.selectors';
-import { take } from 'rxjs';
+import { Observable, take } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { CoinsParamsActions } from '../../../../core/store/coins/coins.actions';
+import { FavouriteCoinsParamsActions } from '../../../../core/store/favouriteCoins/favouriteCoins.actions';
+import { selectFavouriteCoinsOrder } from '../../../../core/store/favouriteCoins/favouriteCoins.selectors';
 
 @Component({
   selector: 'app-sort',
@@ -15,16 +17,24 @@ import { CoinsParamsActions } from '../../../../core/store/coins/coins.actions';
 })
 export class SortComponent {
   @Input() order = ''
+  @Input() isFavouriteTable: boolean = false
   store = inject(Store)
-  currentOrder$ = this.store.select(selectOrder)
-  constructor(public coinService: CoinsService) { }
+  currentOrder$: Observable<string> = new Observable()
+
+  constructor(public coinService: CoinsService) {
+  }
+
+  ngOnInit() {
+    this.currentOrder$ = this.store.select(this.isFavouriteTable ? selectFavouriteCoinsOrder : selectOrder)
+
+  }
 
   toggleOrder(order: string) {
     this.currentOrder$.pipe(take(1)).subscribe(currentOrder => {
       if (currentOrder === order + '_desc') {
-        this.store.dispatch(CoinsParamsActions.setOrder({ order: order + '_asc' }))
+        this.store.dispatch((this.getStoreAction()).setOrder({ order: order + '_asc' }))
       } else {
-        this.store.dispatch(CoinsParamsActions.setOrder({ order: order + '_desc' }))
+        this.store.dispatch((this.getStoreAction()).setOrder({ order: order + '_desc' }))
       }
 
     })
@@ -39,4 +49,12 @@ export class SortComponent {
     })
     return icon
   }
+
+  private getStoreAction() {
+    console.log('fav table', this.isFavouriteTable)
+    return this.isFavouriteTable
+      ? FavouriteCoinsParamsActions
+      : CoinsParamsActions
+  }
+
 }

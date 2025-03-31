@@ -9,6 +9,7 @@ import { refreshRouter } from './controllers/refreshToken'
 import { corsOptions } from './config/corsOptions'
 import { credentials } from './middleware/credentials'
 import { logoutRouter } from './controllers/logout'
+import { favouritesRouter } from './controllers/favourites'
 
 dotenv.config()
 const app = express()
@@ -30,6 +31,7 @@ app.use('/users', usersRouter)
 app.use('/login', loginRouter)
 app.use('/refresh', refreshRouter)
 app.use('/logout', logoutRouter)
+app.use('/favourites', favouritesRouter)
 
 app.get('/', (req: Request, res: Response) => {
     res.send('Hello from backend')

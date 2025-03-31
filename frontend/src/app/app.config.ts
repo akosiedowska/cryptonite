@@ -9,6 +9,10 @@ import { CoinsEffects } from './core/store/coins/coins.effects';
 import { provideStore } from '@ngrx/store';
 import { coinsReducer } from './core/store/coins/coins.reducer';
 import { userReducer } from './core/store/user/user.reducer';
+import { FavouritesEffects } from './core/store/favourites/favourites.effects';
+import { favouritesReducer } from './core/store/favourites/favourites.reducer';
+import { favouriteCoinsReducer } from './core/store/favouriteCoins/favouriteCoins.reducer';
+import { FavouriteCoinsEffect } from './core/store/favouriteCoins/favouriteCoins.effect';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -17,7 +21,7 @@ export const appConfig: ApplicationConfig = {
     provideAnimationsAsync(),
     provideHttpClient(withInterceptorsFromDi()),
     AuthInterceptorProvider,
-    provideStore({ coins: coinsReducer, user: userReducer }),
-    provideEffects(CoinsEffects)
+    provideStore({ coins: coinsReducer, user: userReducer, favourites: favouritesReducer, favouriteCoins: favouriteCoinsReducer }),
+    provideEffects(CoinsEffects, FavouritesEffects, FavouriteCoinsEffect)
   ]
 };

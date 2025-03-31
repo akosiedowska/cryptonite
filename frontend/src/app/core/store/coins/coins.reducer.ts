@@ -10,7 +10,7 @@ export const initialState: CoinsState = {
     query: '',
     order: 'market_cap_desc',
     isLoading: false,
-    errorMessage: null
+    errorMessage: null,
 }
 
 export const coinsReducer = createReducer(
@@ -52,5 +52,5 @@ export const coinsReducer = createReducer(
     on(CoinsParamsActions.setOrder, (state, { order }) => ({
         ...state,
         order
-    })),
+    }))
 )

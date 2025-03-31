@@ -10,9 +10,8 @@ import { selectCurrentUser } from '../store/user/user.selector';
 export class CurrentUserService {
   private store = inject(Store)
   private user$ = this.store.select(selectCurrentUser)
-  constructor() {
-    this.initializeCurrentUser()
-  }
+
+  constructor() { }
 
   initializeCurrentUser() {
     const userJSON = localStorage.getItem('CryptoniteUser')
