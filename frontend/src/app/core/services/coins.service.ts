@@ -56,7 +56,6 @@ export class CoinsService {
             })
           )
         } else {
-          console.log('Fetching coins...')
           return this.http.get<Coin[]>(
             `https://api.coingecko.com/api/v3/coins/markets?vs_currency=eur&page=${page}&per_page=${perPage}&order=${order}&price_change_percentage=1h%2C24h%2C7d&x_cg_demo_api_key=${environment.apiKey}`
           ).pipe(

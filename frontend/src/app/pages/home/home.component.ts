@@ -3,10 +3,13 @@ import { HttpClient } from '@angular/common/http';
 import { BASE_URL } from '../../constants';
 import { Store } from '@ngrx/store';
 import { selectCurrentUser } from '../../core/store/user/user.selector';
+import { SnackbarService } from '../../core/services/snackbar.service';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+
 
 @Component({
   selector: 'app-home',
-  imports: [],
+  imports: [MatSnackBarModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
@@ -14,7 +17,7 @@ export class HomeComponent {
   private store = inject(Store)
   user$ = this.store.select(selectCurrentUser)
 
-  constructor(public http: HttpClient) {
+  constructor(public http: HttpClient, private snackBarService: SnackbarService) {
   }
 
   getUsers() {
@@ -31,5 +34,9 @@ export class HomeComponent {
         })
       }
     })
+  }
+
+  openSnackBar() {
+    this.snackBarService.open('blablaaa')
   }
 }
