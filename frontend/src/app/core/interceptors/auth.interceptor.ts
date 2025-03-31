@@ -28,7 +28,6 @@ export class AuthInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
 
     if (this.currentUserService.getCurrentUser() && AuthInterceptor.accessToken && this.isTokenExpired()) {
-      console.log('token expired')
       if (!request.url.includes('/login') && !request.url.includes('/refresh')) {
         return this.handle401Error(request, next)
         // && !request.url.includes('/password')

@@ -13,10 +13,12 @@ import { selectCurrentUser } from '../../../../core/store/user/user.selector';
 import { take } from 'rxjs';
 import { setUser } from '../../../../core/store/user/user.actions';
 import { User } from '../../../../core/store/user/user.model';
+import { SnackbarService } from '../../../../core/services/snackbar.service';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-profile',
-  imports: [DatePipe, ReactiveFormsModule, ButtonComponent, MatInputModule, CommonModule],
+  imports: [DatePipe, ReactiveFormsModule, ButtonComponent, MatInputModule, CommonModule, MatSnackBarModule],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss'
 })
@@ -37,7 +39,7 @@ export class ProfileComponent {
   userErrorMessage = signal<string | null>(null)
   passwordErrorMessage = signal<string | null>(null)
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private snackBarService: SnackbarService) {
     this.userForm.valueChanges.subscribe(() => {
       this.userErrorMessage.set(null)
     })
@@ -73,11 +75,12 @@ export class ProfileComponent {
           next: response => {
             this.store.dispatch(setUser({ user: updatedUser }))
             localStorage.setItem('CryptoniteUser', JSON.stringify(updatedUser))
-            console.log('response put', response)
             AuthInterceptor.accessToken = response.newAccessToken
+            this.snackBarService.open('User data was changed')
           },
           error: error => {
             this.userErrorMessage.set(error.error?.message || 'Unexpected error occured')
+            this.snackBarService.open(error.error?.message, 'error')
           }
         })
     })
@@ -94,10 +97,11 @@ export class ProfileComponent {
       .put(`${BASE_URL}/users/${this.user.id}/password`, updatedPassword, { withCredentials: true })
       .subscribe({
         next: response => {
-          console.log('password changed')
+          this.snackBarService.open('Password was changed')
         },
         error: error => {
           this.passwordErrorMessage.set(error.error?.message || 'Unexpected error occured')
+          this.snackBarService.open(error.error?.message, 'error')
         }
       })
     this.passwordForm.reset()

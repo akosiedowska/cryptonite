@@ -4,6 +4,7 @@ import { selectCurrentUser } from '../store/user/user.selector';
 import { selectFavourites } from '../store/favourites/favourites.selector';
 import { combineLatest, take } from 'rxjs';
 import { addFavourite, loadFavourites, removeFavourite, setFavourites } from '../store/favourites/favourites.actions';
+import { SnackbarService } from './snackbar.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class FavouritesService {
   private user$ = this.store.select(selectCurrentUser)
   private favourites$ = this.store.select(selectFavourites)
 
-  constructor() { }
+  constructor(private snackBarService: SnackbarService) { }
 
   initializeFavourites() {
     this.user$.subscribe(user => {
@@ -39,8 +40,10 @@ export class FavouritesService {
 
         if (isFavourite) {
           this.store.dispatch(removeFavourite({ currencyId, userId }))
+          this.snackBarService.open('Removed from favourites')
         } else {
           this.store.dispatch(addFavourite({ currencyId, userId }))
+          this.snackBarService.open('Added to favourites')
         }
       })
   }

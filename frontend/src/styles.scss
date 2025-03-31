@@ -56,3 +56,21 @@ html {
 //         }
 //     }
 // }
+
+// snackbar overrides + classes: 
+
+.mat-mdc-snack-bar-container {
+    opacity: 85% !important;
+
+    &.green-snackbar {
+        .mat-mdc-snackbar-surface {
+            background-color: $snackbar-green !important;
+        }
+    }
+
+    &.red-snackbar {
+        .mat-mdc-snackbar-surface {
+            background-color: $snackbar-red !important;
+        }
+    }
+}

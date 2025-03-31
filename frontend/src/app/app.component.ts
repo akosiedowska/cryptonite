@@ -30,7 +30,6 @@ export class AppComponent {
     this.favouritesService.initializeFavourites()
 
     this.store.select(selectCoins).subscribe(coins => console.log('coins', coins))
-    this.store.select(selectFavouriteCoins).subscribe(coins => console.log('FAV coins', coins))
     this.store.subscribe(state => console.log('coins state', state))
   }
 
