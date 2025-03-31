@@ -3,7 +3,7 @@ import { NextFunction, Request, Response, RequestHandler } from 'express'
 import { UserPayload } from '../types';
 
 interface AuthRequest extends Request {
-    user?: UserPayload;
+    user?: UserPayload
 }
 
 export const verifyToken = (req: AuthRequest, res: Response, next: NextFunction): void => {

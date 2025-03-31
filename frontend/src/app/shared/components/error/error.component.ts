@@ -1,6 +1,5 @@
 import { Component, Input } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-error',

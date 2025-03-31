@@ -1,5 +1,5 @@
-import { createActionGroup, emptyProps, props } from '@ngrx/store'
-import { Coin } from './coins.model'
+import { createActionGroup, emptyProps, props } from '@ngrx/store';
+import { Coin } from './coins.model';
 
 // export const loadCoins = createAction('[Currencies] Load Coins')
 

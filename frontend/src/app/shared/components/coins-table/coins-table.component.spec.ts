@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SortComponent } from './sort.component';
+import { CoinsTableComponent } from './coins-table.component';
 
-describe('SortComponent', () => {
-  let component: SortComponent;
-  let fixture: ComponentFixture<SortComponent>;
+describe('CoinsTableComponent', () => {
+  let component: CoinsTableComponent;
+  let fixture: ComponentFixture<CoinsTableComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SortComponent]
+      imports: [CoinsTableComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(SortComponent);
+    fixture = TestBed.createComponent(CoinsTableComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

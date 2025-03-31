@@ -7,9 +7,11 @@ import { CurrentUserService } from '../services/current-user.service'
 import { jwtDecode } from 'jwt-decode'
 import { Store } from '@ngrx/store'
 import { clearUser } from '../store/user/user.actions'
+import { selectCurrentUser } from '../store/user/user.selector'
+import { clearFavourites } from '../store/favourites/favourites.actions'
 
 interface DecodedToken {
-  exp: number;
+  exp: number
 }
 
 @Injectable()
@@ -19,6 +21,7 @@ export class AuthInterceptor implements HttpInterceptor {
   isRefreshing = false
   refreshTokenSubject: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null)
   private store = inject(Store)
+  private user$ = this.store.select(selectCurrentUser)
 
   constructor(private http: HttpClient, private router: Router, private currentUserService: CurrentUserService) { }
 
@@ -95,6 +98,11 @@ export class AuthInterceptor implements HttpInterceptor {
       this.router.navigate(['/login'], { state: { message: 'You must log in first.' } })
     }
     this.http.post(`${BASE_URL}/logout`, {}, { withCredentials: true })
+    this.user$.subscribe(user => {
+      if (user && user.id) {
+        this.store.dispatch(clearFavourites({ userId: user.id }))
+      }
+    })
     localStorage.removeItem('CryptoniteUser')
     this.store.dispatch(clearUser())
   }

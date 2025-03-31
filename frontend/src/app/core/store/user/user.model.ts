@@ -3,7 +3,7 @@ export interface User {
     email: string | undefined,
     password?: string,
     created_date?: string,
-    id?: string
+    id?: number
 }
 
 export interface UserState {

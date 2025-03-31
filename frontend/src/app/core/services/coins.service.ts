@@ -3,7 +3,7 @@ import { ListCoinElement } from '../../types';
 import { Coin } from '../store/coins/coins.model';
 import { environment } from '../../../environments';
 import { HttpClient } from '@angular/common/http';
-import { catchError, combineLatest, map, Observable, of, switchMap } from 'rxjs';
+import { catchError, combineLatest, map, Observable, of, switchMap, throwError } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { selectCoins, selectIsLoading, selectOrder, selectPage, selectPerPage, selectQuery, selectTotalResults } from '../store/coins/coins.selectors';
 import { CoinsLoadActions } from '../store/coins/coins.actions';
@@ -27,7 +27,8 @@ export class CoinsService {
   constructor(private http: HttpClient) { }
 
   fetchCoins(): Observable<{ coins: Coin[]; totalResults: number }> {
-    let coinIds: string | null = null
+    let coinIdsQuery: string | null = null
+    // const idsParam = coinIds.length ? encodeURIComponent(coinIds.join(',')) : ''
     this.store.dispatch(CoinsLoadActions.setLoading({ isLoading: true }))
     return combineLatest([this.page$, this.perPage$, this.order$, this.query$]).pipe(
       switchMap(([page, perPage, order, query]) => {
@@ -37,9 +38,9 @@ export class CoinsService {
         if (query) {
           return this.http.get<any>(`https://api.coingecko.com/api/v3/search?query=${query}`).pipe(
             switchMap((searchData) => {
-              coinIds = searchData.coins.map((coin: ListCoinElement) => coin.id).join(',')
+              coinIdsQuery = searchData.coins.map((coin: ListCoinElement) => coin.id).join(',')
               return this.http.get<Coin[]>(
-                `https://api.coingecko.com/api/v3/coins/markets?vs_currency=eur&page=${page}&per_page=${perPage}&order=${order}&price_change_percentage=1h%2C24h%2C7d&ids=${coinIds || query}&x_cg_demo_api_key=${environment.apiKey}`
+                `https://api.coingecko.com/api/v3/coins/markets?vs_currency=eur&page=${page}&per_page=${perPage}&order=${order}&price_change_percentage=1h%2C24h%2C7d&ids=${coinIdsQuery || query}&x_cg_demo_api_key=${environment.apiKey}`
               ).pipe(
                 map((coinsData) => {
                   return {
@@ -49,12 +50,13 @@ export class CoinsService {
                 }),
                 catchError((error) => {
                   console.error(error)
-                  return of({ coins: [], totalResults: 0 })
+                  return throwError(() => error)
                 })
               )
             })
           )
         } else {
+          console.log('Fetching coins...')
           return this.http.get<Coin[]>(
             `https://api.coingecko.com/api/v3/coins/markets?vs_currency=eur&page=${page}&per_page=${perPage}&order=${order}&price_change_percentage=1h%2C24h%2C7d&x_cg_demo_api_key=${environment.apiKey}`
           ).pipe(
@@ -62,13 +64,13 @@ export class CoinsService {
               return {
                 coins: coinsData,
                 totalResults: 17182,
-              };
+              }
             }),
             catchError((error) => {
               console.error(error)
-              return of({ coins: [], totalResults: 0 })
+              return throwError(() => error)
             })
-          );
+          )
         }
       })
     )

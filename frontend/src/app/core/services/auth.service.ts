@@ -6,6 +6,9 @@ import { Router } from '@angular/router';
 import { AuthInterceptor } from '../interceptors/auth.interceptor';
 import { CurrentUserService } from './current-user.service';
 import { Store } from '@ngrx/store';
+import { clearFavourites } from '../store/favourites/favourites.actions';
+import { selectCurrentUser } from '../store/user/user.selector';
+
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +16,7 @@ import { Store } from '@ngrx/store';
 export class AuthService {
   errorMessage = signal<string | null>(null)
   private store = inject(Store)
+  private user$ = this.store.select(selectCurrentUser)
 
   constructor(public http: HttpClient, public router: Router, private currentUserService: CurrentUserService) {
     this.refreshTokenOnPageReload()
@@ -66,6 +70,11 @@ export class AuthService {
   logout() {
     this.http.post(`${BASE_URL}/logout`, {}, { withCredentials: true }).subscribe(() => {
       AuthInterceptor.accessToken = ''
+      this.user$.subscribe(user => {
+        if (user && user.id) {
+          this.store.dispatch(clearFavourites({ userId: user.id }))
+        }
+      })
       this.currentUserService.clearCurrentUser()
       this.router.navigate(['/login'])
     })
