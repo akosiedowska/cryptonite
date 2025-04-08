@@ -2,7 +2,7 @@
 
     <h2>Trade: {{data.name}}</h2>
     <div class="transaction-info">Current euro balance: &euro; <span>{{currentBalance.toFixed(2)}}</span></div>
-    <div class="transaction-info">Current {{data.name}} balance: &euro; <span>{{coinBalance.toFixed(2)}}</span></div>
+    <div class="transaction-info">Current {{data.name}} balance: <span>{{coinBalance.toFixed(2)}}</span></div>
     <div class="transaction-info">Current {{data.name}} price: &euro; <span>{{price$ | async}}</span>
     </div>
     <div class="transaction-toggle-container">

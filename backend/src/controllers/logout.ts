@@ -17,8 +17,9 @@ logoutRouter.post('/', async (req: Request, res: Response) => {
         const foundUser = result.rows[0]
 
         if (!foundUser) {
-            res.clearCookie('jwt', { httpOnly: true, sameSite: 'none', secure: true });
-            res.sendStatus(204);
+            res.clearCookie('jwt', { httpOnly: true, sameSite: 'none', secure: true })
+            res.sendStatus(204)
+            return
         }
 
         await pool.query("UPDATE users SET refresh_token = $1 WHERE id = $2", [null, foundUser.id])

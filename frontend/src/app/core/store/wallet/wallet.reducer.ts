@@ -1,6 +1,6 @@
 import { createReducer, on } from "@ngrx/store";
 import { WalletState } from "./wallet.model";
-import { addToWallet, setWallet, subtractFromWallet } from "./wallet.actions";
+import { buyCoin, setWallet, sellCoin } from "./wallet.actions";
 import { clearUser } from "../user/user.actions";
 
 const initialState: WalletState = {
@@ -12,42 +12,63 @@ export const walletReducer = createReducer(
     on(setWallet, (state, { wallet }) => {
         return ({ ...state, wallet: wallet })
     }),
-    on(addToWallet, (state, { currencyId, currencyName, amount, totalSpent }) => {
-        console.log("STATE", state.wallet)
+    on(buyCoin, (state, { currencyId, currencyName, amount, totalSpent }) => {
         const existingCoin = state.wallet?.find(coin => coin.currency_id === currencyId)
-        if (existingCoin) {
-            return {
-                ...state,
-                wallet: state.wallet?.map(item =>
-                    item.currency_id === currencyId
-                        ? { ...item, amount: item.amount + amount, total_spent: item.total_spent + totalSpent }
-                        : item
-                )
 
+        const updatedWallet = state.wallet.map(coin => {
+            if (coin.currency_id === currencyId) {
+                return {
+                    ...coin,
+                    amount: coin.amount + amount,
+                    total_spent: coin.total_spent + totalSpent
+                }
+            } else if (coin.currency_id === 'fake-euro') {
+                return {
+                    ...coin,
+                    amount: coin.amount - totalSpent,
+                    total_spent: coin.total_spent - totalSpent
+                }
             }
-        } else {
-            const newCoin = {
-                currency_id: currencyId,
-                currency_name: currencyName,
-                amount: amount,
-                total_spent: totalSpent,
-            }
-            return {
-                ...state,
-                wallet: [...state?.wallet, newCoin]
-            }
+            return coin
+        })
+        console.log('updated wallet', updatedWallet)
+
+        const newWallet = existingCoin ? updatedWallet : [...updatedWallet, {
+            currency_id: currencyId,
+            currency_name: currencyName,
+            amount: amount,
+            total_spent: totalSpent,
+        }]
+        console.log('new wallet', newWallet)
+        return {
+            ...state,
+            wallet: newWallet
         }
     }),
-    on(subtractFromWallet, (state, { currencyId, amount, totalSpent }) => {
+    on(sellCoin, (state, { currencyId, amount, totalSpent }) => {
         const existingCoin = state.wallet.find(coin => coin.currency_id === currencyId)
+
+        const updatedWallet = state.wallet.map(coin => {
+            if (coin.currency_id === currencyId) {
+                return {
+                    ...coin,
+                    amount: coin.amount - amount,
+                    total_spent: coin.total_spent - totalSpent
+                }
+            } else if (coin.currency_id === 'fake-euro') {
+                return {
+                    ...coin,
+                    amount: coin.amount + totalSpent,
+                    total_spent: coin.total_spent + totalSpent
+                }
+            }
+            return coin
+        })
+
         if (existingCoin) {
             return {
                 ...state,
-                wallet: state.wallet.map(item =>
-                    item.currency_id === currencyId
-                        ? { ...item, amount: item.amount + amount, total_spent: item.total_spent + totalSpent }
-                        : item
-                )
+                wallet: updatedWallet
             }
         } else return state
     }),
