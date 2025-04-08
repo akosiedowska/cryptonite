@@ -22,6 +22,7 @@ import { FavouritesService } from '../../../core/services/favourites.service';
 import { CoinsParamsActions } from '../../../core/store/coins/coins.actions';
 import { FavouriteCoinsParamsActions } from '../../../core/store/favouriteCoins/favouriteCoins.actions';
 import { selectFavouriteCoinsOrder } from '../../../core/store/favouriteCoins/favouriteCoins.selectors';
+import { TradeModalService } from '../../../core/services/trade-modal.service';
 
 @Component({
   selector: 'app-coins-table',
@@ -47,10 +48,14 @@ export class CoinsTableComponent {
   formatNumber = formatNumber
   subscription: Subscription = new Subscription()
 
-  constructor(public coinService: CoinsService, private favouriteService: FavouritesService) { }
+  constructor(public coinService: CoinsService, private favouriteService: FavouritesService, private tradeModalService: TradeModalService) { }
 
   toggleFavourite(currencyId: string) {
     this.favouriteService.toggleFavourite(currencyId);
+  }
+
+  openTradeModal(coin: Coin) {
+    this.tradeModalService.openModal(coin)
   }
 
   changePage(event: PageEvent) {

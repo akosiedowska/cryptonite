@@ -3,6 +3,7 @@
 :host {
     display: flex;
     align-items: center;
+    height: 100%;
 }
 
 .mat-icon {
@@ -21,4 +22,9 @@
 
 :host-context(.header-cell:hover) .mat-icon {
     opacity: 1;
+}
+
+.atribution {
+    align-self: end;
+    margin-top: auto;
 }

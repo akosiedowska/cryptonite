@@ -37,7 +37,7 @@ export class CurrenciesComponent {
 
   ngOnInit() {
     this.store.dispatch(CoinsParamsActions.setPage({ page: 1 }))
-    this.subscription = interval(1000000)
+    this.subscription = interval(5_000_000)
       .subscribe(() => this.store.dispatch(CoinsLoadActions.loadCoins()))
   }
 

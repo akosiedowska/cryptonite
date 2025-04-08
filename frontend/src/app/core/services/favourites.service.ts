@@ -19,10 +19,10 @@ export class FavouritesService {
   initializeFavourites() {
     this.user$.subscribe(user => {
       if (user && user.id) {
-        const favouritesJSON = localStorage.getItem(`favourites_${user.id}`)
+        const favouritesJSON = localStorage.getItem('favourites')
         const favourites = favouritesJSON && JSON.parse(favouritesJSON)
-        if (favouritesJSON && favourites.length > 0) {
-          this.store.dispatch(setFavourites({ favourites, userId: user.id }))
+        if (favouritesJSON) {
+          this.store.dispatch(setFavourites({ favourites }))
         } else {
           this.store.dispatch(loadFavourites({ userId: user.id }))
         }

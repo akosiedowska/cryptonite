@@ -51,11 +51,15 @@ usersRouter.post('/', validateUserData, async (req: Request, res: Response) => {
             const result = await pool.query(
                 'INSERT INTO users (name, email, password, created_date) VALUES ($1, $2, $3, $4) RETURNING *',
                 [username, email, hashedPassword, createdDate]
-            );
-
-            res.status(201).json({
-                message: `User ${result.rows[0].name} added.`
-            })
+            )
+            // add a check - result.rows length
+            // res.status(201).json({
+            //     message: `User ${result.rows[0].name} added.`
+            // })
+            await pool.query('INSERT INTO wallet (user_id, currency_id, currency_name, amount, total_spent) VALUES ($1, $2, $3, $4, $5)',
+                [result.rows[0].id, 'fake-euro', 'euro', 10000, 10000]
+            )
+            res.status(201).json({ message: `User ${result.rows[0].name} added.` })
         }
     } catch (err) {
         console.error("Database error:", err);
@@ -78,7 +82,7 @@ usersRouter.put('/:id', verifyToken, async (req: Request, res: Response) => {
             username: user.name,
             id: user.id
         }
-
+        // drop the username from the token
         const newAccessToken = jwt.sign(newTokenData, process.env.ACCESS_TOKEN_SECRET as Secret, { expiresIn: '10s' })
         const newRefreshToken = jwt.sign(newTokenData, process.env.REFRESH_TOKEN_SECRET as Secret, { expiresIn: '1d' })
         const dynamicToken = getTokenDynamicPart(newRefreshToken)

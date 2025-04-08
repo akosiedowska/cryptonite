@@ -50,3 +50,13 @@
         background-color: $reset-btn-hover;
     }
 }
+
+.toggle {
+    background-color: $disabled-gray;
+    color: $text-main;
+}
+
+.toggle-active {
+    background-color: $text-main;
+    color: $light-background;
+}

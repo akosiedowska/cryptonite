@@ -20,7 +20,9 @@ export class FavouriteCoinsService {
   fetchFavouriteCoins() {
     return combineLatest([this.page$, this.coinsIds$, this.order$]).pipe(
       switchMap(([page, coinsIds, order]) => {
-        console.log('fetching fav...')
+        if (coinsIds.length === 0) {
+          return of({ coins: [], totalResults: 0 })
+        }
         return this.http.get<Coin[]>(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=eur&page=${page}&per_page=10&order=${order}&price_change_percentage=1h%2C24h%2C7d&ids=${coinsIds}&x_cg_demo_api_key=${environment.apiKey}`
         ).pipe(
           map((coinsData) => {

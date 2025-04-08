@@ -11,6 +11,7 @@ import { SignupComponent } from './pages/signup/signup.component';
 import { ProfileComponent } from './pages/dashboard/pages/profile/profile.component';
 import { TransactionsComponent } from './pages/dashboard/pages/transactions/transactions.component';
 import { FavouritesComponent } from './pages/dashboard/pages/favourites/favourites.component';
+import { WalletComponent } from './pages/dashboard/pages/wallet/wallet.component';
 
 export const routes: Routes = [
     // {
@@ -51,7 +52,7 @@ export const routes: Routes = [
         children: [
             {
                 path: '',
-                redirectTo: 'profile',
+                redirectTo: 'wallet',
                 pathMatch: 'full'
             },
             {
@@ -65,6 +66,10 @@ export const routes: Routes = [
             {
                 path: 'favourites',
                 component: FavouritesComponent
+            },
+            {
+                path: 'wallet',
+                component: WalletComponent
             }
         ]
     },

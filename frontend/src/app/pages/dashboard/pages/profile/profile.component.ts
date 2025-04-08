@@ -63,26 +63,28 @@ export class ProfileComponent {
     if (this.userForm.invalid) return
     this.user$.pipe(take(1)).subscribe((user: User | null) => {
 
-      const updatedUser: User = {
-        ...user,
-        name: this.userForm.value.username ?? user?.name,
-        email: this.userForm.value.email ?? user?.email
-      }
+      if (user) {
+        const updatedUser: User = {
+          ...user,
+          name: this.userForm.value.username ?? user.name,
+          email: this.userForm.value.email ?? user.email
+        }
 
-      this.http
-        .put<{ newAccessToken: string }>(`${BASE_URL}/users/${this.user.id}`, updatedUser, { withCredentials: true })
-        .subscribe({
-          next: response => {
-            this.store.dispatch(setUser({ user: updatedUser }))
-            localStorage.setItem('CryptoniteUser', JSON.stringify(updatedUser))
-            AuthInterceptor.accessToken = response.newAccessToken
-            this.snackBarService.open('User data was changed')
-          },
-          error: error => {
-            this.userErrorMessage.set(error.error?.message || 'Unexpected error occured')
-            this.snackBarService.open(error.error?.message, 'error')
-          }
-        })
+        this.http
+          .put<{ newAccessToken: string }>(`${BASE_URL}/users/${this.user.id}`, updatedUser, { withCredentials: true })
+          .subscribe({
+            next: response => {
+              this.store.dispatch(setUser({ user: updatedUser }))
+              localStorage.setItem('CryptoniteUser', JSON.stringify(updatedUser))
+              AuthInterceptor.accessToken = response.newAccessToken
+              this.snackBarService.open('User data was changed')
+            },
+            error: error => {
+              this.userErrorMessage.set(error.error?.message || 'Unexpected error occured')
+              this.snackBarService.open(error.error?.message, 'error')
+            }
+          })
+      }
     })
   }
 
