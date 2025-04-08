@@ -5,7 +5,7 @@ export const loadWallet = createAction('[Wallet] Load Wallet',
     props<{ userId: number }>())
 export const setWallet = createAction('[Wallet] Set Wallet',
     props<{ wallet: Wallet[] }>())
-export const addToWallet = createAction('[Wallet] Add To Wallet',
+export const buyCoin = createAction('[Wallet] Buy Coin',
     props<{
         userId: number,
         currencyId: string,
@@ -13,7 +13,7 @@ export const addToWallet = createAction('[Wallet] Add To Wallet',
         amount: number,
         totalSpent: number
     }>())
-export const subtractFromWallet = createAction('[Wallet] Subtract From Wallet',
+export const sellCoin = createAction('[Wallet] Sell Coin',
     props<{
         userId: number,
         currencyId: string,

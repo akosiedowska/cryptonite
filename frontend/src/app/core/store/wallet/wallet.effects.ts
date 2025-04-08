@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
-import { addToWallet, loadWallet, setWallet, subtractFromWallet } from "./wallet.actions";
+import { buyCoin, loadWallet, sellCoin, setWallet } from "./wallet.actions";
 import { catchError, switchMap, of, map, tap } from "rxjs";
 import { Wallet } from "./wallet.model";
 import { BASE_URL } from "../../../constants";
@@ -42,9 +42,9 @@ export class WalletEffects {
         )
     )
 
-    addToWallet$ = createEffect(() =>
+    buyCoin$ = createEffect(() =>
         this.actions$.pipe(
-            ofType(addToWallet),
+            ofType(buyCoin),
             switchMap(({ userId, currencyId, currencyName, amount, totalSpent }) => {
                 const newCoin = {
                     currency_id: currencyId,
@@ -52,7 +52,7 @@ export class WalletEffects {
                     amount: amount,
                     total_spent: totalSpent,
                 }
-                return this.http.post<Wallet[]>(`${BASE_URL}/wallet/${userId}/add`, newCoin, { withCredentials: true }).pipe(
+                return this.http.post<Wallet[]>(`${BASE_URL}/wallet/${userId}/buy`, newCoin, { withCredentials: true }).pipe(
                     map(wallet => {
                         localStorage.setItem('wallet', JSON.stringify(wallet))
                         this.snackBarService.open('Transaction success!')
@@ -67,9 +67,9 @@ export class WalletEffects {
         )
     )
 
-    subtractFromWallet$ = createEffect(() =>
+    sellCoin$ = createEffect(() =>
         this.actions$.pipe(
-            ofType(subtractFromWallet),
+            ofType(sellCoin),
             switchMap(({ userId, currencyId, currencyName, amount, totalSpent }) => {
                 const newCoin = {
                     currency_id: currencyId,
@@ -77,7 +77,7 @@ export class WalletEffects {
                     amount: amount,
                     total_spent: totalSpent,
                 }
-                return this.http.post<Wallet[]>(`${BASE_URL}/wallet/${userId}/subtract`, newCoin, { withCredentials: true }).pipe(
+                return this.http.post<Wallet[]>(`${BASE_URL}/wallet/${userId}/sell`, newCoin, { withCredentials: true }).pipe(
                     map(wallet => {
                         localStorage.setItem('wallet', JSON.stringify(wallet))
                         this.snackBarService.open('Transaction success!')

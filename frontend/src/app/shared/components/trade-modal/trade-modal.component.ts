@@ -5,7 +5,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { MatInputModule } from '@angular/material/input';
 import { CommonModule } from '@angular/common';
 import { Store } from '@ngrx/store';
-import { addToWallet, subtractFromWallet } from '../../../core/store/wallet/wallet.actions';
+import { buyCoin, sellCoin } from '../../../core/store/wallet/wallet.actions';
 import { selectCurrentUser } from '../../../core/store/user/user.selector';
 import { addTransaction } from '../../../core/store/transactions/transactions.actions';
 import { map, Observable, take } from 'rxjs';
@@ -82,7 +82,7 @@ export class TradeModalComponent {
   checkBalance() {
     const amount = Number(this.tradeForm.get('amount')?.value)
     const value = Number(this.tradeForm.get('value')?.value)
-    console.log('this.transactionType()', this.transactionType())
+
     switch (this.transactionType()) {
       case 'buy':
         if (this.currentBalance >= value) {
@@ -112,20 +112,13 @@ export class TradeModalComponent {
           amount: Number(this.tradeForm.get('amount')?.value),
           totalSpent: Number(this.tradeForm.get('value')?.value)
         }
-        const euroValue = {
-          userId: user.id,
-          currencyId: 'fake-euro',
-          currencyName: 'euro',
-          amount: Number(this.tradeForm.get('value')?.value),
-          totalSpent: Number(this.tradeForm.get('value')?.value)
-        }
+
         if (this.transactionType() == "buy") {
-          this.store.dispatch(addToWallet(newWalletCoin))
-          this.store.dispatch(subtractFromWallet(euroValue))
+          this.store.dispatch(buyCoin(newWalletCoin))
         } else {
-          this.store.dispatch(subtractFromWallet(newWalletCoin))
-          this.store.dispatch(addToWallet(euroValue))
+          this.store.dispatch(sellCoin(newWalletCoin))
         }
+
         this.price$.pipe(take(1)).subscribe(price => {
           const newTransaction = {
             userId: user.id,
