@@ -1,0 +1,67 @@
+@use '../../../../../variables' as *;
+
+.balance {
+    width: 30%;
+    padding: 1em;
+    // border: 1px solid $text-gray;
+    // box-shadow: 0px 0px 15px -10px rgba(148, 163, 184, 1);
+    border-radius: 6px;
+    background: $light-background;
+
+    &__title {
+        display: flex;
+        align-items: center;
+        gap: .5em;
+        margin: 0 0 .5em;
+
+        &__content {
+            margin: 0;
+            padding: 0;
+            font-size: 24px;
+            font-weight: 500;
+        }
+    }
+
+    &__subtitle {
+        color: $text-gray;
+        text-align: end;
+    }
+
+    &__value {
+        font-size: 32px;
+        color: $cryptonite-green;
+        font-weight: bold;
+        text-align: end;
+    }
+
+    &__change {
+        text-align: end;
+        color: $snackbar-green;
+    }
+}
+
+.portfolio-table {
+    .mat-column-change {
+        .change-cell {
+            display: flex;
+            align-items: center;
+            justify-content: start;
+            gap: 5px;
+
+            .mat-icon {
+                font-size: 1rem;
+                width: 1rem;
+                height: 1rem;
+            }
+
+        }
+    }
+}
+
+.positive {
+    color: $snackbar-green;
+}
+
+.negative {
+    color: $snackbar-red;
+}

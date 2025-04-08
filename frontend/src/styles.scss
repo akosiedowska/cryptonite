@@ -74,3 +74,10 @@ html {
         }
     }
 }
+
+// dialog overriders::after
+
+.mat-mdc-dialog-surface {
+    // padding: 1em !important;
+    border-radius: 8px !important;
+}

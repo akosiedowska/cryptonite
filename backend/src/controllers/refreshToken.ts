@@ -2,6 +2,7 @@ import jwt, { Secret } from 'jsonwebtoken'
 import { pool } from "../index"
 import express, { Request, Response } from 'express'
 import { getTokenDynamicPart } from '../helpers'
+import { verifyToken } from '../middleware/verifyToken'
 
 export const refreshRouter = express.Router()
 
@@ -11,6 +12,8 @@ refreshRouter.get('/', async (req: Request, res: Response) => {
         res.status(401).json({ message: "Access denied" })
         return
     }
+
+    // jwt verification - earlier
     const refreshToken = cookies.jwt
     const dynamicToken = getTokenDynamicPart(cookies.jwt)
     try {
@@ -21,6 +24,8 @@ refreshRouter.get('/', async (req: Request, res: Response) => {
             res.status(403).json({ message: "Invalid token" })
             return
         }
+
+        // assign to a value
         jwt.verify(
             refreshToken,
             process.env.REFRESH_TOKEN_SECRET as Secret,

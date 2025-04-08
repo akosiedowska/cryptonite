@@ -1,9 +1,9 @@
 export interface User {
-    name: string | undefined,
-    email: string | undefined,
+    name: string,
+    email: string,
     password?: string,
     created_date?: string,
-    id?: number
+    id: number
 }
 
 export interface UserState {

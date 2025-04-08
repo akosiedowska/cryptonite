@@ -13,7 +13,10 @@ import { FavouritesEffects } from './core/store/favourites/favourites.effects';
 import { favouritesReducer } from './core/store/favourites/favourites.reducer';
 import { favouriteCoinsReducer } from './core/store/favouriteCoins/favouriteCoins.reducer';
 import { FavouriteCoinsEffect } from './core/store/favouriteCoins/favouriteCoins.effect';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { walletReducer } from './core/store/wallet/wallet.reducer';
+import { WalletEffects } from './core/store/wallet/wallet.effects';
+import { transactionsReducer } from './core/store/transactions/transactions.reducer';
+import { TransactionsEffects } from './core/store/transactions/transactions.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -22,7 +25,14 @@ export const appConfig: ApplicationConfig = {
     provideAnimationsAsync(),
     provideHttpClient(withInterceptorsFromDi()),
     AuthInterceptorProvider,
-    provideStore({ coins: coinsReducer, user: userReducer, favourites: favouritesReducer, favouriteCoins: favouriteCoinsReducer }),
-    provideEffects(CoinsEffects, FavouritesEffects, FavouriteCoinsEffect),
+    provideStore({
+      coins: coinsReducer,
+      user: userReducer,
+      favourites: favouritesReducer,
+      favouriteCoins: favouriteCoinsReducer,
+      wallet: walletReducer,
+      transactions: transactionsReducer
+    }),
+    provideEffects(CoinsEffects, FavouritesEffects, FavouriteCoinsEffect, WalletEffects, TransactionsEffects),
   ]
 }

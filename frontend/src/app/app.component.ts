@@ -5,11 +5,11 @@ import { FooterComponent } from "./core/components/footer/footer.component";
 import { CurrentUserService } from './core/services/current-user.service';
 import { Store } from '@ngrx/store';
 import { CoinsLoadActions } from './core/store/coins/coins.actions';
-import { loadFavourites, setFavourites } from './core/store/favourites/favourites.actions';
 import { selectCurrentUser } from './core/store/user/user.selector';
 import { selectCoins } from './core/store/coins/coins.selectors';
-import { selectFavouriteCoins } from './core/store/favouriteCoins/favouriteCoins.selectors';
 import { FavouritesService } from './core/services/favourites.service';
+import { loadWallet } from './core/store/wallet/wallet.actions';
+import { loadTransactions } from './core/store/transactions/transactions.actions';
 
 @Component({
   selector: 'app-root',
@@ -28,6 +28,12 @@ export class AppComponent {
     this.store.dispatch(CoinsLoadActions.loadCoins())
     this.currentUserService.initializeCurrentUser()
     this.favouritesService.initializeFavourites()
+    this.user$.subscribe(user => {
+      if (user && user.id) {
+        this.store.dispatch(loadWallet({ userId: user.id }))
+        this.store.dispatch(loadTransactions({ userId: user.id }))
+      }
+    })
 
     this.store.select(selectCoins).subscribe(coins => console.log('coins', coins))
     this.store.subscribe(state => console.log('coins state', state))

@@ -5,7 +5,7 @@
             <div class="avatar-placeholder">{{getInitials(user.name)}}</div>
         </div>
     </div>
-    <form [formGroup]="userForm" class="user-form" (submit)=" updateUser()">
+    <form [formGroup]="userForm" class="user-form" (submit)="updateUser()">
         <div class="row">
             <label class="label">Username</label>
             <input class="input" formControlName="username" required>

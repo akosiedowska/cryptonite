@@ -1,0 +1,49 @@
+@use '../../../../variables' as *;
+
+:host {
+    .modal-container {
+        padding: 1.5em;
+        width: 450px;
+
+        h2 {
+            padding: 0;
+            margin: 0;
+            margin-bottom: .5em;
+        }
+
+        .transaction-info {
+            margin-bottom: .5em;
+        }
+
+        .transaction-toggle-container {
+            display: flex;
+            gap: 1em;
+            padding: 1em 0;
+
+            app-button {
+                width: 50%;
+            }
+        }
+
+        .inputs-container {
+            padding: 0 2em;
+
+            .mat-mdc-form-field {
+                width: 100%;
+            }
+        }
+
+        .error-message {
+            margin-bottom: 1em;
+            color: $error-red;
+            font-size: 13px;
+        }
+
+        .btn-container {
+            display: flex;
+            gap: 20px;
+            justify-content: end;
+        }
+
+    }
+}
