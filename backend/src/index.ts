@@ -19,7 +19,7 @@ app.use(credentials)
 app.use(cors(corsOptions))
 app.options('*', cors(corsOptions))
 
-const port = 8080
+const port = process.env.PORT || 8080
 const isProduction = process.env.NODE_ENV === 'production'
 
 export const pool = new Pool(
