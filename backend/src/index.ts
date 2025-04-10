@@ -19,23 +19,23 @@ app.use(credentials)
 app.use(cors(corsOptions))
 app.options('*', cors(corsOptions))
 
-// app.use(cors({
-//     origin: 'https://cryptonite-lemon.vercel.app',
-//     credentials: true,
-// }))
-
 const port = 8080
+const isProduction = process.env.NODE_ENV === 'production'
 
-export const pool = new Pool({
-    user: process.env.DATABASE_USER,
-    host: process.env.DATABASE_HOST,
-    database: process.env.DATABASE_NAME,
-    password: process.env.DATABASE_PASSWORD,
-    port: 5432,
-    // ssl: {
-    //     rejectUnauthorized: false,
-    // },
-})
+export const pool = new Pool(
+    isProduction ?
+        {
+            connectionString: process.env.DATABASE_URL,
+            ssl: { rejectUnauthorized: false },
+        }
+        : {
+            user: process.env.DATABASE_USER,
+            host: process.env.DATABASE_HOST,
+            database: process.env.DATABASE_NAME,
+            password: process.env.DATABASE_PASSWORD,
+            port: 5432,
+        }
+)
 
 pool.connect()
     .then(client => {
@@ -56,11 +56,6 @@ app.use('/logout', logoutRouter)
 app.use('/favourites', favouritesRouter)
 app.use('/wallet', walletRouter)
 app.use('/transactions', transactionsRouter)
-
-// if (process.env.DATABASE_URL) {
-//     pool.connect()
-//     console.log('deployed db connected')
-// }
 
 app.get('/', (req: Request, res: Response) => {
     res.send('Hello from backend')
