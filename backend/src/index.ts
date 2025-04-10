@@ -58,8 +58,10 @@ app.use('/wallet', walletRouter)
 app.use('/transactions', transactionsRouter)
 
 app.get('/', (req: Request, res: Response) => {
-    res.send(`is production: ${isProduction}`)
     res.send('Hello from backend')
+})
+app.get('/prod', (req: Request, res: Response) => {
+    res.send(`is production: ${isProduction}`)
 })
 
 app.listen(port, () => {
