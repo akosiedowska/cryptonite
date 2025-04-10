@@ -37,6 +37,15 @@ export const pool = new Pool({
     // },
 })
 
+pool.connect()
+    .then(client => {
+        console.log("Connected to database!");
+        client.release();
+    })
+    .catch(err => {
+        console.error("Error connecting to the database", err.stack);
+    })
+
 app.use(express.json())
 app.use(cookieParser())
 
