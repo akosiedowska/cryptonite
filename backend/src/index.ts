@@ -19,6 +19,13 @@ app.use(credentials)
 app.use(cors(corsOptions))
 app.options('*', cors(corsOptions))
 
+app.options('*', (req, res) => {
+    res.set('Access-Control-Allow-Origin', '*');
+    res.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    res.set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    res.status(200).end();
+});
+
 const port = process.env.PORT || 8080
 const isProduction = process.env.NODE_ENV === 'production'
 
@@ -48,6 +55,11 @@ pool.connect()
 
 app.use(express.json())
 app.use(cookieParser())
+
+app.use((req, res, next) => {
+    console.log(`REQ: ${req.method} ${req.url}`);
+    next();
+});
 
 app.use('/users', usersRouter)
 app.use('/login', loginRouter)
