@@ -6,7 +6,7 @@ import { selectWallet } from '../../../../core/store/wallet/wallet.selectors';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { interval, map, Observable, shareReplay, startWith, switchMap } from 'rxjs';
-import { environment } from '../../../../../environments';
+import { environment } from '../../../../../environments/environment';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 

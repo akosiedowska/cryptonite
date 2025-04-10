@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Coin } from '../store/coins/coins.model';
-import { environment } from '../../../environments';
+import { environment } from '../../../environments/environment';
 import { catchError, combineLatest, map, of, switchMap, throwError } from 'rxjs';
 import { selectFavouriteCoinsOrder, selectFavouriteCoinsPage } from '../store/favouriteCoins/favouriteCoins.selectors';
 import { selectFavourites } from '../store/favourites/favourites.selector';

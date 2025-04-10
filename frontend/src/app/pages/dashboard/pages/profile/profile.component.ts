@@ -4,7 +4,6 @@ import { getInitials } from '../../../../helpers';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ButtonComponent } from '../../../../shared/components/button/button.component';
 import { HttpClient } from '@angular/common/http';
-import { BASE_URL } from '../../../../constants';
 import { MatInputModule } from '@angular/material/input';
 import { matchPasswordsValidator } from '../../../signup/helpers';
 import { AuthInterceptor } from '../../../../core/interceptors/auth.interceptor';
@@ -15,6 +14,7 @@ import { setUser } from '../../../../core/store/user/user.actions';
 import { User } from '../../../../core/store/user/user.model';
 import { SnackbarService } from '../../../../core/services/snackbar.service';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { environment } from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-profile',
@@ -71,7 +71,7 @@ export class ProfileComponent {
         }
 
         this.http
-          .put<{ newAccessToken: string }>(`${BASE_URL}/users/${this.user.id}`, updatedUser, { withCredentials: true })
+          .put<{ newAccessToken: string }>(`${environment.apiUrl}/users/${this.user.id}`, updatedUser, { withCredentials: true })
           .subscribe({
             next: response => {
               this.store.dispatch(setUser({ user: updatedUser }))
@@ -96,7 +96,7 @@ export class ProfileComponent {
     }
 
     this.http
-      .put(`${BASE_URL}/users/${this.user.id}/password`, updatedPassword, { withCredentials: true })
+      .put(`${environment.apiUrl}/users/${this.user.id}/password`, updatedPassword, { withCredentials: true })
       .subscribe({
         next: response => {
           this.snackBarService.open('Password was changed')

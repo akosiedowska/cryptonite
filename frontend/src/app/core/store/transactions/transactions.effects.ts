@@ -4,8 +4,8 @@ import { tap, switchMap, map, of, catchError } from "rxjs";
 import { addTransaction, loadTransactions, setTransactions } from "./transactions.actions";
 import { Transaction } from "./transactions.model";
 import { HttpClient } from "@angular/common/http";
-import { BASE_URL } from "../../../constants";
 import { clearUser } from "../user/user.actions";
+import { environment } from "../../../../environments/environment";
 
 @Injectable()
 
@@ -32,7 +32,7 @@ export class TransactionsEffects {
                 if (transactionsJSON) {
                     return of(setTransactions({ transactions: JSON.parse(transactionsJSON) }))
                 }
-                return this.http.get<Transaction[]>(`${BASE_URL}/transactions/${userId}`, { withCredentials: true }).pipe(
+                return this.http.get<Transaction[]>(`${environment.apiUrl}/transactions/${userId}`, { withCredentials: true }).pipe(
                     map(transactions => {
                         return setTransactions({ transactions })
                     }),
@@ -55,7 +55,7 @@ export class TransactionsEffects {
                     total_value: totalValue,
                     transaction_type: transactionType
                 }
-                return this.http.post<Transaction[]>(`${BASE_URL}/transactions/${userId}`, newTransaction, { withCredentials: true }).pipe(
+                return this.http.post<Transaction[]>(`${environment.apiUrl}/transactions/${userId}`, newTransaction, { withCredentials: true }).pipe(
                     map(transactions => {
                         localStorage.setItem('transactions', JSON.stringify(transactions))
                         return setTransactions({ transactions })

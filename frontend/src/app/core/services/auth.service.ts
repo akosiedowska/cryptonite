@@ -1,10 +1,10 @@
 import { Injectable, signal } from '@angular/core';
 import { User } from '../store/user/user.model';
 import { HttpClient } from '@angular/common/http';
-import { BASE_URL } from '../../constants';
 import { Router } from '@angular/router';
 import { AuthInterceptor } from '../interceptors/auth.interceptor';
 import { CurrentUserService } from './current-user.service';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +21,7 @@ export class AuthService {
 
     if (user) {
       this.http
-        .get<{ accessToken: string }>(`${BASE_URL}/refresh`, { withCredentials: true })
+        .get<{ accessToken: string }>(`${environment.apiUrl}/refresh`, { withCredentials: true })
         .subscribe({
           next: response => {
             AuthInterceptor.accessToken = response.accessToken
@@ -33,7 +33,7 @@ export class AuthService {
 
   login(username: string, password: string) {
     this.http
-      .post<{ user: User, accessToken: string }>(`${BASE_URL}/login`, { username, password }, { withCredentials: true })
+      .post<{ user: User, accessToken: string }>(`${environment.apiUrl}/login`, { username, password }, { withCredentials: true })
       .subscribe({
         next: response => {
           AuthInterceptor.accessToken = response.accessToken
@@ -48,7 +48,7 @@ export class AuthService {
 
   signup(username: string, email: string, password: string) {
     this.http
-      .post<{ message: string }>(`${BASE_URL}/users`, { username, email, password })
+      .post<{ message: string }>(`${environment.apiUrl}/users`, { username, email, password })
       .subscribe({
         next: response => {
           if (response) {
@@ -62,7 +62,7 @@ export class AuthService {
   }
 
   logout() {
-    this.http.post(`${BASE_URL}/logout`, {}, { withCredentials: true }).subscribe(() => {
+    this.http.post(`${environment.apiUrl}/logout`, {}, { withCredentials: true }).subscribe(() => {
       AuthInterceptor.accessToken = ''
       this.currentUserService.clearCurrentUser()
       this.router.navigate(['/login'])

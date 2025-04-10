@@ -1,13 +1,13 @@
 import { HTTP_INTERCEPTORS, HttpClient, HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http'
 import { inject, Injectable, Provider } from '@angular/core'
 import { BehaviorSubject, catchError, filter, finalize, Observable, switchMap, take, throwError } from 'rxjs'
-import { BASE_URL } from '../../constants'
 import { Router } from '@angular/router'
 import { CurrentUserService } from '../services/current-user.service'
 import { jwtDecode } from 'jwt-decode'
 import { Store } from '@ngrx/store'
 import { clearUser } from '../store/user/user.actions'
 import { selectCurrentUser } from '../store/user/user.selector'
+import { environment } from '../../../environments/environment'
 
 interface DecodedToken {
   exp: number
@@ -58,7 +58,7 @@ export class AuthInterceptor implements HttpInterceptor {
       this.isRefreshing = true
       this.refreshTokenSubject.next(null)
 
-      return this.http.get<{ accessToken: string }>(`${BASE_URL}/refresh`, { withCredentials: true }).pipe(
+      return this.http.get<{ accessToken: string }>(`${environment.apiUrl}/refresh`, { withCredentials: true }).pipe(
         switchMap((res) => {
           AuthInterceptor.accessToken = res.accessToken
           this.refreshTokenSubject.next(res.accessToken)
@@ -95,7 +95,7 @@ export class AuthInterceptor implements HttpInterceptor {
     } else {
       this.router.navigate(['/login'], { state: { message: 'You must log in first.' } })
     }
-    this.http.post(`${BASE_URL}/logout`, {}, { withCredentials: true })
+    this.http.post(`${environment.apiUrl}/logout`, {}, { withCredentials: true })
 
     localStorage.removeItem('CryptoniteUser')
     this.store.dispatch(clearUser())
