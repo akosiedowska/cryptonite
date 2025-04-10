@@ -1,5 +1,5 @@
 export const environment = {
-    production: false,
+    production: true,
     apiKey: import.meta.env['NG_APP_API_KEY'] || '',
-    apiUrl: 'http://localhost:8080'
-} 
+    apiUrl: 'https://cryptonite-c3ih.onrender.com'
+}
