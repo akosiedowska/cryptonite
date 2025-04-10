@@ -22,9 +22,9 @@ app.options('*', cors(corsOptions))
 const port = 8080
 
 export const pool = new Pool({
-    user: 'postgres',
-    host: 'localhost',
-    database: 'cryptonite',
+    user: process.env.DATABASE_USER,
+    host: process.env.DATABASE_HOST,
+    database: process.env.DATABASE_NAME,
     password: process.env.DATABASE_PASSWORD,
     port: 5432
 })
