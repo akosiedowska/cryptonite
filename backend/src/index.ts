@@ -15,15 +15,14 @@ import { transactionsRouter } from './controllers/transactions'
 
 dotenv.config()
 const app = express()
-app.use(cookieParser())
 app.use(credentials)
 app.use(cors(corsOptions))
 app.options('*', cors(corsOptions))
 
-app.use(cors({
-    origin: 'https://cryptonite-lemon.vercel.app',
-    credentials: true,
-}))
+// app.use(cors({
+//     origin: 'https://cryptonite-lemon.vercel.app',
+//     credentials: true,
+// }))
 
 const port = 8080
 
@@ -33,12 +32,14 @@ export const pool = new Pool({
     database: process.env.DATABASE_NAME,
     password: process.env.DATABASE_PASSWORD,
     port: 5432,
-    ssl: {
-        rejectUnauthorized: false,
-    },
+    // ssl: {
+    //     rejectUnauthorized: false,
+    // },
 })
 
 app.use(express.json())
+app.use(cookieParser())
+
 app.use('/users', usersRouter)
 app.use('/login', loginRouter)
 app.use('/refresh', refreshRouter)
