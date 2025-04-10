@@ -18,6 +18,7 @@ const app = express()
 app.use(cookieParser())
 app.use(credentials)
 app.use(cors(corsOptions))
+app.options('*', cors(corsOptions))
 const port = 8080
 
 export const pool = new Pool({
