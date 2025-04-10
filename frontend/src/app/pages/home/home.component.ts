@@ -29,7 +29,7 @@ export class HomeComponent {
   getCurrentUser() {
     this.user$.subscribe(user => {
       if (user) {
-        this.http.get(`${environment.apiUrl}/users/${user.id}`, { withCredentials: true }).subscribe(res => {
+        this.http.get(`${environment.apiUrl}/users/${user.id}`).subscribe(res => {
           console.log('user data', res)
         })
       }

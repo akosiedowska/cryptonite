@@ -19,6 +19,12 @@ app.use(cookieParser())
 app.use(credentials)
 app.use(cors(corsOptions))
 app.options('*', cors(corsOptions))
+
+app.use(cors({
+    origin: 'https://cryptonite-lemon.vercel.app',
+    credentials: true,
+}))
+
 const port = 8080
 
 export const pool = new Pool({
