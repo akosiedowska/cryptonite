@@ -6,7 +6,6 @@ import { ButtonComponent } from '../../../../shared/components/button/button.com
 import { HttpClient } from '@angular/common/http';
 import { MatInputModule } from '@angular/material/input';
 import { matchPasswordsValidator } from '../../../signup/helpers';
-import { AuthInterceptor } from '../../../../core/interceptors/auth.interceptor';
 import { Store } from '@ngrx/store';
 import { selectCurrentUser } from '../../../../core/store/user/user.selector';
 import { take } from 'rxjs';
@@ -71,12 +70,11 @@ export class ProfileComponent {
         }
 
         this.http
-          .put<{ newAccessToken: string }>(`${environment.apiUrl}/users/${this.user.id}`, updatedUser, { withCredentials: true })
+          .put(`${environment.apiUrl}/users/${this.user.id}`, updatedUser, { withCredentials: true })
           .subscribe({
             next: response => {
               this.store.dispatch(setUser({ user: updatedUser }))
               localStorage.setItem('CryptoniteUser', JSON.stringify(updatedUser))
-              AuthInterceptor.accessToken = response.newAccessToken
               this.snackBarService.open('User data was changed')
             },
             error: error => {

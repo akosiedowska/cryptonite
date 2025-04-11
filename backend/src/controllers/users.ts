@@ -1,9 +1,7 @@
 import express, { Request, Response } from "express"
 import bcrypt from "bcryptjs"
-import jwt, { Secret } from 'jsonwebtoken'
 import { pool } from "../index"
 import { verifyToken } from "../middleware/verifyToken"
-import { getTokenDynamicPart } from "../helpers"
 import { validateUserData } from "../middleware/validateUserData"
 import { validationResult } from "express-validator"
 
@@ -78,19 +76,9 @@ usersRouter.put('/:id', verifyToken, async (req: Request, res: Response) => {
             res.status(404).json({ message: 'User not found.' })
         }
 
-        const newTokenData = {
-            username: user.name,
-            id: user.id
-        }
-        // drop the username from the token
-        const newAccessToken = jwt.sign(newTokenData, process.env.ACCESS_TOKEN_SECRET as Secret, { expiresIn: '10s' })
-        const newRefreshToken = jwt.sign(newTokenData, process.env.REFRESH_TOKEN_SECRET as Secret, { expiresIn: '1d' })
-        const dynamicToken = getTokenDynamicPart(newRefreshToken)
-        await pool.query("UPDATE users SET refresh_token = $1 WHERE id = $2", [dynamicToken, user.id])
-        res.cookie('jwt', newRefreshToken, { httpOnly: true, secure: true, sameSite: 'none', maxAge: 24 * 60 * 60 * 1000 })
         delete user.password
         delete user.refresh_token
-        res.status(200).send({ newAccessToken, user: user })
+        res.status(200).send({ user: user })
     } catch (err) {
         console.error("Database error:", err)
         res.status(500).json({ error: "Internal server error" })

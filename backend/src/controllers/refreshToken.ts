@@ -2,7 +2,6 @@ import jwt, { Secret } from 'jsonwebtoken'
 import { pool } from "../index"
 import express, { Request, Response } from 'express'
 import { getTokenDynamicPart } from '../helpers'
-import { verifyToken } from '../middleware/verifyToken'
 
 export const refreshRouter = express.Router()
 
@@ -30,19 +29,18 @@ refreshRouter.get('/', async (req: Request, res: Response) => {
             refreshToken,
             process.env.REFRESH_TOKEN_SECRET as Secret,
             (err: jwt.VerifyErrors | null, decoded: any) => {
-                if (err || foundUser.name !== decoded.username) {
+                if (err || foundUser.id !== decoded.id) {
                     res.status(403).json({ message: "Invalid token" })
                     return
                 }
 
                 const tokenData = {
-                    username: decoded.username,
                     id: decoded.id
                 }
                 const accessToken = jwt.sign(
                     tokenData,
                     process.env.ACCESS_TOKEN_SECRET as Secret,
-                    { expiresIn: '30s' }
+                    { expiresIn: '15min' }
                 )
                 res.json({ accessToken })
             }
