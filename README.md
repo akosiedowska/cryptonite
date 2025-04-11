@@ -53,12 +53,12 @@ built with:
 
 ## Screenshots
 
-<img src='./frontend/public/Screenshot_1.png' style='width: 250px; margin: 10px;'/>
-<img src='./frontend/public/Screenshot_2.png' style='width: 250px; margin: 10px;'/>
-<img src='./frontend/public/Screenshot_3.png' style='width: 250px; margin: 10px;'/>
-<img src='./frontend/public/Screenshot_4.png' style='width: 250px; margin: 10px;'/>
-<img src='./frontend/public/Screenshot_5.png' style='width: 250px; margin: 10px;'/>
-<img src='./frontend/public/Screenshot_6.png' style='width: 250px; margin: 10px;'/>
+<img src='./frontend/public/Screenshot_1.png' style='width: 200px; margin: 10px;'/>
+<img src='./frontend/public/Screenshot_2.png' style='width: 200px; margin: 10px;'/>
+<img src='./frontend/public/Screenshot_3.png' style='width: 200px; margin: 10px;'/>
+<img src='./frontend/public/Screenshot_4.png' style='width: 200px; margin: 10px;'/>
+<img src='./frontend/public/Screenshot_5.png' style='width: 200px; margin: 10px;'/>
+<img src='./frontend/public/Screenshot_6.png' style='width: 200px; margin: 10px;'/>
 
 
 
