@@ -42,11 +42,11 @@ Cryptonite is a cryptocurrency trading simulator, where you can:
 
 built with:
 - ![Angular](https://img.shields.io/badge/angular-%23DD0031.svg?style=for-the-badge&logo=angular&logoColor=white)
-- ![NgRx](https://img.shields.io/npm/v/npm.svg?logo=ngrx?style=for-the-badge&logoColor=white)
+- ![NgRx](https://img.shields.io/badge/ngrx-BA2BD2.svg?style=for-the-badge&logo=ngrx&logoColor=white)
 - ![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB)
 - ![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)
 - ![SASS](https://img.shields.io/badge/SASS-hotpink.svg?style=for-the-badge&logo=SASS&logoColor=white)
-- [Angular Material](https://material.angular.io/)
+- ![Angular Material](https://img.shields.io/badge/Angular%20Material-%23007ACC.svg?style=for-the-badge&logo=angular&logoColor=white)
 
 ## Installation
 
