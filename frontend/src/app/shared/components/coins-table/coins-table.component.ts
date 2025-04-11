@@ -48,7 +48,11 @@ export class CoinsTableComponent {
   formatNumber = formatNumber
   subscription: Subscription = new Subscription()
 
-  constructor(public coinService: CoinsService, private favouriteService: FavouritesService, private tradeModalService: TradeModalService) { }
+  constructor(public coinService: CoinsService, private favouriteService: FavouritesService, private tradeModalService: TradeModalService) {
+    this.user$.subscribe(user => {
+      if (!user) this.displayedColumns.shift()
+    })
+  }
 
   toggleFavourite(currencyId: string) {
     this.favouriteService.toggleFavourite(currencyId);
