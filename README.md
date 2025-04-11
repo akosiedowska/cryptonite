@@ -11,7 +11,7 @@
 
 ## Live demo
 
-<b> [Link to the deployed app](https://cryptonite-lemon.vercel.app/)</b> <br>
+<b> [Link to the live demo](https://cryptonite-lemon.vercel.app/)</b> <br>
 
 ## Sign in
 
@@ -34,7 +34,7 @@ or create a new account
 Cryptonite is a cryptocurrency trading simulator, where you can:
 - buy & sell crypto
 - check you portfolio (with up-to-date values)
-- check market data (data is refreshed every 10s)
+- check market data (data is refreshed every 10s, using CoinGecko API)
 - view transaction history
 - manage your account (change password, username, email)
 
