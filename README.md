@@ -35,6 +35,7 @@ Cryptonite is a cryptocurrency trading simulator, where you can:
 - buy & sell crypto
 - check you portfolio (with up-to-date values)
 - check market data (data is refreshed every 10s, using CoinGecko API)
+- list your favourite coins
 - view transaction history
 - manage your account (change password, username, email)
 
@@ -52,6 +53,11 @@ built with:
 
 ## Screenshots
 
+<img src='./frontend/public/Screenshot_1.png' style='width: 250px; margin: 10px;'/>
+<img src='./frontend/public/Screenshot_2.png' style='width: 250px; margin: 10px;'/>
+<img src='./frontend/public/Screenshot_3.png' style='width: 250px; margin: 10px;'/>
+<img src='./frontend/public/Screenshot_4.png' style='width: 250px; margin: 10px;'/>
+<img src='./frontend/public/Screenshot_5.png' style='width: 250px; margin: 10px;'/>
 
 
 
