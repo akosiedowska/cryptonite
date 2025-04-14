@@ -22,7 +22,6 @@ loginRouter.post('/', async (req: Request, res: Response) => {
             res.status(401).json({ message: "Invalid password" })
         } else {
             const tokenData = {
-                username: user.name,
                 id: user.id
             }
 

@@ -6,7 +6,6 @@ import { ButtonComponent } from '../../../../shared/components/button/button.com
 import { HttpClient } from '@angular/common/http';
 import { MatInputModule } from '@angular/material/input';
 import { matchPasswordsValidator } from '../../../signup/helpers';
-import { AuthInterceptor } from '../../../../core/interceptors/auth.interceptor';
 import { Store } from '@ngrx/store';
 import { selectCurrentUser } from '../../../../core/store/user/user.selector';
 import { take } from 'rxjs';
@@ -15,6 +14,7 @@ import { User } from '../../../../core/store/user/user.model';
 import { SnackbarService } from '../../../../core/services/snackbar.service';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { environment } from '../../../../../environments/environment';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-profile',
@@ -40,10 +40,10 @@ export class ProfileComponent {
   passwordErrorMessage = signal<string | null>(null)
 
   constructor(private http: HttpClient, private snackBarService: SnackbarService) {
-    this.userForm.valueChanges.subscribe(() => {
+    this.userForm.valueChanges.pipe(takeUntilDestroyed()).subscribe(() => {
       this.userErrorMessage.set(null)
     })
-    this.passwordForm.valueChanges.subscribe(() => {
+    this.passwordForm.valueChanges.pipe(takeUntilDestroyed()).subscribe(() => {
       this.passwordErrorMessage.set(null)
     })
   }
@@ -71,12 +71,11 @@ export class ProfileComponent {
         }
 
         this.http
-          .put<{ newAccessToken: string }>(`${environment.apiUrl}/users/${this.user.id}`, updatedUser, { withCredentials: true })
+          .put(`${environment.apiUrl}/users/${this.user.id}`, updatedUser, { withCredentials: true })
           .subscribe({
             next: response => {
               this.store.dispatch(setUser({ user: updatedUser }))
               localStorage.setItem('CryptoniteUser', JSON.stringify(updatedUser))
-              AuthInterceptor.accessToken = response.newAccessToken
               this.snackBarService.open('User data was changed')
             },
             error: error => {

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, DestroyRef, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from "./core/components/header/header.component";
 import { FooterComponent } from "./core/components/footer/footer.component";
@@ -10,6 +10,7 @@ import { selectCoins } from './core/store/coins/coins.selectors';
 import { FavouritesService } from './core/services/favourites.service';
 import { loadWallet } from './core/store/wallet/wallet.actions';
 import { loadTransactions } from './core/store/transactions/transactions.actions';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-root',
@@ -21,6 +22,7 @@ export class AppComponent {
   title = 'Cryptonite'
   private store = inject(Store)
   user$ = this.store.select(selectCurrentUser)
+  destroyRef = inject(DestroyRef)
 
   constructor(private currentUserService: CurrentUserService, private favouritesService: FavouritesService) { }
 
@@ -28,7 +30,7 @@ export class AppComponent {
     this.store.dispatch(CoinsLoadActions.loadCoins())
     this.currentUserService.initializeCurrentUser()
     this.favouritesService.initializeFavourites()
-    this.user$.subscribe(user => {
+    this.user$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(user => {
       if (user && user.id) {
         this.store.dispatch(loadWallet({ userId: user.id }))
         this.store.dispatch(loadTransactions({ userId: user.id }))
@@ -36,7 +38,7 @@ export class AppComponent {
     })
 
     this.store.select(selectCoins).subscribe(coins => console.log('coins', coins))
-    this.store.subscribe(state => console.log('coins state', state))
+    this.store.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(state => console.log('coins state', state))
   }
 
 }

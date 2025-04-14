@@ -5,6 +5,7 @@ import { ButtonComponent } from '../../shared/components/button/button.component
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../core/services/auth.service';
 import { Router } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 
 @Component({
@@ -23,7 +24,7 @@ export class LoginComponent {
   })
 
   constructor(public authService: AuthService, public http: HttpClient, public router: Router) {
-    this.loginForm.valueChanges.subscribe(() => {
+    this.loginForm.valueChanges.pipe(takeUntilDestroyed()).subscribe(() => {
       this.authService.errorMessage.set(null)
     })
     effect(() => {

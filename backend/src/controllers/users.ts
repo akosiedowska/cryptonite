@@ -1,9 +1,7 @@
 import express, { Request, Response } from "express"
 import bcrypt from "bcryptjs"
-import jwt, { Secret } from 'jsonwebtoken'
 import { pool } from "../index"
 import { verifyToken } from "../middleware/verifyToken"
-import { getTokenDynamicPart } from "../helpers"
 import { validateUserData } from "../middleware/validateUserData"
 import { validationResult } from "express-validator"
 
@@ -34,14 +32,12 @@ usersRouter.post('/', validateUserData, async (req: Request, res: Response) => {
 
     const errors = validationResult(req)
     if (!errors.isEmpty()) {
-        // res.status(400).json({ errors: errors.array() })
         res.status(400).json({ message: errors.array()[0].msg })
         return
     }
 
     const { username, email, password } = req.body
     const hashedPassword = bcrypt.hashSync(password, 10)
-    const createdDate = new Date().toISOString()
 
     try {
         const userAlreadyExists = await pool.query("SELECT EXISTS (SELECT 1 FROM users WHERE name=$1)", [username])
@@ -49,17 +45,16 @@ usersRouter.post('/', validateUserData, async (req: Request, res: Response) => {
             res.status(400).json({ message: 'User with such name already exists' })
         } else {
             const result = await pool.query(
-                'INSERT INTO users (name, email, password, created_date) VALUES ($1, $2, $3, $4) RETURNING *',
-                [username, email, hashedPassword, createdDate]
+                'INSERT INTO users (name, email, password) VALUES ($1, $2, $3) RETURNING *',
+                [username, email, hashedPassword]
             )
-            // add a check - result.rows length
-            // res.status(201).json({
-            //     message: `User ${result.rows[0].name} added.`
-            // })
-            await pool.query('INSERT INTO wallet (user_id, currency_id, currency_name, amount, total_spent) VALUES ($1, $2, $3, $4, $5)',
-                [result.rows[0].id, 'fake-euro', 'euro', 10000, 10000]
-            )
-            res.status(201).json({ message: `User ${result.rows[0].name} added.` })
+
+            if (result.rows.length > 0) {
+                await pool.query('INSERT INTO wallet (user_id, currency_id, currency_name, amount, total_spent) VALUES ($1, $2, $3, $4, $5)',
+                    [result.rows[0].id, 'fake-euro', 'euro', 10000, 10000]
+                )
+                res.status(201).json({ message: `User ${result.rows[0].name} added.` })
+            }
         }
     } catch (err) {
         console.error("Database error:", err);
@@ -78,19 +73,9 @@ usersRouter.put('/:id', verifyToken, async (req: Request, res: Response) => {
             res.status(404).json({ message: 'User not found.' })
         }
 
-        const newTokenData = {
-            username: user.name,
-            id: user.id
-        }
-        // drop the username from the token
-        const newAccessToken = jwt.sign(newTokenData, process.env.ACCESS_TOKEN_SECRET as Secret, { expiresIn: '10s' })
-        const newRefreshToken = jwt.sign(newTokenData, process.env.REFRESH_TOKEN_SECRET as Secret, { expiresIn: '1d' })
-        const dynamicToken = getTokenDynamicPart(newRefreshToken)
-        await pool.query("UPDATE users SET refresh_token = $1 WHERE id = $2", [dynamicToken, user.id])
-        res.cookie('jwt', newRefreshToken, { httpOnly: true, secure: true, sameSite: 'none', maxAge: 24 * 60 * 60 * 1000 })
         delete user.password
         delete user.refresh_token
-        res.status(200).send({ newAccessToken, user: user })
+        res.status(200).send({ user: user })
     } catch (err) {
         console.error("Database error:", err)
         res.status(500).json({ error: "Internal server error" })
