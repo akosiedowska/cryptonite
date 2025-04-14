@@ -6,6 +6,7 @@ import { AuthService } from '../../core/services/auth.service';
 import { HttpClient } from '@angular/common/http';
 import { matchPasswordsValidator } from './helpers';
 import { CommonModule } from '@angular/common';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-signup',
@@ -24,7 +25,7 @@ export class SignupComponent {
   }, { validators: matchPasswordsValidator })
 
   constructor(private authService: AuthService, public http: HttpClient) {
-    this.signupForm.valueChanges.subscribe(() => {
+    this.signupForm.valueChanges.pipe(takeUntilDestroyed()).subscribe(() => {
       this.authService.errorMessage.set(null)
     })
     effect(() => {

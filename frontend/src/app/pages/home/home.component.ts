@@ -5,6 +5,7 @@ import { selectCurrentUser } from '../../core/store/user/user.selector';
 import { SnackbarService } from '../../core/services/snackbar.service';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { environment } from '../../../environments/environment';
+import { take } from 'rxjs';
 
 
 @Component({
@@ -27,7 +28,7 @@ export class HomeComponent {
   }
 
   getCurrentUser() {
-    this.user$.subscribe(user => {
+    this.user$.pipe(take(1)).subscribe(user => {
       if (user) {
         this.http.get(`${environment.apiUrl}/users/${user.id}`).subscribe(res => {
           console.log('user data', res)

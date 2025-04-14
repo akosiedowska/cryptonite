@@ -11,6 +11,7 @@ import { addTransaction } from '../../../core/store/transactions/transactions.ac
 import { map, Observable, take } from 'rxjs';
 import { selectWallet } from '../../../core/store/wallet/wallet.selectors';
 import { selectCoins } from '../../../core/store/coins/coins.selectors';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-trade-modal',
@@ -29,7 +30,10 @@ export class TradeModalComponent {
   currentBalance: number = 0
   coinBalance: number = 0
   errorMessage: string = ''
-  price$: Observable<number> = new Observable()
+  // price$: Observable<number> = new Observable()
+  price$ = this.coins$.pipe(
+    map(coins => coins.find(c => c.id === this.data.id)?.current_price || 0)
+  )
 
   tradeForm = new FormGroup({
     amount: new FormControl<number | null>(null, [Validators.required]),
@@ -38,6 +42,7 @@ export class TradeModalComponent {
 
   constructor() {
     this.tradeForm.get('value')?.valueChanges
+      .pipe(takeUntilDestroyed())
       .subscribe((value) => {
         this.price$.pipe(take(1)).subscribe(price => {
           if (value && price) {
@@ -48,6 +53,7 @@ export class TradeModalComponent {
       })
 
     this.tradeForm.get('amount')?.valueChanges
+      .pipe(takeUntilDestroyed())
       .subscribe((amount) => {
         this.price$.pipe(take(1)).subscribe(price => {
           if (amount && price) {
@@ -57,7 +63,7 @@ export class TradeModalComponent {
         })
       })
 
-    this.wallet$.subscribe(wallet => {
+    this.wallet$.pipe(takeUntilDestroyed()).subscribe(wallet => {
       this.currentBalance = Number(wallet.filter(coin => coin.currency_id === "fake-euro")[0].amount)
       this.coinBalance = Number(wallet.filter(coin => coin.currency_id === this.data.id)[0]?.amount) || 0
     })
@@ -66,11 +72,12 @@ export class TradeModalComponent {
       this.errorMessage = ''
     })
 
-    this.price$ = this.coins$.pipe(map(coins => {
-      return coins.find(c => c.id === this.data.id)?.current_price || 0
-    }
-    ))
-    this.price$.subscribe(price => {
+    // this.price$ = this.coins$.pipe(map(coins => {
+    //   return coins.find(c => c.id === this.data.id)?.current_price || 0
+    // }
+    // ))
+
+    this.price$.pipe(takeUntilDestroyed()).subscribe(price => {
       const value = Number(this.tradeForm.get('value')?.value)
       if (value) {
         const calculatedAmount = Number((value / price).toFixed(5))

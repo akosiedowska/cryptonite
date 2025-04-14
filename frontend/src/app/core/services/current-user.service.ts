@@ -3,6 +3,7 @@ import { User } from '../store/user/user.model';
 import { Store } from '@ngrx/store';
 import { clearUser, setUser } from '../store/user/user.actions';
 import { selectCurrentUser } from '../store/user/user.selector';
+import { take } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -27,7 +28,7 @@ export class CurrentUserService {
   }
 
   getCurrentUser() {
-    return this.user$.subscribe(user => {
+    return this.user$.pipe(take(1)).subscribe(user => {
       return user
     })
   }

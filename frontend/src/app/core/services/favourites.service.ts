@@ -17,7 +17,7 @@ export class FavouritesService {
   constructor(private snackBarService: SnackbarService) { }
 
   initializeFavourites() {
-    this.user$.subscribe(user => {
+    this.user$.pipe(take(1)).subscribe(user => {
       if (user && user.id) {
         const favouritesJSON = localStorage.getItem('favourites')
         const favourites = favouritesJSON && JSON.parse(favouritesJSON)

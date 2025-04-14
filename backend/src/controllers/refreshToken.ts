@@ -2,7 +2,6 @@ import jwt, { Secret } from 'jsonwebtoken'
 import { pool } from "../index"
 import express, { Request, Response } from 'express'
 import { getTokenDynamicPart } from '../helpers'
-import { verifyToken } from '../middleware/verifyToken'
 
 export const refreshRouter = express.Router()
 
@@ -13,36 +12,32 @@ refreshRouter.get('/', async (req: Request, res: Response) => {
         return
     }
 
-    // jwt verification - earlier
     const refreshToken = cookies.jwt
-    const dynamicToken = getTokenDynamicPart(cookies.jwt)
     try {
-        const result = await pool.query('SELECT * FROM users WHERE refresh_token=$1', [dynamicToken])
-        const foundUser = result.rows[0]
-
-        if (!foundUser) {
-            res.status(403).json({ message: "Invalid token" })
-            return
-        }
-
-        // assign to a value
         jwt.verify(
             refreshToken,
             process.env.REFRESH_TOKEN_SECRET as Secret,
-            (err: jwt.VerifyErrors | null, decoded: any) => {
-                if (err || foundUser.name !== decoded.username) {
+            async (err: jwt.VerifyErrors | null, decoded: any) => {
+                if (err) {
+                    res.status(403).json({ message: "Invalid token" })
+                    return
+                }
+
+                const dynamicToken = getTokenDynamicPart(cookies.jwt)
+                const user = await pool.query('SELECT * FROM users WHERE refresh_token=$1', [dynamicToken])
+
+                if (!user.rows[0] || user.rows[0].id !== decoded.id) {
                     res.status(403).json({ message: "Invalid token" })
                     return
                 }
 
                 const tokenData = {
-                    username: decoded.username,
                     id: decoded.id
                 }
                 const accessToken = jwt.sign(
                     tokenData,
                     process.env.ACCESS_TOKEN_SECRET as Secret,
-                    { expiresIn: '30s' }
+                    { expiresIn: '15min' }
                 )
                 res.json({ accessToken })
             }
