@@ -38,7 +38,6 @@ usersRouter.post('/', validateUserData, async (req: Request, res: Response) => {
 
     const { username, email, password } = req.body
     const hashedPassword = bcrypt.hashSync(password, 10)
-    const createdDate = new Date().toISOString()
 
     try {
         const userAlreadyExists = await pool.query("SELECT EXISTS (SELECT 1 FROM users WHERE name=$1)", [username])
@@ -46,8 +45,8 @@ usersRouter.post('/', validateUserData, async (req: Request, res: Response) => {
             res.status(400).json({ message: 'User with such name already exists' })
         } else {
             const result = await pool.query(
-                'INSERT INTO users (name, email, password, created_date) VALUES ($1, $2, $3, $4) RETURNING *',
-                [username, email, hashedPassword, createdDate]
+                'INSERT INTO users (name, email, password) VALUES ($1, $2, $3) RETURNING *',
+                [username, email, hashedPassword]
             )
 
             if (result.rows.length > 0) {
