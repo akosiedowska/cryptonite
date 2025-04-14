@@ -5,22 +5,22 @@ import { Store } from '@ngrx/store';
 import { selectWallet } from '../../../../core/store/wallet/wallet.selectors';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { interval, map, Observable, shareReplay, startWith, switchMap } from 'rxjs';
+import { interval, map, Observable, share, shareReplay, startWith, switchMap } from 'rxjs';
 import { environment } from '../../../../../environments/environment';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 
 interface WalletData {
   wallet: {
-    currency_id: string;
-    currency_name: string;
-    amount: number;
-    total_spent: number;
-    currentValue: number;
-    change: number;
-  }[];
-  totalWalletValue: number;
-  changePercentage: number;
+    currency_id: string,
+    currency_name: string,
+    amount: number,
+    total_spent: number,
+    currentValue: number,
+    change: number,
+  }[],
+  totalWalletValue: number,
+  changePercentage: number
 }
 
 @Component({
@@ -73,7 +73,8 @@ export class WalletComponent {
         )
       }),
       takeUntilDestroyed(),
-      shareReplay({ bufferSize: 1, refCount: true })
+      // shareReplay({ bufferSize: 1, refCount: true })
+      share()
     )
   }
 
