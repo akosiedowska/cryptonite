@@ -14,6 +14,7 @@ import { User } from '../../../../core/store/user/user.model';
 import { SnackbarService } from '../../../../core/services/snackbar.service';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { environment } from '../../../../../environments/environment';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-profile',
@@ -39,10 +40,10 @@ export class ProfileComponent {
   passwordErrorMessage = signal<string | null>(null)
 
   constructor(private http: HttpClient, private snackBarService: SnackbarService) {
-    this.userForm.valueChanges.subscribe(() => {
+    this.userForm.valueChanges.pipe(takeUntilDestroyed()).subscribe(() => {
       this.userErrorMessage.set(null)
     })
-    this.passwordForm.valueChanges.subscribe(() => {
+    this.passwordForm.valueChanges.pipe(takeUntilDestroyed()).subscribe(() => {
       this.passwordErrorMessage.set(null)
     })
   }

@@ -1,5 +1,5 @@
 import { Component, inject, Input } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Subscription, take } from 'rxjs';
 import { Coin } from '../../../core/store/coins/coins.model';
 import { Store } from '@ngrx/store';
 import { selectErrorMessage, selectOrder } from '../../../core/store/coins/coins.selectors';
@@ -49,7 +49,7 @@ export class CoinsTableComponent {
   subscription: Subscription = new Subscription()
 
   constructor(public coinService: CoinsService, private favouriteService: FavouritesService, private tradeModalService: TradeModalService) {
-    this.user$.subscribe(user => {
+    this.user$.pipe(take(1)).subscribe(user => {
       if (!user) this.displayedColumns.shift()
     })
   }

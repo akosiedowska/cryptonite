@@ -37,7 +37,7 @@ export class WalletComponent {
   walletData$: Observable<WalletData>
 
   constructor(private http: HttpClient) {
-    this.walletData$ = interval(100_0000).pipe(
+    this.walletData$ = interval(1000_000).pipe(
       startWith(0),
       switchMap(() => this.wallet$),
       switchMap(wallet => {
