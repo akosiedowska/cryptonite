@@ -32,7 +32,6 @@ usersRouter.post('/', validateUserData, async (req: Request, res: Response) => {
 
     const errors = validationResult(req)
     if (!errors.isEmpty()) {
-        // res.status(400).json({ errors: errors.array() })
         res.status(400).json({ message: errors.array()[0].msg })
         return
     }
@@ -50,14 +49,13 @@ usersRouter.post('/', validateUserData, async (req: Request, res: Response) => {
                 'INSERT INTO users (name, email, password, created_date) VALUES ($1, $2, $3, $4) RETURNING *',
                 [username, email, hashedPassword, createdDate]
             )
-            // add a check - result.rows length
-            // res.status(201).json({
-            //     message: `User ${result.rows[0].name} added.`
-            // })
-            await pool.query('INSERT INTO wallet (user_id, currency_id, currency_name, amount, total_spent) VALUES ($1, $2, $3, $4, $5)',
-                [result.rows[0].id, 'fake-euro', 'euro', 10000, 10000]
-            )
-            res.status(201).json({ message: `User ${result.rows[0].name} added.` })
+
+            if (result.rows.length > 0) {
+                await pool.query('INSERT INTO wallet (user_id, currency_id, currency_name, amount, total_spent) VALUES ($1, $2, $3, $4, $5)',
+                    [result.rows[0].id, 'fake-euro', 'euro', 10000, 10000]
+                )
+                res.status(201).json({ message: `User ${result.rows[0].name} added.` })
+            }
         }
     } catch (err) {
         console.error("Database error:", err);

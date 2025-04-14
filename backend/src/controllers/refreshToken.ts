@@ -12,24 +12,21 @@ refreshRouter.get('/', async (req: Request, res: Response) => {
         return
     }
 
-    // jwt verification - earlier
     const refreshToken = cookies.jwt
-    const dynamicToken = getTokenDynamicPart(cookies.jwt)
     try {
-        const result = await pool.query('SELECT * FROM users WHERE refresh_token=$1', [dynamicToken])
-        const foundUser = result.rows[0]
-
-        if (!foundUser) {
-            res.status(403).json({ message: "Invalid token" })
-            return
-        }
-
-        // assign to a value
         jwt.verify(
             refreshToken,
             process.env.REFRESH_TOKEN_SECRET as Secret,
-            (err: jwt.VerifyErrors | null, decoded: any) => {
-                if (err || foundUser.id !== decoded.id) {
+            async (err: jwt.VerifyErrors | null, decoded: any) => {
+                if (err) {
+                    res.status(403).json({ message: "Invalid token" })
+                    return
+                }
+
+                const dynamicToken = getTokenDynamicPart(cookies.jwt)
+                const user = await pool.query('SELECT * FROM users WHERE refresh_token=$1', [dynamicToken])
+
+                if (!user.rows[0] || user.rows[0].id !== decoded.id) {
                     res.status(403).json({ message: "Invalid token" })
                     return
                 }
