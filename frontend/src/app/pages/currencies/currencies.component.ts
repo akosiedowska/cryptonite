@@ -11,6 +11,7 @@ import { Store } from '@ngrx/store';
 import { selectCoins, selectPage, selectPerPage, selectTotalResults } from '../../core/store/coins/coins.selectors';
 import { CoinsLoadActions, CoinsParamsActions } from '../../core/store/coins/coins.actions';
 import { CoinsTableComponent } from '../../shared/components/coins-table/coins-table.component';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-currencies',
@@ -29,7 +30,7 @@ export class CurrenciesComponent {
   private subscription: Subscription = new Subscription()
 
   constructor(public coinService: CoinsService) {
-    this.searchSubject.pipe(debounceTime(500)).subscribe(value => {
+    this.searchSubject.pipe(debounceTime(500), takeUntilDestroyed()).subscribe(value => {
       this.store.dispatch(CoinsParamsActions.setQuery({ query: value }))
       this.store.dispatch(CoinsParamsActions.setPage({ page: 1 }))
     })
