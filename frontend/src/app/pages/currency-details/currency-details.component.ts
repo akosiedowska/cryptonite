@@ -20,67 +20,49 @@ type SingleData = [number, number]
 export class CurrencyDetailsComponent {
   private route = inject(ActivatedRoute)
   private http = inject(HttpClient)
-  coinId = signal('')
+  coinId = this.route.snapshot.paramMap.get('id') || ''
   coinPrices = signal<SingleData[]>([])
 
   Highcharts: typeof Highcharts = Highcharts
-  chartOptions: Highcharts.Options = {}
+  chartOptions: Highcharts.Options = {
+    title: {
+      text: `${this.coinId} price - last 24h`
+    },
+    xAxis: {
+      type: 'datetime',
+      title: {
+        text: 'Time'
+      }
+    },
+    yAxis: {
+      title: {
+        text: 'Price (EUR)'
+      }
+    },
+    series: [{
+      type: 'line',
+      name: 'Coin Price',
+      data: [],
+      color: '#10b981'
+    }],
+    time: {
+      timezoneOffset: new Date().getTimezoneOffset()
+    }
+  }
 
-  // chartOptions2: Highcharts.Options = {
-  //   series: [{
-  //     data: [1, 2, 3],
-  //     type: 'line'
-  //   }]
-  // };
-
-  // chartOptions: Highcharts.Options = {
-  //   title: {
-  //     text: 'Coin Price Over Time'
-  //   },
-  //   xAxis: {
-  //     type: 'datetime',
-  //     title: {
-  //       text: 'Time'
-  //     }
-  //   },
-  //   yAxis: {
-  //     title: {
-  //       text: 'Price (EUR)'
-  //     }
-  //   },
-  //   series: [{
-  //     type: 'line',
-  //     name: 'Coin Price',
-  //     data: this.coinPrices()
-  //   }]
-  // }
 
   ngOnInit() {
-    this.coinId.set(this.route.snapshot.paramMap.get('id') || '')
     this.fetchCoinData()
   }
 
   fetchCoinData() {
-    return this.http.get<CoinData>(`https://api.coingecko.com/api/v3/coins/${this.coinId()}/market_chart?vs_currency=eur&days=1&x_cg_demo_api_key=${environment.apiKey}`)
+    return this.http.get<CoinData>(`https://api.coingecko.com/api/v3/coins/${this.coinId}/market_chart?vs_currency=eur&days=1&x_cg_demo_api_key=${environment.apiKey}`)
       .subscribe(
         data => {
           console.log('data', data)
           this.coinPrices.set(data.prices)
           this.chartOptions = {
-            title: {
-              text: 'Coin Price Over Time'
-            },
-            xAxis: {
-              type: 'datetime',
-              title: {
-                text: 'Time'
-              }
-            },
-            yAxis: {
-              title: {
-                text: 'Price (EUR)'
-              }
-            },
+            ...this.chartOptions,
             series: [{
               type: 'line',
               name: 'Coin Price',
