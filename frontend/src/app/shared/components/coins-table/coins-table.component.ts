@@ -76,9 +76,9 @@ export class CoinsTableComponent {
     this.store.dispatch(action)
   }
 
-  goToDetailsPage(id: string) {
-    console.log('page id:', id)
-    this.router.navigate(['currencies', id])
+  goToDetailsPage(coin: Coin) {
+    console.log('page coin:', coin)
+    this.router.navigate(['currencies', coin.id])
   }
 
 }

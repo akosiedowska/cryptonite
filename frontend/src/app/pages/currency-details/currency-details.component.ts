@@ -1,9 +1,11 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, inject, signal } from '@angular/core';
+import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { environment } from '../../../environments/environment';
 import * as Highcharts from 'highcharts';
 import { HighchartsChartModule } from 'highcharts-angular'
+import { interval, Subscription } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 interface CoinData {
   prices: SingleData[]
@@ -22,6 +24,7 @@ export class CurrencyDetailsComponent {
   private http = inject(HttpClient)
   coinId = this.route.snapshot.paramMap.get('id') || ''
   coinPrices = signal<SingleData[]>([])
+  private destroyRef = inject(DestroyRef)
 
   Highcharts: typeof Highcharts = Highcharts
   chartOptions: Highcharts.Options = {
@@ -50,9 +53,11 @@ export class CurrencyDetailsComponent {
     }
   }
 
-
   ngOnInit() {
     this.fetchCoinData()
+    interval(40_000)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => this.fetchCoinData())
   }
 
   fetchCoinData() {
