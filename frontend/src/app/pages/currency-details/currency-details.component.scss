@@ -21,6 +21,18 @@
         height: 40px;
         width: 40px;
     }
+
+    .mat-icon {
+        height: 30px;
+        width: 30px;
+        font-size: 30px;
+        color: $cryptonite-green;
+        cursor: pointer;
+    }
+
+    .filled-icon {
+        font-variation-settings: 'FILL' 1;
+    }
 }
 
 .chart-container {
