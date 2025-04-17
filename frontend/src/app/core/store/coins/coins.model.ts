@@ -7,7 +7,14 @@ export interface Coin {
     market_cap: number,
     price_change_percentage_7d_in_currency: number,
     price_change_percentage_24h: number,
-    total_volume: number
+    total_volume: number,
+    circulating_supply: number,
+    total_supply: number,
+    max_supply: number,
+    price_change_24h: number,
+    high_24h: number,
+    low_24h: number,
+
 }
 
 export interface CoinsState {

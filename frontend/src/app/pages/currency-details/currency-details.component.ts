@@ -15,6 +15,8 @@ import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { FavouritesService } from '../../core/services/favourites.service';
 import { selectFavourites } from '../../core/store/favourites/favourites.selector';
+import { ButtonComponent } from '../../shared/components/button/button.component';
+import { TradeModalService } from '../../core/services/trade-modal.service';
 
 interface CoinData {
   prices: SingleData[]
@@ -24,7 +26,7 @@ type SingleData = [number, number]
 
 @Component({
   selector: 'app-currency-details',
-  imports: [HighchartsChartModule, ReactiveFormsModule, MatSelectModule, CommonModule, MatIconModule],
+  imports: [HighchartsChartModule, ReactiveFormsModule, MatSelectModule, CommonModule, MatIconModule, ButtonComponent],
   templateUrl: './currency-details.component.html',
   styleUrl: './currency-details.component.scss'
 })
@@ -71,7 +73,7 @@ export class CurrencyDetailsComponent {
     }
   }
 
-  constructor(private favouriteService: FavouritesService,) {
+  constructor(private favouriteService: FavouritesService, private tradeModalService: TradeModalService) {
     this.chartForm.get('days')?.valueChanges.subscribe(value => {
       this.daysValue = value ?? 1
       this.fetchCoinData()
@@ -108,5 +110,9 @@ export class CurrencyDetailsComponent {
 
   toggleFavourite(currencyId: string) {
     this.favouriteService.toggleFavourite(currencyId);
+  }
+
+  openTradeModal(coin: Coin) {
+    this.tradeModalService.openModal(coin)
   }
 }
