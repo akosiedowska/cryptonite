@@ -36,11 +36,11 @@
 <div class="market-data">
     <div class="market-data__box">
         <div class="market-data__box__label">Market Cap</div>
-        <div class="market-data__box__value"><span>&euro;</span>{{coinData()?.market_cap}}</div>
+        <div class="market-data__box__value"><span>&euro;</span>{{formatNumber(coinData()?.market_cap ?? 0)}}</div>
     </div>
     <div class="market-data__box">
         <div class="market-data__box__label">Volume</div>
-        <div class="market-data__box__value">&euro;{{coinData()?.total_volume}}</div>
+        <div class="market-data__box__value">&euro;{{formatNumber(coinData()?.total_volume ?? 0)}}</div>
     </div>
     <div class="market-data__box">
         <div class="market-data__box__label">24H Change</div>
@@ -56,14 +56,14 @@
     </div>
     <div class="market-data__box">
         <div class="market-data__box__label">Circulating supply</div>
-        <div class="market-data__box__value">&euro;{{coinData()?.circulating_supply}}</div>
+        <div class="market-data__box__value">&euro;{{formatNumber(coinData()?.circulating_supply ?? 0)}}</div>
     </div>
     <div class="market-data__box">
         <div class="market-data__box__label">Max Supply</div>
-        <div class="market-data__box__value">&euro;{{coinData()?.max_supply}}</div>
+        <div class="market-data__box__value">&euro;{{formatNumber(coinData()?.max_supply ??0)}}</div>
     </div>
     <div class="market-data__box">
         <div class="market-data__box__label">Total Supply</div>
-        <div class="market-data__box__value">&euro;{{coinData()?.total_supply}}</div>
+        <div class="market-data__box__value">&euro;{{formatNumber(coinData()?.total_supply ?? 0)}}</div>
     </div>
 </div>

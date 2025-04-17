@@ -4,12 +4,11 @@ import { ActivatedRoute } from '@angular/router';
 import { environment } from '../../../environments/environment';
 import * as Highcharts from 'highcharts';
 import { HighchartsChartModule } from 'highcharts-angular'
-import { interval, map, Observable } from 'rxjs';
+import { interval } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { Store } from '@ngrx/store';
-import { selectCoins } from '../../core/store/coins/coins.selectors';
 import { Coin } from '../../core/store/coins/coins.model';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
@@ -17,6 +16,7 @@ import { FavouritesService } from '../../core/services/favourites.service';
 import { selectFavourites } from '../../core/store/favourites/favourites.selector';
 import { ButtonComponent } from '../../shared/components/button/button.component';
 import { TradeModalService } from '../../core/services/trade-modal.service';
+import { formatNumber } from '../../helpers';
 
 interface CoinData {
   prices: SingleData[]
@@ -40,6 +40,7 @@ export class CurrencyDetailsComponent {
   coinData = signal<Coin | null>(null)
   private destroyRef = inject(DestroyRef)
   private daysValue = 1
+  formatNumber = formatNumber
 
   chartForm = new FormGroup({
     days: new FormControl(1)
