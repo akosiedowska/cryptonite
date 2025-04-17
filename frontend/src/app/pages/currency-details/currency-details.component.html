@@ -1,4 +1,13 @@
-<div>COIN ID is: <span>{{coinId}}</span></div>
+<form [formGroup]="chartForm">
+    <mat-form-field class="chart-dropdown">
+        <mat-label>Choose an option</mat-label>
+        <mat-select formControlName="days" (value)="1">
+            <mat-option [value]="1">24h</mat-option>
+            <mat-option [value]="30">30d</mat-option>
+            <mat-option [value]="365">1y</mat-option>
+        </mat-select>
+    </mat-form-field>
+</form>
 
 <div class="container">
     <highcharts-chart [Highcharts]="Highcharts" [options]="chartOptions" style="width: 100%; height:100%;

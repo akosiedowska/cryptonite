@@ -6,6 +6,8 @@ import * as Highcharts from 'highcharts';
 import { HighchartsChartModule } from 'highcharts-angular'
 import { interval, Subscription } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { MatSelectModule } from '@angular/material/select';
 
 interface CoinData {
   prices: SingleData[]
@@ -15,7 +17,7 @@ type SingleData = [number, number]
 
 @Component({
   selector: 'app-currency-details',
-  imports: [HighchartsChartModule],
+  imports: [HighchartsChartModule, ReactiveFormsModule, MatSelectModule],
   templateUrl: './currency-details.component.html',
   styleUrl: './currency-details.component.scss'
 })
@@ -25,6 +27,11 @@ export class CurrencyDetailsComponent {
   coinId = this.route.snapshot.paramMap.get('id') || ''
   coinPrices = signal<SingleData[]>([])
   private destroyRef = inject(DestroyRef)
+  private daysValue = 1
+
+  chartForm = new FormGroup({
+    days: new FormControl(1)
+  })
 
   Highcharts: typeof Highcharts = Highcharts
   chartOptions: Highcharts.Options = {
@@ -53,6 +60,13 @@ export class CurrencyDetailsComponent {
     }
   }
 
+  constructor() {
+    this.chartForm.get('days')?.valueChanges.subscribe(value => {
+      this.daysValue = value ?? 1
+      this.fetchCoinData()
+    })
+  }
+
   ngOnInit() {
     this.fetchCoinData()
     interval(40_000)
@@ -61,7 +75,7 @@ export class CurrencyDetailsComponent {
   }
 
   fetchCoinData() {
-    return this.http.get<CoinData>(`https://api.coingecko.com/api/v3/coins/${this.coinId}/market_chart?vs_currency=eur&days=1&x_cg_demo_api_key=${environment.apiKey}`)
+    return this.http.get<CoinData>(`https://api.coingecko.com/api/v3/coins/${this.coinId}/market_chart?vs_currency=eur&days=${this.daysValue}&x_cg_demo_api_key=${environment.apiKey}`)
       .subscribe(
         data => {
           console.log('data', data)
