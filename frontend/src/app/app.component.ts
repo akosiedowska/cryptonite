@@ -29,9 +29,9 @@ export class AppComponent {
   ngOnInit() {
     this.store.dispatch(CoinsLoadActions.loadCoins())
     this.currentUserService.initializeCurrentUser()
-    this.favouritesService.initializeFavourites()
     this.user$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(user => {
       if (user && user.id) {
+        this.favouritesService.initializeFavourites()
         this.store.dispatch(loadWallet({ userId: user.id }))
         this.store.dispatch(loadTransactions({ userId: user.id }))
       }

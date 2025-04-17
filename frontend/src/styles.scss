@@ -25,7 +25,8 @@ html {
             ));
     }
 
-    .search-input {
+    .search-input,
+    .chart-dropdown {
         .mdc-text-field--filled.mat-mdc-text-field-wrapper.mdc-text-field {
             background-color: white !important;
         }
@@ -34,6 +35,15 @@ html {
             opacity: 0;
         }
     }
+}
+
+// dropdown background 
+
+.cdk-overlay-container {
+    .mat-mdc-select-panel.mdc-menu-surface.mdc-menu-surface--open.mat-primary {
+        background-color: white !important;
+    }
+
 }
 
 
