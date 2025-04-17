@@ -8,7 +8,7 @@ import { Store } from '@ngrx/store';
 import { buyCoin, sellCoin } from '../../../core/store/wallet/wallet.actions';
 import { selectCurrentUser } from '../../../core/store/user/user.selector';
 import { addTransaction } from '../../../core/store/transactions/transactions.actions';
-import { map, Observable, take } from 'rxjs';
+import { map, take } from 'rxjs';
 import { selectWallet } from '../../../core/store/wallet/wallet.selectors';
 import { selectCoins } from '../../../core/store/coins/coins.selectors';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -30,7 +30,6 @@ export class TradeModalComponent {
   currentBalance: number = 0
   coinBalance: number = 0
   errorMessage: string = ''
-  // price$: Observable<number> = new Observable()
   price$ = this.coins$.pipe(
     map(coins => coins.find(c => c.id === this.data.id)?.current_price || 0)
   )
@@ -71,11 +70,6 @@ export class TradeModalComponent {
     this.tradeForm.valueChanges.subscribe(() => {
       this.errorMessage = ''
     })
-
-    // this.price$ = this.coins$.pipe(map(coins => {
-    //   return coins.find(c => c.id === this.data.id)?.current_price || 0
-    // }
-    // ))
 
     this.price$.pipe(takeUntilDestroyed()).subscribe(price => {
       const value = Number(this.tradeForm.get('value')?.value)

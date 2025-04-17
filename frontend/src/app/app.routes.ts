@@ -12,6 +12,7 @@ import { ProfileComponent } from './pages/dashboard/pages/profile/profile.compon
 import { TransactionsComponent } from './pages/dashboard/pages/transactions/transactions.component';
 import { FavouritesComponent } from './pages/dashboard/pages/favourites/favourites.component';
 import { WalletComponent } from './pages/dashboard/pages/wallet/wallet.component';
+import { CurrencyDetailsComponent } from './pages/currency-details/currency-details.component';
 
 export const routes: Routes = [
     // {
@@ -28,6 +29,11 @@ export const routes: Routes = [
         path: 'currencies',
         component: CurrenciesComponent,
         title: "Currencies page"
+    },
+    {
+        path: 'currencies/:id',
+        component: CurrencyDetailsComponent,
+        title: "Currency details page"
     },
     {
         path: 'about',

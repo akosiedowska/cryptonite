@@ -77,7 +77,7 @@
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns" class="header"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="goToDetailsPage(row)"></tr>
     </table>
 </div>
 
