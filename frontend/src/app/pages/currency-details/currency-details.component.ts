@@ -17,6 +17,7 @@ import { selectFavourites } from '../../core/store/favourites/favourites.selecto
 import { ButtonComponent } from '../../shared/components/button/button.component';
 import { TradeModalService } from '../../core/services/trade-modal.service';
 import { formatNumber } from '../../helpers';
+import { Currency, CURRENCY_SYMBOLS } from '../../constants';
 
 interface CoinData {
   prices: SingleData[]
@@ -40,10 +41,16 @@ export class CurrencyDetailsComponent {
   coinData = signal<Coin | null>(null)
   private destroyRef = inject(DestroyRef)
   private daysValue = 1
+  currency = Currency.EUR
   formatNumber = formatNumber
+  CURRENCY_SYMBOLS = CURRENCY_SYMBOLS
+
 
   chartForm = new FormGroup({
     days: new FormControl(1)
+  })
+  currencyForm = new FormGroup({
+    currency: new FormControl(Currency.EUR)
   })
 
   Highcharts: typeof Highcharts = Highcharts
@@ -78,6 +85,11 @@ export class CurrencyDetailsComponent {
       this.daysValue = value ?? 1
       this.fetchCoinPrices()
     })
+    this.currencyForm.get('currency')?.valueChanges.subscribe(value => {
+      this.currency = value ?? Currency.EUR
+      this.fetchCoinPrices()
+      this.fetchCoinData()
+    })
   }
 
   ngOnInit() {
@@ -86,13 +98,13 @@ export class CurrencyDetailsComponent {
     interval(40_000)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(() => this.fetchCoinPrices())
-    interval(100_000)
+    interval(10_000)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(() => this.fetchCoinData())
   }
 
   fetchCoinPrices() {
-    return this.http.get<CoinData>(`https://api.coingecko.com/api/v3/coins/${this.coinId}/market_chart?vs_currency=eur&days=${this.daysValue}&x_cg_demo_api_key=${environment.apiKey}`)
+    return this.http.get<CoinData>(`https://api.coingecko.com/api/v3/coins/${this.coinId}/market_chart?vs_currency=${this.currency}&days=${this.daysValue}&x_cg_demo_api_key=${environment.apiKey}`)
       .subscribe(
         data => {
           this.coinPrices.set(data.prices)
@@ -112,14 +124,12 @@ export class CurrencyDetailsComponent {
   }
 
   fetchCoinData() {
-    return this.http.get<Coin[]>(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=eur&ids=${this.coinId}&x_cg_demo_api_key=${environment.apiKey}`)
+    return this.http.get<Coin[]>(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${this.currency}&ids=${this.coinId}&x_cg_demo_api_key=${environment.apiKey}`)
       .subscribe(data => {
         console.log('coin DATA', data)
         this.coinData.set(data[0])
       })
   }
-
-  // 'https://api.coingecko.com/api/v3/coins/markets?vs_currency=eur&ids=bitcoin&x_cg_demo_api_key=${environment.apiKey}'
 
   toggleFavourite(currencyId: string) {
     this.favouriteService.toggleFavourite(currencyId);
