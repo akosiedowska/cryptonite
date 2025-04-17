@@ -23,6 +23,7 @@ import { CoinsParamsActions } from '../../../core/store/coins/coins.actions';
 import { FavouriteCoinsParamsActions } from '../../../core/store/favouriteCoins/favouriteCoins.actions';
 import { selectFavouriteCoinsOrder } from '../../../core/store/favouriteCoins/favouriteCoins.selectors';
 import { TradeModalService } from '../../../core/services/trade-modal.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-coins-table',
@@ -48,7 +49,12 @@ export class CoinsTableComponent {
   formatNumber = formatNumber
   subscription: Subscription = new Subscription()
 
-  constructor(public coinService: CoinsService, private favouriteService: FavouritesService, private tradeModalService: TradeModalService) {
+  constructor(
+    public coinService: CoinsService,
+    private favouriteService: FavouritesService,
+    private tradeModalService: TradeModalService,
+    private router: Router
+  ) {
     this.user$.pipe(take(1)).subscribe(user => {
       if (!user) this.displayedColumns.shift()
     })
@@ -68,6 +74,11 @@ export class CoinsTableComponent {
       : CoinsParamsActions.setPage({ page: event.pageIndex + 1 })
 
     this.store.dispatch(action)
+  }
+
+  goToDetailsPage(coin: Coin) {
+    console.log('page coin:', coin)
+    this.router.navigate(['currencies', coin.id])
   }
 
 }

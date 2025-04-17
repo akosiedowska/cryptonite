@@ -1,0 +1,105 @@
+@use '../../../variables' as *;
+
+:host {
+    width: 100%;
+    max-height: 100%;
+}
+
+.coin-header {
+    &__title {
+        margin: 0;
+    }
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-bottom: .5em;
+    margin-bottom: 2em;
+    border-bottom: 1px solid $disabled-gray;
+
+    &__icon {
+        height: 40px;
+        width: 40px;
+    }
+
+    .mat-icon {
+        height: 30px;
+        width: 30px;
+        font-size: 30px;
+        color: $cryptonite-green;
+        cursor: pointer;
+    }
+
+    .filled-icon {
+        font-variation-settings: 'FILL' 1;
+    }
+}
+
+.trade-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+
+    .price {
+        display: flex;
+        flex-direction: column;
+        padding: 1em;
+        border-radius: 8px;
+        background-color: $light-background;
+
+        &__value {
+            font-size: 2rem;
+            font-weight: 500;
+        }
+
+        &__label {
+            font-size: .75rem;
+            color: $text-gray;
+        }
+
+        &__percentage {
+            display: block;
+            margin-left: auto;
+
+            &.positive {
+                color: $snackbar-green;
+            }
+
+            &.negative {
+                color: $snackbar-red;
+            }
+        }
+
+    }
+}
+
+.options-container {
+    display: flex;
+    gap: 2rem;
+}
+
+.chart-container {
+    width: 100%;
+    height: 100%;
+    margin-bottom: 1rem;
+}
+
+.market-data {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1em;
+
+    &__box {
+        display: flex;
+        flex-direction: column;
+        gap: .5em;
+        padding: 1em;
+        background-color: $light-background;
+        border-radius: 8px;
+
+        &__label {
+            font-size: .75rem;
+            color: $text-gray;
+        }
+    }
+}
