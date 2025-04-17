@@ -34,11 +34,10 @@ export class CurrencyDetailsComponent {
   private route = inject(ActivatedRoute)
   private http = inject(HttpClient)
   store = inject(Store)
-  coins$ = this.store.select(selectCoins)
   favourites$ = this.store.select(selectFavourites)
   coinId = this.route.snapshot.paramMap.get('id') || ''
   coinPrices = signal<SingleData[]>([])
-  filteredCoin$: Observable<Coin | undefined> = new Observable()
+  coinData = signal<Coin | null>(null)
   private destroyRef = inject(DestroyRef)
   private daysValue = 1
 
@@ -76,19 +75,22 @@ export class CurrencyDetailsComponent {
   constructor(private favouriteService: FavouritesService, private tradeModalService: TradeModalService) {
     this.chartForm.get('days')?.valueChanges.subscribe(value => {
       this.daysValue = value ?? 1
-      this.fetchCoinData()
+      this.fetchCoinPrices()
     })
   }
 
   ngOnInit() {
+    this.fetchCoinPrices()
     this.fetchCoinData()
     interval(40_000)
       .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => this.fetchCoinPrices())
+    interval(100_000)
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(() => this.fetchCoinData())
-    this.filteredCoin$ = this.coins$.pipe(map(coins => coins.find(coin => coin.id === this.coinId)))
   }
 
-  fetchCoinData() {
+  fetchCoinPrices() {
     return this.http.get<CoinData>(`https://api.coingecko.com/api/v3/coins/${this.coinId}/market_chart?vs_currency=eur&days=${this.daysValue}&x_cg_demo_api_key=${environment.apiKey}`)
       .subscribe(
         data => {
@@ -108,11 +110,22 @@ export class CurrencyDetailsComponent {
       )
   }
 
+  fetchCoinData() {
+    return this.http.get<Coin[]>(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=eur&ids=${this.coinId}&x_cg_demo_api_key=${environment.apiKey}`)
+      .subscribe(data => {
+        console.log('coin DATA', data)
+        this.coinData.set(data[0])
+      })
+  }
+
+  // 'https://api.coingecko.com/api/v3/coins/markets?vs_currency=eur&ids=bitcoin&x_cg_demo_api_key=${environment.apiKey}'
+
   toggleFavourite(currencyId: string) {
     this.favouriteService.toggleFavourite(currencyId);
   }
 
-  openTradeModal(coin: Coin) {
-    this.tradeModalService.openModal(coin)
+  openTradeModal() {
+    const coin = this.coinData()
+    if (coin) this.tradeModalService.openModal(coin)
   }
 }

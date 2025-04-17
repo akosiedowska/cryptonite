@@ -1,20 +1,20 @@
-<div class="coin-header" *ngIf="filteredCoin$ | async as coin">
-    <img [src]="coin.image" class="coin-header__icon" />
-    <h1 class="coin-header__title">{{coin.name}} price ({{coin.symbol}})</h1>
+<div class="coin-header">
+    <img [src]="coinData()?.image" class="coin-header__icon" />
+    <h1 class="coin-header__title">{{coinData()?.name}} price ({{coinData()?.symbol}})</h1>
     <mat-icon fontIcon="kid_star" class="material-symbols-outlined"
-        [ngClass]="{ 'filled-icon': (favourites$ | async)?.includes(coin.id) }"
-        (click)="toggleFavourite(coin.id)"></mat-icon>
+        [ngClass]="{ 'filled-icon': (favourites$ | async)?.includes(coinId) }"
+        (click)="toggleFavourite(coinId)"></mat-icon>
 </div>
 
-<div class="trade-container" *ngIf="filteredCoin$ | async as coin">
+<div class="trade-container">
     <div class="price">
         <span class="price__label">Current price</span>
-        <span class="price__value">&euro;{{coin.current_price}}</span>
+        <span class="price__value">&euro;{{coinData()?.current_price}}</span>
         <span class="price__percentage"
-            [ngClass]="{'positive': coin.price_change_percentage_24h > 0, 'negative': coin.price_change_percentage_24h < 0}">
-            {{coin.price_change_percentage_24h.toFixed(2)}}% (24h)</span>
+            [ngClass]="{'positive': (coinData()?.price_change_percentage_24h ?? 0) > 0, 'negative': (coinData()?.price_change_percentage_24h ?? 0)< 0}">
+            {{(coinData()?.price_change_percentage_24h ?? 0).toFixed(2)}}% (24h)</span>
     </div>
-    <app-button label="Trade" (click)="openTradeModal(coin)" />
+    <app-button label="Trade" (click)="openTradeModal()" />
 </div>
 
 <form [formGroup]="chartForm">
@@ -33,37 +33,37 @@
      display: block;" (update)='true'></highcharts-chart>
 </div>
 
-<div class="market-data" *ngIf="filteredCoin$ | async as coin">
+<div class="market-data">
     <div class="market-data__box">
         <div class="market-data__box__label">Market Cap</div>
-        <div class="market-data__box__value"><span>&euro;</span>{{coin.market_cap}}</div>
+        <div class="market-data__box__value"><span>&euro;</span>{{coinData()?.market_cap}}</div>
     </div>
     <div class="market-data__box">
         <div class="market-data__box__label">Volume</div>
-        <div class="market-data__box__value">&euro;{{coin.total_volume}}</div>
+        <div class="market-data__box__value">&euro;{{coinData()?.total_volume}}</div>
     </div>
     <div class="market-data__box">
         <div class="market-data__box__label">24H Change</div>
-        <div class="market-data__box__value">&euro;{{coin.price_change_24h}}</div>
+        <div class="market-data__box__value">&euro;{{coinData()?.price_change_24h}}</div>
     </div>
     <div class="market-data__box">
         <div class="market-data__box__label">24H High</div>
-        <div class="market-data__box__value">&euro;{{coin.high_24h}}</div>
+        <div class="market-data__box__value">&euro;{{coinData()?.high_24h}}</div>
     </div>
     <div class="market-data__box">
         <div class="market-data__box__label">24H Low</div>
-        <div class="market-data__box__value">&euro;{{coin.low_24h}}</div>
+        <div class="market-data__box__value">&euro;{{coinData()?.low_24h}}</div>
     </div>
     <div class="market-data__box">
         <div class="market-data__box__label">Circulating supply</div>
-        <div class="market-data__box__value">&euro;{{coin.circulating_supply}}</div>
+        <div class="market-data__box__value">&euro;{{coinData()?.circulating_supply}}</div>
     </div>
     <div class="market-data__box">
         <div class="market-data__box__label">Max Supply</div>
-        <div class="market-data__box__value">&euro;{{coin.max_supply}}</div>
+        <div class="market-data__box__value">&euro;{{coinData()?.max_supply}}</div>
     </div>
     <div class="market-data__box">
         <div class="market-data__box__label">Total Supply</div>
-        <div class="market-data__box__value">&euro;{{coin.total_supply}}</div>
+        <div class="market-data__box__value">&euro;{{coinData()?.total_supply}}</div>
     </div>
 </div>
