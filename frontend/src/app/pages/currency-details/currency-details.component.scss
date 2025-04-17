@@ -1,9 +1,29 @@
+@use '../../../variables' as *;
+
 :host {
     width: 100%;
-    height: 100%;
+    max-height: 100%;
 }
 
-.container {
+.coin-header {
+    &__title {
+        margin: 0;
+    }
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-bottom: .5em;
+    margin-bottom: 2em;
+    border-bottom: 1px solid $disabled-gray;
+
+    &__icon {
+        height: 40px;
+        width: 40px;
+    }
+}
+
+.chart-container {
     width: 100%;
     height: 100%;
 }
