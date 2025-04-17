@@ -60,7 +60,8 @@ export class CoinsTableComponent {
     })
   }
 
-  toggleFavourite(currencyId: string) {
+  toggleFavourite(currencyId: string, event: MouseEvent) {
+    event.stopPropagation()
     this.favouriteService.toggleFavourite(currencyId);
   }
 
