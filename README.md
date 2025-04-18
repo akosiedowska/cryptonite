@@ -15,10 +15,10 @@
 
 ## Sign in
 
-To test the app you can log in in with email:
+To test the app you can log in in with username:
 
 ```
-user@email.com
+user
 ```
 
 and password: 
