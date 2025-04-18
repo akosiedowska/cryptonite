@@ -9,7 +9,7 @@
 <div class="trade-container">
     <div class="price">
         <span class="price__label">Current price</span>
-        <span class="price__value">&euro;{{coinData()?.current_price}}</span>
+        <span class="price__value">{{CURRENCY_SYMBOLS[currency]}}{{coinData()?.current_price}}</span>
         <span class="price__percentage"
             [ngClass]="{'positive': (coinData()?.price_change_percentage_24h ?? 0) > 0, 'negative': (coinData()?.price_change_percentage_24h ?? 0)< 0}">
             {{(coinData()?.price_change_percentage_24h ?? 0).toFixed(2)}}% (24h)</span>

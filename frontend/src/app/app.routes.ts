@@ -22,7 +22,7 @@ export const routes: Routes = [
     //     children: [
     {
         path: '',
-        component: HomeComponent,
+        component: AboutComponent,
         title: "Home page"
     },
     {
@@ -35,11 +35,11 @@ export const routes: Routes = [
         component: CurrencyDetailsComponent,
         title: "Currency details page"
     },
-    {
-        path: 'about',
-        component: AboutComponent,
-        title: "About page"
-    },
+    // {
+    //     path: 'about',
+    //     component: AboutComponent,
+    //     title: "About page"
+    // },
     {
         path: 'login',
         component: LoginComponent,

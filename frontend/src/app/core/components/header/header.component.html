@@ -8,7 +8,7 @@
             </div>
         </a>
         <ul class="header__links">
-            <li><a routerLink="about" routerLinkActive="active">About</a></li>
+            <li><a routerLink="/" routerLinkActive="active">About</a></li>
             <li><a routerLink="currencies" routerLinkActive="active">Currencies</a></li>
             <li *ngIf="user$ | async"><a routerLink="dashboard" routerLinkActive="active">Dashboard</a></li>
             <li *ngIf="!(user$ | async)"><a routerLink="login"><app-button label="Log in" /></a></li>
