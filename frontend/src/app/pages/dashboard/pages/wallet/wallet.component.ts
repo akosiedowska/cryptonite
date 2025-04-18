@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 import { selectWallet } from '../../../../core/store/wallet/wallet.selectors';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { interval, map, Observable, share, shareReplay, startWith, switchMap } from 'rxjs';
+import { filter, interval, map, Observable, share, shareReplay, startWith, switchMap } from 'rxjs';
 import { environment } from '../../../../../environments/environment';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
@@ -40,8 +40,11 @@ export class WalletComponent {
     this.walletData$ = interval(1000_000).pipe(
       startWith(0),
       switchMap(() => this.wallet$),
+      // filter(wallet => wallet.length > 1),
+      filter(wallet => wallet.some(coin => coin.currency_id !== 'fake-euro')),
       switchMap(wallet => {
         const ids = wallet.map(coin => coin.currency_id).filter(coin => coin !== 'fake-euro').join(',')
+        console.log('wallet IDS', ids)
 
         return this.http.get<{ [key: string]: { eur: number } }>(
           `https://api.coingecko.com/api/v3/simple/price?ids=${ids}&vs_currencies=eur&x_cg_demo_api_key=${environment.apiKey}`
