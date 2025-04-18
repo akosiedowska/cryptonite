@@ -22,8 +22,9 @@ import { FavouritesService } from '../../../core/services/favourites.service';
 import { CoinsParamsActions } from '../../../core/store/coins/coins.actions';
 import { FavouriteCoinsParamsActions } from '../../../core/store/favouriteCoins/favouriteCoins.actions';
 import { selectFavouriteCoinsOrder } from '../../../core/store/favouriteCoins/favouriteCoins.selectors';
-import { TradeModalService } from '../../../core/services/trade-modal.service';
+import { ModalService } from '../../../core/services/modal.service';
 import { Router } from '@angular/router';
+import { TradeModalComponent } from '../trade-modal/trade-modal.component';
 
 @Component({
   selector: 'app-coins-table',
@@ -52,7 +53,7 @@ export class CoinsTableComponent {
   constructor(
     public coinService: CoinsService,
     private favouriteService: FavouritesService,
-    private tradeModalService: TradeModalService,
+    private modalService: ModalService,
     private router: Router
   ) {
     this.user$.pipe(take(1)).subscribe(user => {
@@ -65,8 +66,9 @@ export class CoinsTableComponent {
     this.favouriteService.toggleFavourite(currencyId);
   }
 
-  openTradeModal(coin: Coin) {
-    this.tradeModalService.openModal(coin)
+  openTradeModal(coin: Coin, event: MouseEvent) {
+    event.stopPropagation()
+    this.modalService.openModal(TradeModalComponent, coin)
   }
 
   changePage(event: PageEvent) {
@@ -78,7 +80,6 @@ export class CoinsTableComponent {
   }
 
   goToDetailsPage(coin: Coin) {
-    console.log('page coin:', coin)
     this.router.navigate(['currencies', coin.id])
   }
 

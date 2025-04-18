@@ -19,7 +19,6 @@ export class FavouritesService {
   initializeFavourites() {
     this.user$.pipe(take(1)).subscribe(user => {
       if (user && user.id) {
-        console.log('user.id', user.id)
         const favouritesJSON = localStorage.getItem('favourites')
         const favourites = favouritesJSON && JSON.parse(favouritesJSON)
         if (favouritesJSON) {

@@ -15,9 +15,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { FavouritesService } from '../../core/services/favourites.service';
 import { selectFavourites } from '../../core/store/favourites/favourites.selector';
 import { ButtonComponent } from '../../shared/components/button/button.component';
-import { TradeModalService } from '../../core/services/trade-modal.service';
+import { ModalService } from '../../core/services/modal.service';
 import { formatNumber } from '../../helpers';
 import { Currency, CURRENCY_SYMBOLS } from '../../constants';
+import { selectCurrentUser } from '../../core/store/user/user.selector';
+import { TradeModalComponent } from '../../shared/components/trade-modal/trade-modal.component';
 
 interface CoinData {
   prices: SingleData[]
@@ -36,6 +38,7 @@ export class CurrencyDetailsComponent {
   private http = inject(HttpClient)
   store = inject(Store)
   favourites$ = this.store.select(selectFavourites)
+  user$ = this.store.select(selectCurrentUser)
   coinId = this.route.snapshot.paramMap.get('id') || ''
   coinPrices = signal<SingleData[]>([])
   coinData = signal<Coin | null>(null)
@@ -80,7 +83,7 @@ export class CurrencyDetailsComponent {
     }
   }
 
-  constructor(private favouriteService: FavouritesService, private tradeModalService: TradeModalService) {
+  constructor(private favouriteService: FavouritesService, private modalService: ModalService) {
     this.chartForm.get('days')?.valueChanges.subscribe(value => {
       this.daysValue = value ?? 1
       this.fetchCoinPrices()
@@ -137,6 +140,6 @@ export class CurrencyDetailsComponent {
 
   openTradeModal() {
     const coin = this.coinData()
-    if (coin) this.tradeModalService.openModal(coin)
+    if (coin) this.modalService.openModal(TradeModalComponent, coin)
   }
 }
