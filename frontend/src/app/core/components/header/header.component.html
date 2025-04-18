@@ -1,6 +1,6 @@
 <div class="header-wrapper">
     <div class="header">
-        <a [routerLink]="['']">
+        <a routerLink="">
             <div class="header__logo">
                 <mat-icon aria-hidden="false" aria-label="logo icon" fontIcon="diamond"
                     class="material-icons-outlined"></mat-icon>
@@ -8,7 +8,8 @@
             </div>
         </a>
         <ul class="header__links">
-            <li><a routerLink="/" routerLinkActive="active">About</a></li>
+            <li><a routerLink="" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">About</a>
+            </li>
             <li><a routerLink="currencies" routerLinkActive="active">Currencies</a></li>
             <li *ngIf="user$ | async"><a routerLink="dashboard" routerLinkActive="active">Dashboard</a></li>
             <li *ngIf="!(user$ | async)"><a routerLink="login"><app-button label="Log in" /></a></li>
