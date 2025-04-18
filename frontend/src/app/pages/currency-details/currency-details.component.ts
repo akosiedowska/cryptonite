@@ -18,6 +18,7 @@ import { ButtonComponent } from '../../shared/components/button/button.component
 import { TradeModalService } from '../../core/services/trade-modal.service';
 import { formatNumber } from '../../helpers';
 import { Currency, CURRENCY_SYMBOLS } from '../../constants';
+import { selectCurrentUser } from '../../core/store/user/user.selector';
 
 interface CoinData {
   prices: SingleData[]
@@ -36,6 +37,7 @@ export class CurrencyDetailsComponent {
   private http = inject(HttpClient)
   store = inject(Store)
   favourites$ = this.store.select(selectFavourites)
+  user$ = this.store.select(selectCurrentUser)
   coinId = this.route.snapshot.paramMap.get('id') || ''
   coinPrices = signal<SingleData[]>([])
   coinData = signal<Coin | null>(null)
