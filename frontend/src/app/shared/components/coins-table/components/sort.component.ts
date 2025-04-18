@@ -51,7 +51,6 @@ export class SortComponent {
   }
 
   private getStoreAction() {
-    console.log('fav table', this.isFavouriteTable)
     return this.isFavouriteTable
       ? FavouriteCoinsParamsActions
       : CoinsParamsActions

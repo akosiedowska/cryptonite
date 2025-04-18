@@ -44,7 +44,6 @@ export class WalletComponent {
       filter(wallet => wallet.some(coin => coin.currency_id !== 'fake-euro')),
       switchMap(wallet => {
         const ids = wallet.map(coin => coin.currency_id).filter(coin => coin !== 'fake-euro').join(',')
-        console.log('wallet IDS', ids)
 
         return this.http.get<{ [key: string]: { eur: number } }>(
           `https://api.coingecko.com/api/v3/simple/price?ids=${ids}&vs_currencies=eur&x_cg_demo_api_key=${environment.apiKey}`

@@ -66,7 +66,8 @@ export class CoinsTableComponent {
     this.favouriteService.toggleFavourite(currencyId);
   }
 
-  openTradeModal(coin: Coin) {
+  openTradeModal(coin: Coin, event: MouseEvent) {
+    event.stopPropagation()
     this.modalService.openModal(TradeModalComponent, coin)
   }
 
@@ -79,7 +80,6 @@ export class CoinsTableComponent {
   }
 
   goToDetailsPage(coin: Coin) {
-    console.log('page coin:', coin)
     this.router.navigate(['currencies', coin.id])
   }
 
