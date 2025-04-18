@@ -19,6 +19,7 @@ import { TradeModalService } from '../../core/services/trade-modal.service';
 import { formatNumber } from '../../helpers';
 import { Currency, CURRENCY_SYMBOLS } from '../../constants';
 import { selectCurrentUser } from '../../core/store/user/user.selector';
+import { TradeModalComponent } from '../../shared/components/trade-modal/trade-modal.component';
 
 interface CoinData {
   prices: SingleData[]
@@ -139,6 +140,6 @@ export class CurrencyDetailsComponent {
 
   openTradeModal() {
     const coin = this.coinData()
-    if (coin) this.tradeModalService.openModal(coin)
+    if (coin) this.tradeModalService.openModal(TradeModalComponent, coin)
   }
 }

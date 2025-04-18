@@ -21,4 +21,19 @@
             color: $cryptonite-green;
         }
     }
+
+    .separator {
+        height: 1px;
+        width: 100%;
+        background-color: $disabled-gray;
+    }
+
+    .logout-link {
+        cursor: pointer;
+        transition: color .3s ease;
+
+        &:hover {
+            color: $cryptonite-green;
+        }
+    }
 }

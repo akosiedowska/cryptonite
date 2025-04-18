@@ -24,6 +24,7 @@ import { FavouriteCoinsParamsActions } from '../../../core/store/favouriteCoins/
 import { selectFavouriteCoinsOrder } from '../../../core/store/favouriteCoins/favouriteCoins.selectors';
 import { TradeModalService } from '../../../core/services/trade-modal.service';
 import { Router } from '@angular/router';
+import { TradeModalComponent } from '../trade-modal/trade-modal.component';
 
 @Component({
   selector: 'app-coins-table',
@@ -66,7 +67,7 @@ export class CoinsTableComponent {
   }
 
   openTradeModal(coin: Coin) {
-    this.tradeModalService.openModal(coin)
+    this.tradeModalService.openModal(TradeModalComponent, coin)
   }
 
   changePage(event: PageEvent) {
