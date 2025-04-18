@@ -3,6 +3,8 @@
 .navigation {
     display: flex;
     flex-direction: column;
+    position: sticky;
+    top: 94px;
     gap: .75rem;
     padding: 20px;
     margin: 0;
