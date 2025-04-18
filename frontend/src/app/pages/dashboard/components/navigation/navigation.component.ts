@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterLink, RouterModule } from '@angular/router';
-import { TradeModalService } from '../../../../core/services/trade-modal.service';
+import { ModalService } from '../../../../core/services/modal.service';
 import { ConfirmModalComponent } from '../../../../shared/components/confirm-modal/confirm-modal.component';
 import { AuthService } from '../../../../core/services/auth.service';
 
@@ -11,7 +11,7 @@ import { AuthService } from '../../../../core/services/auth.service';
   styleUrl: './navigation.component.scss'
 })
 export class NavigationComponent {
-  constructor(private modalService: TradeModalService, private authService: AuthService) { }
+  constructor(private modalService: ModalService, private authService: AuthService) { }
 
   handleLogOut() {
     const dialogRef = this.modalService.openModal(ConfirmModalComponent, { message: 'Are you sure you want to log out?' })

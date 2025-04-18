@@ -22,7 +22,7 @@ import { FavouritesService } from '../../../core/services/favourites.service';
 import { CoinsParamsActions } from '../../../core/store/coins/coins.actions';
 import { FavouriteCoinsParamsActions } from '../../../core/store/favouriteCoins/favouriteCoins.actions';
 import { selectFavouriteCoinsOrder } from '../../../core/store/favouriteCoins/favouriteCoins.selectors';
-import { TradeModalService } from '../../../core/services/trade-modal.service';
+import { ModalService } from '../../../core/services/modal.service';
 import { Router } from '@angular/router';
 import { TradeModalComponent } from '../trade-modal/trade-modal.component';
 
@@ -53,7 +53,7 @@ export class CoinsTableComponent {
   constructor(
     public coinService: CoinsService,
     private favouriteService: FavouritesService,
-    private tradeModalService: TradeModalService,
+    private modalService: ModalService,
     private router: Router
   ) {
     this.user$.pipe(take(1)).subscribe(user => {
@@ -67,7 +67,7 @@ export class CoinsTableComponent {
   }
 
   openTradeModal(coin: Coin) {
-    this.tradeModalService.openModal(TradeModalComponent, coin)
+    this.modalService.openModal(TradeModalComponent, coin)
   }
 
   changePage(event: PageEvent) {

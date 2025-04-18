@@ -6,7 +6,7 @@ import { ComponentType } from '@angular/cdk/portal';
 @Injectable({
   providedIn: 'root'
 })
-export class TradeModalService {
+export class ModalService {
   readonly dialog = inject(MatDialog)
   constructor() { }
 
