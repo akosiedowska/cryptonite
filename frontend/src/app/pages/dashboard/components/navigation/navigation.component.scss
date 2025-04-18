@@ -8,17 +8,25 @@
     margin: 0;
     list-style-type: none;
 
-    li a {
-        text-decoration: none;
+    &__element {
+        display: flex;
+        align-items: center;
+        gap: 10px;
         color: $text-main;
+        text-decoration: none;
         transition: color .3s ease;
+        cursor: pointer;
+
+        &:hover {
+            color: $cryptonite-green;
+        }
 
         &.active {
             font-weight: 500;
         }
 
-        &:hover {
-            color: $cryptonite-green;
+        i {
+            width: 18px;
         }
     }
 
@@ -28,12 +36,4 @@
         background-color: $disabled-gray;
     }
 
-    .logout-link {
-        cursor: pointer;
-        transition: color .3s ease;
-
-        &:hover {
-            color: $cryptonite-green;
-        }
-    }
 }
