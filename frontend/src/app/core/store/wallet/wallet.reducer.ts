@@ -31,7 +31,6 @@ export const walletReducer = createReducer(
             }
             return coin
         })
-        console.log('updated wallet', updatedWallet)
 
         const newWallet = existingCoin ? updatedWallet : [...updatedWallet, {
             currency_id: currencyId,
@@ -39,7 +38,6 @@ export const walletReducer = createReducer(
             amount: amount,
             total_spent: totalSpent,
         }]
-        console.log('new wallet', newWallet)
         return {
             ...state,
             wallet: newWallet

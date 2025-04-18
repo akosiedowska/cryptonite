@@ -1,7 +1,7 @@
 <div class="coin-header">
     <img [src]="coinData()?.image" class="coin-header__icon" />
     <h1 class="coin-header__title">{{coinData()?.name}} price ({{coinData()?.symbol}})</h1>
-    <mat-icon fontIcon="kid_star" class="material-symbols-outlined"
+    <mat-icon *ngIf="user$ | async" fontIcon="kid_star" class="material-symbols-outlined"
         [ngClass]="{ 'filled-icon': (favourites$ | async)?.includes(coinId) }"
         (click)="toggleFavourite(coinId)"></mat-icon>
 </div>

@@ -1,0 +1,8 @@
+<div class="modal">
+    <h2 class="modal__title">Confirm</h2>
+    <div class="modal__content">{{data.message}}</div>
+    <div class="modal__actions">
+        <app-button label="Cancel" class="reset" (click)="onCancel()" />
+        <app-button label="Log out" (click)="onConfirm()" />
+    </div>
+</div>
