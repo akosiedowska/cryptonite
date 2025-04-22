@@ -1,0 +1,22 @@
+{
+  "name": "cryptonite",
+  "version": "1.0.0",
+  "description": "crypto simulator app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint-staged-frontend": "cd frontend && npx lint-staged"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://gitlab2.eleks.com/a.kosiedowska/cryptonite.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "husky": "^9.1.7",
+    "lint-staged": "^15.5.1"
+  }
+}
