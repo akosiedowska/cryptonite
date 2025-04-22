@@ -1,0 +1,28 @@
+{
+  "name": "cryptonite",
+  "version": "1.0.0",
+  "description": "- [Live demo](#live-demo)\r - [Sign in](#sign-in)\r - [Project description](#project-description)\r - [Tech stack](#tech-stack)\r - [Installation](#installation)\r - [Screenshots](#screenshots)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint-staged-frontend": "cd frontend && npx lint-staged"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://gitlab2.eleks.com/a.kosiedowska/cryptonite.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "husky": "^9.1.7",
+    "lint-staged": "^15.5.1"
+  },
+  "lint-staged": {
+    "frontend/src/**/*.{ts,html,scss,json,md}": [
+      "prettier --write",
+      "eslint --fix"
+    ]
+  }
+}

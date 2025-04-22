@@ -1,22 +1,42 @@
 <div class="header-wrapper">
-    <div class="header">
-        <a routerLink="">
-            <div class="header__logo">
-                <mat-icon aria-hidden="false" aria-label="logo icon" fontIcon="diamond"
-                    class="material-icons-outlined"></mat-icon>
-                <div class="app-name">Cryptonite</div>
-            </div>
-        </a>
-        <ul class="header__links">
-            <li><a routerLink="" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">About</a>
-            </li>
-            <li><a routerLink="currencies" routerLinkActive="active">Markettt</a></li>
-            <li *ngIf="user$ | async"><a routerLink="dashboard" routerLinkActive="active">Dashboard</a></li>
-            <li *ngIf="!(user$ | async)"><a routerLink="login"><app-button label="Log in" /></a></li>
-            <li *ngIf="!(user$ | async)"><a routerLink="signup"><app-button label="Sign up" [outlined]="true" /></a>
-            </li>
-            <li *ngIf="user$ | async" class="username">Hello, {{(user$ | async)?.name}}</li>
-            <li *ngIf="user$ | async"><app-button label="Log out" (click)="handleLogOut()" /></li>
-        </ul>
-    </div>
+  <div class="header">
+    <a routerLink="">
+      <div class="header__logo">
+        <mat-icon
+          aria-hidden="false"
+          aria-label="logo icon"
+          fontIcon="diamond"
+          class="material-icons-outlined"></mat-icon>
+        <div class="app-name">Cryptonite</div>
+      </div>
+    </a>
+    <ul class="header__links">
+      <li>
+        <a
+          routerLink=""
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          >About</a
+        >
+      </li>
+      <li><a routerLink="currencies" routerLinkActive="active">Market</a></li>
+      <li *ngIf="user$ | async">
+        <a routerLink="dashboard" routerLinkActive="active">Dashboard</a>
+      </li>
+      <li *ngIf="(user$ | async) === undefined">
+        <a routerLink="login"><app-button label="Log in" /></a>
+      </li>
+      <li *ngIf="(user$ | async) === undefined">
+        <a routerLink="signup"
+          ><app-button label="Sign up" [outlined]="true"
+        /></a>
+      </li>
+      <li *ngIf="user$ | async" class="username">
+        Hello, {{ (user$ | async)?.name }}
+      </li>
+      <li *ngIf="user$ | async">
+        <app-button label="Log out" (click)="handleLogOut()" />
+      </li>
+    </ul>
+  </div>
 </div>
