@@ -10,7 +10,7 @@
         <ul class="header__links">
             <li><a routerLink="" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">About</a>
             </li>
-            <li><a routerLink="currencies" routerLinkActive="active">Markett</a></li>
+            <li><a routerLink="currencies" routerLinkActive="active">Market</a></li>
             <li *ngIf="user$ | async"><a routerLink="dashboard" routerLinkActive="active">Dashboard</a></li>
             <li *ngIf="!(user$ | async)"><a routerLink="login"><app-button label="Log in" /></a></li>
             <li *ngIf="!(user$ | async)"><a routerLink="signup"><app-button label="Sign up" [outlined]="true" /></a>
