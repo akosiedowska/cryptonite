@@ -1,11 +1,11 @@
 {
   "name": "cryptonite",
   "version": "1.0.0",
-  "description": "- [Live demo](#live-demo)\r - [Sign in](#sign-in)\r - [Project description](#project-description)\r - [Tech stack](#tech-stack)\r - [Installation](#installation)\r - [Screenshots](#screenshots)",
+  "description": "crypto simulator app",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint-staged-frontend": "cd frontend && npx lint-staged"
+    "lint-staged-frontend": "npx lint-staged"
   },
   "repository": {
     "type": "git",
