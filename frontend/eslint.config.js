@@ -44,16 +44,25 @@ module.exports = tseslint.config(
       "no-unused-labels": "error",
       "no-unused-expressions": "error",
       "unused-imports/no-unused-imports": "error",
-      "@typescript-eslint/no-unused-vars": "error",
-      "unused-imports/no-unused-vars": [
-        "error",
-        {
-          "vars": "all",
-          "varsIgnorePattern": "^_",
-          "args": "after-used",
-          "argsIgnorePattern": "^_"
-        },
-      ],
+      "@typescript-eslint/no-unused-vars": ["error", {
+        "vars": "all",
+        "varsIgnorePattern": "^_",
+        "args": "after-used",
+        "argsIgnorePattern": "^_",
+        "caughtErrors": "all",
+        "caughtErrorsIgnorePattern": "^_",
+        "destructuredArrayIgnorePattern": "^_",
+        "ignoreRestSiblings": false
+      }],
+      // "unused-imports/no-unused-vars": [
+      //   "error",
+      //   {
+      //     "vars": "all",
+      //     "varsIgnorePattern": "^_",
+      //     "args": "after-used",
+      //     "argsIgnorePattern": "^_"
+      //   },
+      // ],
       "@typescript-eslint/no-unused-expressions": "error"
     },
   },

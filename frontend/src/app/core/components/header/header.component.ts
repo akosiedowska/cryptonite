@@ -28,7 +28,7 @@ export class HeaderComponent {
 
   constructor(
     private authService: AuthService,
-    private CoinService: CoinsService
+    private coinService: CoinsService
   ) {}
 
   handleLogOut() {
