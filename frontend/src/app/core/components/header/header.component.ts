@@ -7,7 +7,6 @@ import { RouterLink, RouterModule } from '@angular/router'
 import { AuthService } from '../../services/auth.service'
 import { Store } from '@ngrx/store'
 import { selectCurrentUser } from '../../store/user/user.selector'
-import { CoinsService } from '../../services/coins.service'
 
 @Component({
   selector: 'app-header',
@@ -26,10 +25,7 @@ export class HeaderComponent {
   private store = inject(Store)
   user$ = this.store.select(selectCurrentUser)
 
-  constructor(
-    private authService: AuthService,
-    private coinService: CoinsService
-  ) {}
+  constructor(private authService: AuthService) {}
 
   handleLogOut() {
     this.authService.logout()
