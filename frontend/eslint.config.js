@@ -8,6 +8,10 @@ const unusedImports = require("eslint-plugin-unused-imports")
 module.exports = tseslint.config(
   {
     files: ["**/*.ts"],
+    languageOptions: {
+      parser: require("@typescript-eslint/parser"),
+      sourceType: "module",
+    },
     extends: [
       eslint.configs.recommended,
       ...tseslint.configs.recommended,
@@ -36,20 +40,20 @@ module.exports = tseslint.config(
         },
       ],
       "no-console": "error",
-      "no-unused-vars": "error",
+      // "no-unused-vars": ["error"],
       "no-unused-labels": "error",
       "no-unused-expressions": "error",
       "unused-imports/no-unused-imports": "error",
       "@typescript-eslint/no-unused-vars": "error",
-      "unused-imports/no-unused-vars": [
-        "warn",
-        {
-          "vars": "all",
-          "varsIgnorePattern": "^_",
-          "args": "after-used",
-          "argsIgnorePattern": "^_",
-        },
-      ],
+      // "unused-imports/no-unused-vars": [
+      //   "error",
+      //   {
+      //     "vars": "all",
+      //     "varsIgnorePattern": "^_",
+      //     "args": "after-used",
+      //     "argsIgnorePattern": "^_"
+      //   },
+      // ],
       "@typescript-eslint/no-unused-expressions": "error"
     },
   },
