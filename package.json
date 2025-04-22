@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint-staged-frontend": "npx lint-staged"
+    "lint-staged-frontend": "cd frontend && npx lint-staged"
   },
   "repository": {
     "type": "git",
@@ -18,11 +18,5 @@
   "dependencies": {
     "husky": "^9.1.7",
     "lint-staged": "^15.5.1"
-  },
-  "lint-staged": {
-    "frontend/src/**/*.{ts,html,scss,json,md}": [
-      "prettier --write",
-      "eslint --fix"
-    ]
   }
 }

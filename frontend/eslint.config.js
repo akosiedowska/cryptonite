@@ -3,7 +3,6 @@ const eslint = require("@eslint/js");
 const tseslint = require("typescript-eslint");
 const angular = require("angular-eslint");
 const eslintPluginPrettierRecommended = require('eslint-plugin-prettier/recommended')
-const tseslintPlugin = require("@typescript-eslint/eslint-plugin")
 const unusedImports = require("eslint-plugin-unused-imports")
 
 module.exports = tseslint.config(
@@ -17,7 +16,6 @@ module.exports = tseslint.config(
     ],
     processor: angular.processInlineTemplates,
     plugins: {
-      "@typescript-eslint": tseslintPlugin,
       "unused-imports": unusedImports
     },
     rules: {
