@@ -23,10 +23,12 @@
       <li *ngIf="user$ | async">
         <a routerLink="dashboard" routerLinkActive="active">Dashboard</a>
       </li>
-      <li *ngIf="(user$ | async) === undefined">
+      <!-- eslint-disable-next-line @angular-eslint/template/no-negated-async -->
+      <li *ngIf="!(user$ | async)">
         <a routerLink="login"><app-button label="Log in" /></a>
       </li>
-      <li *ngIf="(user$ | async) === undefined">
+      <!-- eslint-disable-next-line @angular-eslint/template/no-negated-async -->
+      <li *ngIf="!(user$ | async)">
         <a routerLink="signup"
           ><app-button label="Sign up" [outlined]="true"
         /></a>
