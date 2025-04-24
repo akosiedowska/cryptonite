@@ -37,7 +37,7 @@ refreshRouter.get('/', async (req: Request, res: Response) => {
                 const accessToken = jwt.sign(
                     tokenData,
                     process.env.ACCESS_TOKEN_SECRET as Secret,
-                    { expiresIn: '15min' }
+                    { expiresIn: '10min' }
                 )
                 res.json({ accessToken })
             }
