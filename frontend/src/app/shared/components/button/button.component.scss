@@ -1,62 +1,67 @@
 @use '../../../../variables' as *;
 
 .button {
-    // width: 100%;
-    padding: 8px 16px;
-    border-radius: 8px;
-    border: none;
-    color: white;
-    background-color: $cryptonite-green;
-    transition: background-color .3s ease;
-    cursor: pointer;
+  // width: 100%;
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: none;
+  color: white;
+  background-color: $cryptonite-green;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+
+  &:hover {
+    background-color: $cryptonite-green-hover;
+  }
+
+  &.outlined {
+    border: 1px solid $cryptonite-green;
+    color: $cryptonite-green;
+    background-color: white;
 
     &:hover {
-        background-color: $cryptonite-green-hover;
+      background-color: $cryptonite-green-light;
     }
+  }
 
-    &.outlined {
-        border: 1px solid $cryptonite-green;
-        color: $cryptonite-green;
-        background-color: white;
-
-        &:hover {
-            background-color: $cryptonite-green-light;
-        }
-    }
-
-    &:disabled {
-        background-color: $disabled-gray;
-        cursor: auto;
-    }
+  &:disabled {
+    background-color: $disabled-gray;
+    cursor: auto;
+  }
 }
 
 .large {
-    height: 46px;
-    font-size: 16px;
+  height: 46px;
+  font-size: 16px;
+}
+
+.medium {
+  font-size: 15px;
+  padding: 10px 16px;
 }
 
 .wide {
-    width: 100%;
+  width: 100%;
 }
 
 .font-large {
-    font-size: 1.25rem;
+  font-size: 1.25rem;
 }
 
 .reset {
-    background-color: $reset-btn;
+  background-color: $reset-btn;
 
-    &:hover {
-        background-color: $reset-btn-hover;
-    }
+  &:hover {
+    background-color: $reset-btn-hover;
+  }
 }
 
 .toggle {
-    background-color: $disabled-gray;
-    color: $text-main;
+  background-color: $disabled-gray;
+  color: $text-main;
 }
 
 .toggle-active {
-    background-color: $text-main;
-    color: $light-background;
+  background-color: $text-main;
+  color: $light-background;
 }
