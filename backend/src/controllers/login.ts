@@ -25,7 +25,7 @@ loginRouter.post('/', async (req: Request, res: Response) => {
                 id: user.id
             }
 
-            const accessToken = jwt.sign(tokenData, process.env.ACCESS_TOKEN_SECRET as Secret, { expiresIn: '15min' })
+            const accessToken = jwt.sign(tokenData, process.env.ACCESS_TOKEN_SECRET as Secret, { expiresIn: '10min' })
             const refreshToken = jwt.sign(tokenData, process.env.REFRESH_TOKEN_SECRET as Secret, { expiresIn: '1d' })
             const dynamicToken = getTokenDynamicPart(refreshToken)
             await pool.query("UPDATE users SET refresh_token = $1 WHERE id = $2", [dynamicToken, user.id])

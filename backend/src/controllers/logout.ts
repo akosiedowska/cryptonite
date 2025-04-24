@@ -8,6 +8,7 @@ logoutRouter.post('/', async (req: Request, res: Response) => {
     const cookies = req.cookies
     if (!cookies?.jwt) {
         res.status(401).json({ message: "Access denied" })
+        return
     }
 
     const dynamicToken = getTokenDynamicPart(cookies.jwt)
