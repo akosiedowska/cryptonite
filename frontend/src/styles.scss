@@ -118,3 +118,11 @@ html {
     height: 46px;
   }
 }
+
+.cdk-overlay-container {
+  z-index: 1000 !important;
+}
+
+.cdk-overlay-connected-position-bounding-box {
+  position: absolute !important;
+}

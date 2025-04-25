@@ -1,88 +1,142 @@
-<div class="coin-header">
-    <img [src]="coinData()?.image" class="coin-header__icon" />
-    <h1 class="coin-header__title">{{coinData()?.name}} price ({{coinData()?.symbol}})</h1>
-    <mat-icon *ngIf="user$ | async" fontIcon="kid_star" class="material-symbols-outlined"
-        [ngClass]="{ 'filled-icon': (favourites$ | async)?.includes(coinId) }"
-        (click)="toggleFavourite(coinId)"></mat-icon>
-</div>
+<div>
+  <div class="coin-header">
+    <img [src]="coinData()?.image" class="coin-header__icon" alt="coin icon" />
+    <h1 class="coin-header__title">
+      {{ coinData()?.name }} price ({{ coinData()?.symbol }})
+    </h1>
+    <mat-icon
+      *ngIf="user$ | async"
+      fontIcon="kid_star"
+      class="material-symbols-outlined"
+      [ngClass]="{ 'filled-icon': (favourites$ | async)?.includes(coinId) }"
+      (click)="toggleFavourite(coinId)"></mat-icon>
+  </div>
 
-<div class="trade-container">
+  <div class="trade-container">
     <div class="price">
-        <span class="price__label">Current price</span>
-        <span class="price__value">{{CURRENCY_SYMBOLS[currency]}}{{coinData()?.current_price}}</span>
-        <span class="price__percentage"
-            [ngClass]="{'positive': (coinData()?.price_change_percentage_24h ?? 0) > 0, 'negative': (coinData()?.price_change_percentage_24h ?? 0)< 0}">
-            {{(coinData()?.price_change_percentage_24h ?? 0).toFixed(2)}}% (24h)</span>
+      <span class="price__label">Current price</span>
+      <span class="price__value"
+        >{{ CURRENCY_SYMBOLS[currency] }}{{ coinData()?.current_price }}</span
+      >
+      <span
+        class="price__percentage"
+        [ngClass]="{
+          positive: (coinData()?.price_change_percentage_24h ?? 0) > 0,
+          negative: (coinData()?.price_change_percentage_24h ?? 0) < 0,
+        }">
+        {{ (coinData()?.price_change_percentage_24h ?? 0).toFixed(2) }}%
+        (24h)</span
+      >
     </div>
     <app-button label="Trade" (click)="openTradeModal()" />
-</div>
+  </div>
 
-<div class="options-container">
+  <div class="options-container">
     <form [formGroup]="chartForm">
-        <mat-form-field class="chart-dropdown">
-            <mat-label>Choose time period</mat-label>
-            <mat-select formControlName="days" (value)="1">
-                <mat-option [value]="1">24h</mat-option>
-                <mat-option [value]="30">30d</mat-option>
-                <mat-option [value]="365">1y</mat-option>
-            </mat-select>
-        </mat-form-field>
+      <mat-form-field class="chart-dropdown">
+        <mat-label>Choose time period</mat-label>
+        <mat-select formControlName="days" (value)="(1)">
+          <mat-option [value]="1">24h</mat-option>
+          <mat-option [value]="30">30d</mat-option>
+          <mat-option [value]="365">1y</mat-option>
+        </mat-select>
+      </mat-form-field>
     </form>
 
     <form [formGroup]="currencyForm">
-        <mat-form-field class="chart-dropdown">
-            <mat-label>Choose currency</mat-label>
-            <mat-select formControlName="currency" value="eur">
-                <mat-option value="eur">euro</mat-option>
-                <mat-option value="usd">usd</mat-option>
-                <mat-option value="gbp">gbp</mat-option>
-            </mat-select>
-        </mat-form-field>
+      <mat-form-field class="chart-dropdown">
+        <mat-label>Choose currency</mat-label>
+        <mat-select formControlName="currency" value="eur">
+          <mat-option value="eur">euro</mat-option>
+          <mat-option value="usd">usd</mat-option>
+          <mat-option value="gbp">gbp</mat-option>
+        </mat-select>
+      </mat-form-field>
     </form>
-</div>
 
-<div class="chart-container">
-    <highcharts-chart [Highcharts]="Highcharts" [options]="chartOptions" style="width: 100%; height:100%;
-     display: block;" (update)='true'></highcharts-chart>
-</div>
+    <form>
+      <mat-checkbox [formControl]="compareCheckbox">Compare</mat-checkbox>
+      <mat-form-field *ngIf="compareCheckbox.value">
+        <mat-label>Coin</mat-label>
+        <input
+          type="text"
+          placeholder="Pick one"
+          aria-label="Coin"
+          matInput
+          [formControl]="compareCoin"
+          [matAutocomplete]="auto" />
+        <mat-autocomplete #auto="matAutocomplete">
+          @for (option of filteredOptions | async; track option) {
+            <mat-option [value]="option">{{ option }}</mat-option>
+          }
+        </mat-autocomplete>
+      </mat-form-field>
+    </form>
+    <!-- <div>{{compareCheckbox.get('compare')?.value}}</div> -->
+    <!-- <div>{{compareCheckbox.value |  json}}</div> -->
+  </div>
 
-<div class="market-data">
+  <div class="chart-container">
+    <highcharts-chart
+      [Highcharts]="Highcharts"
+      [options]="chartOptions"
+      style="width: 100%; height: 100%; display: block"
+      (update)="(true)"></highcharts-chart>
+  </div>
+
+  <div class="market-data">
     <div class="market-data__box">
-        <div class="market-data__box__label">Market Cap</div>
-        <div class="market-data__box__value">
-            <span>{{CURRENCY_SYMBOLS[currency]}}</span>{{formatNumber(coinData()?.market_cap ?? 0)}}
-        </div>
+      <div class="market-data__box__label">Market Cap</div>
+      <div class="market-data__box__value">
+        <span>{{ CURRENCY_SYMBOLS[currency] }}</span
+        >{{ formatNumber(coinData()?.market_cap ?? 0) }}
+      </div>
     </div>
     <div class="market-data__box">
-        <div class="market-data__box__label">Volume</div>
-        <div class="market-data__box__value">{{CURRENCY_SYMBOLS[currency]}}{{formatNumber(coinData()?.total_volume ??
-            0)}}</div>
+      <div class="market-data__box__label">Volume</div>
+      <div class="market-data__box__value">
+        {{ CURRENCY_SYMBOLS[currency]
+        }}{{ formatNumber(coinData()?.total_volume ?? 0) }}
+      </div>
     </div>
     <div class="market-data__box">
-        <div class="market-data__box__label">24H Change</div>
-        <div class="market-data__box__value">{{CURRENCY_SYMBOLS[currency]}}{{coinData()?.price_change_24h}}</div>
+      <div class="market-data__box__label">24H Change</div>
+      <div class="market-data__box__value">
+        {{ CURRENCY_SYMBOLS[currency] }}{{ coinData()?.price_change_24h }}
+      </div>
     </div>
     <div class="market-data__box">
-        <div class="market-data__box__label">24H High</div>
-        <div class="market-data__box__value">{{CURRENCY_SYMBOLS[currency]}}{{coinData()?.high_24h}}</div>
+      <div class="market-data__box__label">24H High</div>
+      <div class="market-data__box__value">
+        {{ CURRENCY_SYMBOLS[currency] }}{{ coinData()?.high_24h }}
+      </div>
     </div>
     <div class="market-data__box">
-        <div class="market-data__box__label">24H Low</div>
-        <div class="market-data__box__value">{{CURRENCY_SYMBOLS[currency]}}{{coinData()?.low_24h}}</div>
+      <div class="market-data__box__label">24H Low</div>
+      <div class="market-data__box__value">
+        {{ CURRENCY_SYMBOLS[currency] }}{{ coinData()?.low_24h }}
+      </div>
     </div>
     <div class="market-data__box">
-        <div class="market-data__box__label">Circulating supply</div>
-        <div class="market-data__box__value">{{CURRENCY_SYMBOLS[currency]}}{{formatNumber(coinData()?.circulating_supply
-            ?? 0)}}</div>
+      <div class="market-data__box__label">Circulating supply</div>
+      <div class="market-data__box__value">
+        {{ CURRENCY_SYMBOLS[currency]
+        }}{{ formatNumber(coinData()?.circulating_supply ?? 0) }}
+      </div>
     </div>
     <div class="market-data__box">
-        <div class="market-data__box__label">Max Supply</div>
-        <div class="market-data__box__value">{{CURRENCY_SYMBOLS[currency]}}{{formatNumber(coinData()?.max_supply ??0)}}
-        </div>
+      <div class="market-data__box__label">Max Supply</div>
+      <div class="market-data__box__value">
+        {{ CURRENCY_SYMBOLS[currency]
+        }}{{ formatNumber(coinData()?.max_supply ?? 0) }}
+      </div>
     </div>
     <div class="market-data__box">
-        <div class="market-data__box__label">Total Supply</div>
-        <div class="market-data__box__value">{{CURRENCY_SYMBOLS[currency]}}{{formatNumber(coinData()?.total_supply ??
-            0)}}</div>
+      <div class="market-data__box__label">Total Supply</div>
+      <div class="market-data__box__value">
+        {{ CURRENCY_SYMBOLS[currency]
+        }}{{ formatNumber(coinData()?.total_supply ?? 0) }}
+      </div>
     </div>
+  </div>
 </div>
