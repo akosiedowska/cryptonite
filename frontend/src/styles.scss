@@ -3,51 +3,61 @@
 
 html,
 body {
-    height: 100%;
+  height: 100%;
 }
 
 body,
 * {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 body {
-    margin: 0;
-    font-family: Roboto, "Helvetica Neue", sans-serif;
-    color: $text-main;
+  margin: 0;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+  color: $text-main;
 }
 
 html {
+  form,
+  .search-input {
+    @include mat.theme-overrides(
+      (
+        primary: $cryptonite-green-hover,
+      )
+    );
+  }
 
-    form,
-    .search-input {
-        @include mat.theme-overrides((primary: $cryptonite-green-hover,
-            ));
+  .search-input,
+  .chart-dropdown {
+    .mdc-text-field--filled.mat-mdc-text-field-wrapper.mdc-text-field {
+      background-color: white !important;
     }
 
-    .search-input,
-    .chart-dropdown {
-        .mdc-text-field--filled.mat-mdc-text-field-wrapper.mdc-text-field {
-            background-color: white !important;
-        }
-
-        .mat-mdc-text-field-wrapper:hover .mat-mdc-form-field-focus-overlay {
-            opacity: 0;
-        }
+    .mat-mdc-text-field-wrapper:hover .mat-mdc-form-field-focus-overlay {
+      opacity: 0;
     }
+  }
+
+  .trade-input {
+    .mdc-text-field--filled.mat-mdc-text-field-wrapper.mdc-text-field {
+      background-color: transparent !important;
+    }
+
+    .mat-mdc-text-field-wrapper:hover .mat-mdc-form-field-focus-overlay {
+      opacity: 0;
+    }
+  }
 }
 
-// dropdown background 
+// dropdown background
 
 .cdk-overlay-container {
-    .mat-mdc-select-panel.mdc-menu-surface.mdc-menu-surface--open.mat-primary {
-        background-color: white !important;
-    }
-
+  .mat-mdc-select-panel.mdc-menu-surface.mdc-menu-surface--open.mat-primary {
+    background-color: white !important;
+  }
 }
 
-
-// form styles overrrides: 
+// form styles overrrides:
 
 // form {
 //     mat-form-field {
@@ -67,27 +77,44 @@ html {
 //     }
 // }
 
-// snackbar overrides + classes: 
+// snackbar overrides + classes:
 
 .mat-mdc-snack-bar-container {
-    opacity: 85% !important;
+  opacity: 85% !important;
 
-    &.green-snackbar {
-        .mat-mdc-snackbar-surface {
-            background-color: $snackbar-green !important;
-        }
+  &.green-snackbar {
+    .mat-mdc-snackbar-surface {
+      background-color: $snackbar-green !important;
     }
+  }
 
-    &.red-snackbar {
-        .mat-mdc-snackbar-surface {
-            background-color: $snackbar-red !important;
-        }
+  &.red-snackbar {
+    .mat-mdc-snackbar-surface {
+      background-color: $snackbar-red !important;
     }
+  }
 }
 
 // dialog overriders::after
 
 .mat-mdc-dialog-surface {
-    // padding: 1em !important;
-    border-radius: 8px !important;
+  // padding: 1em !important;
+  border-radius: 8px !important;
+}
+
+// trade input
+
+.modal-container {
+  .mdc-text-field .mdc-floating-label {
+    top: 50%;
+    transform: translateY(-75%);
+  }
+
+  .mat-mdc-form-field-infix {
+    padding: 12px 0 !important;
+  }
+
+  .mdc-text-field--outlined {
+    height: 46px;
+  }
 }

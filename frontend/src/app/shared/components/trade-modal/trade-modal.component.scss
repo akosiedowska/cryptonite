@@ -1,49 +1,78 @@
 @use '../../../../variables' as *;
 
 :host {
-    .modal-container {
-        padding: 1.5em;
-        width: 450px;
+  .trade-modal {
+    padding: 1.75em;
+    width: 450px;
 
-        h2 {
-            padding: 0;
-            margin: 0;
-            margin-bottom: .5em;
+    &__title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      // justify-content: space-between;
+      padding: 0;
+      margin: 0;
+      margin-bottom: 1em;
+
+      .trade-icon {
+        font-size: 22px;
+      }
+
+      .close-icon {
+        margin-left: auto;
+        color: $text-gray;
+        cursor: pointer;
+        transition: color 0.3s ease;
+
+        &:hover {
+          color: $cryptonite-green;
         }
-
-        .transaction-info {
-            margin-bottom: .5em;
-        }
-
-        .transaction-toggle-container {
-            display: flex;
-            gap: 1em;
-            padding: 1em 0;
-
-            app-button {
-                width: 50%;
-            }
-        }
-
-        .inputs-container {
-            padding: 0 2em;
-
-            .mat-mdc-form-field {
-                width: 100%;
-            }
-        }
-
-        .error-message {
-            margin-bottom: 1em;
-            color: $error-red;
-            font-size: 13px;
-        }
-
-        .btn-container {
-            display: flex;
-            gap: 20px;
-            justify-content: end;
-        }
-
+      }
     }
+
+    &__transaction-info {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1em;
+      margin-bottom: 0.5em;
+      border-radius: 6px;
+      background-color: #f6f5f9;
+      font-size: 14px;
+
+      p {
+        padding: 0;
+        margin: 0;
+      }
+    }
+
+    &__transaction-toggle {
+      display: flex;
+      gap: 1em;
+      padding: 1em 0;
+
+      app-button {
+        width: 50%;
+      }
+    }
+
+    &__inputs {
+      .mat-mdc-form-field {
+        width: 100%;
+      }
+    }
+
+    .error-message {
+      margin-bottom: 1em;
+      color: $error-red;
+      font-size: 13px;
+      text-align: center;
+    }
+
+    &__actions {
+      display: flex;
+      gap: 20px;
+      justify-content: end;
+    }
+  }
 }
