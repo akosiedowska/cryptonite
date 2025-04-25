@@ -1,10 +1,16 @@
 <div class="modal-container">
   <h2 class="modal-title">
+    <i class="fa-solid fa-right-left trade-icon"></i>
     <span>Trade: {{ data.name }}</span>
-    <i class="fa-solid fa-xmark close-icon"></i>
+    <i
+      class="fa-solid fa-xmark close-icon"
+      (click)="handleCancel()"
+      tabindex="0"
+      (keydown.enter)="handleCancel()"
+      role="button"></i>
   </h2>
   <div class="transaction-info">
-    <p>Current euro balance:</p>
+    <p>Current Euro balance:</p>
     <span>&euro;{{ currentBalance.toFixed(2) }}</span>
   </div>
   <div class="transaction-info">

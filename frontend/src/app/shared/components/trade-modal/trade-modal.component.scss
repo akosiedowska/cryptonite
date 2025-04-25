@@ -8,12 +8,18 @@
     .modal-title {
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      gap: 10px;
+      // justify-content: space-between;
       padding: 0;
       margin: 0;
       margin-bottom: 1em;
 
+      .trade-icon {
+        font-size: 22px;
+      }
+
       .close-icon {
+        margin-left: auto;
         color: $text-gray;
         cursor: pointer;
         transition: color 0.3s ease;
