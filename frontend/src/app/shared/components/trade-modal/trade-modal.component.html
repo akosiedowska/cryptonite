@@ -1,58 +1,86 @@
-<div class="modal-container">
+<div class="trade-modal">
+  <h2 class="trade-modal__title">
+    <i class="fa-solid fa-right-left trade-icon"></i>
+    <span>Trade: {{ data.name }}</span>
+    <i
+      class="fa-solid fa-xmark close-icon"
+      (click)="handleCancel()"
+      tabindex="0"
+      (keydown.enter)="handleCancel()"
+      role="button"></i>
+  </h2>
+  <div class="trade-modal__transaction-info">
+    <p>Current Euro balance:</p>
+    <span>&euro;{{ currentBalance.toFixed(2) }}</span>
+  </div>
+  <div class="trade-modal__transaction-info">
+    <p>Current {{ data.name }} balance:</p>
+    <span>{{ coinBalance.toFixed(2) }}</span>
+  </div>
+  <div class="trade-modal__transaction-info">
+    <p>Current {{ data.name }} price:</p>
+    <span>&euro;{{ price$ | async }}</span>
+  </div>
+  <div class="trade-modal__transaction-toggle">
+    <app-button
+      (click)="transactionType.set('buy')"
+      [class]="transactionType() === 'buy' ? 'toggle-active' : 'toggle'"
+      label="Buy"
+      class="wide medium"></app-button>
+    <app-button
+      (click)="transactionType.set('sell')"
+      [class]="transactionType() === 'sell' ? 'toggle-active' : 'toggle'"
+      label="Sell"
+      class="wide medium">
+    </app-button>
+  </div>
 
-    <h2>Trade: {{data.name}}</h2>
-    <div class="transaction-info">Current euro balance: &euro; <span>{{currentBalance.toFixed(2)}}</span></div>
-    <div class="transaction-info">Current {{data.name}} balance: <span>{{coinBalance.toFixed(2)}}</span></div>
-    <div class="transaction-info">Current {{data.name}} price: &euro; <span>{{price$ | async}}</span>
+  <form [formGroup]="tradeForm" (ngSubmit)="checkBalance()">
+    <div class="trade-modal__inputs">
+      @if (transactionType() === 'buy') {
+        <mat-form-field class="trade-input" appearance="outline">
+          <mat-label>Value (€)</mat-label>
+          <input matInput formControlName="value" type="number" min="0" />
+        </mat-form-field>
+        <mat-form-field class="trade-input" appearance="outline">
+          <mat-label>Crypto Amount</mat-label>
+          <input matInput formControlName="amount" type="number" min="0" />
+        </mat-form-field>
+      }
+
+      @if (transactionType() === 'sell') {
+        <mat-form-field class="trade-input" appearance="outline">
+          <mat-label>Crypto Amount</mat-label>
+          <input matInput formControlName="amount" type="number" min="0" />
+        </mat-form-field>
+        <mat-form-field class="trade-input" appearance="outline">
+          <mat-label>Value (€)</mat-label>
+          <input matInput formControlName="value" type="number" min="0" />
+        </mat-form-field>
+      }
     </div>
-    <div class="transaction-toggle-container">
-        <app-button (click)="transactionType.set('buy')"
-            [class]="transactionType() === 'buy' ? 'toggle-active' : 'toggle'" label="Buy" class="wide"></app-button>
-        <app-button (click)="transactionType.set('sell')"
-            [class]="transactionType() === 'sell' ? 'toggle-active' : 'toggle'" label="Sell" class="wide">
-        </app-button>
+
+    <div *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
     </div>
 
-    <form [formGroup]="tradeForm" (ngSubmit)="checkBalance()">
-        <div class="inputs-container">
-            @if (transactionType() === "buy") {
-            <mat-form-field>
-                <mat-label>Value (€)</mat-label>
-                <input matInput formControlName="value" type="number" min="0" />
-            </mat-form-field>
-            <mat-form-field appearance="fill">
-                <mat-label>Crypto Amount</mat-label>
-                <input matInput formControlName="amount" type="number" min="0" />
-            </mat-form-field>
-            }
+    <div class="error-message" *ngIf="tradeForm.get('value')?.hasError('min')">
+      Transaction value should be at least &euro;1
+    </div>
+    <div
+      class="error-message"
+      *ngIf="
+        tradeForm.get('value')?.hasError('required') &&
+        tradeForm.get('value')?.touched &&
+        tradeForm.get('amount')?.hasError('required') &&
+        tradeForm.get('amount')?.touched
+      ">
+      Fill the transaction value or crypto amount input
+    </div>
 
-            @if (transactionType() === "sell") {
-            <mat-form-field>
-                <mat-label>Crypto Amount</mat-label>
-                <input matInput formControlName="amount" type="number" min="0" />
-            </mat-form-field>
-            <mat-form-field>
-                <mat-label>Value (€)</mat-label>
-                <input matInput formControlName="value" type="number" min="0" />
-            </mat-form-field>
-            }
-        </div>
-
-        <div *ngIf="errorMessage" class="error-message">
-            {{ errorMessage }}
-        </div>
-
-        <div class="error-message" *ngIf="tradeForm.get('value')?.hasError('min')">
-            Transaction value should be at least &euro;1
-        </div>
-        <div class="error-message" *ngIf="tradeForm.get('value')?.hasError('required') && tradeForm.get('value')?.touched
-            && tradeForm.get('amount')?.hasError('required') && tradeForm.get('amount')?.touched">
-            Fill the transaction value or crypto amount input
-        </div>
-
-        <div class="btn-container">
-            <app-button label="Cancel" class="reset" (click)="handleCancel()" />
-            <app-button label="Trade" type="submit" [disabled]="tradeForm.invalid" />
-        </div>
-    </form>
+    <div class="trade-modal__actions">
+      <app-button label="Cancel" class="reset" (click)="handleCancel()" />
+      <app-button label="Trade" type="submit" [disabled]="tradeForm.invalid" />
+    </div>
+  </form>
 </div>
