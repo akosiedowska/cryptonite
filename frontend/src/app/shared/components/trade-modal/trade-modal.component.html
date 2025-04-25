@@ -1,5 +1,5 @@
-<div class="modal-container">
-  <h2 class="modal-title">
+<div class="trade-modal">
+  <h2 class="trade-modal__title">
     <i class="fa-solid fa-right-left trade-icon"></i>
     <span>Trade: {{ data.name }}</span>
     <i
@@ -9,19 +9,19 @@
       (keydown.enter)="handleCancel()"
       role="button"></i>
   </h2>
-  <div class="transaction-info">
+  <div class="trade-modal__transaction-info">
     <p>Current Euro balance:</p>
     <span>&euro;{{ currentBalance.toFixed(2) }}</span>
   </div>
-  <div class="transaction-info">
+  <div class="trade-modal__transaction-info">
     <p>Current {{ data.name }} balance:</p>
     <span>{{ coinBalance.toFixed(2) }}</span>
   </div>
-  <div class="transaction-info">
+  <div class="trade-modal__transaction-info">
     <p>Current {{ data.name }} price:</p>
     <span>&euro;{{ price$ | async }}</span>
   </div>
-  <div class="transaction-toggle-container">
+  <div class="trade-modal__transaction-toggle">
     <app-button
       (click)="transactionType.set('buy')"
       [class]="transactionType() === 'buy' ? 'toggle-active' : 'toggle'"
@@ -36,7 +36,7 @@
   </div>
 
   <form [formGroup]="tradeForm" (ngSubmit)="checkBalance()">
-    <div class="inputs-container">
+    <div class="trade-modal__inputs">
       @if (transactionType() === 'buy') {
         <mat-form-field class="trade-input" appearance="outline">
           <mat-label>Value (€)</mat-label>
@@ -78,7 +78,7 @@
       Fill the transaction value or crypto amount input
     </div>
 
-    <div class="btn-container">
+    <div class="trade-modal__actions">
       <app-button label="Cancel" class="reset" (click)="handleCancel()" />
       <app-button label="Trade" type="submit" [disabled]="tradeForm.invalid" />
     </div>
