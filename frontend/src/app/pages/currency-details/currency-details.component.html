@@ -80,6 +80,7 @@
     </form>
   </div>
 
+<<<<<<< HEAD
   <div
     (mousemove)="addHighlight($event)"
     (touchmove)="addHighlight($event)"
@@ -100,6 +101,26 @@
           color="#06b6d4" />
       </div>
     }
+=======
+  <!-- <div class="chart-container">
+    <highcharts-chart
+      [Highcharts]="Highcharts"
+      [options]="chartOptions"
+      style="width: 100%; height: 100%; display: block"
+      (update)="(true)"></highcharts-chart>
+  </div> -->
+
+  <app-chart-component
+    [coinId]="coinId"
+    [days]="daysValue"
+    [currency]="currency" />
+
+  <div *ngIf="compareCheckbox.value && compareCoin.value">
+    <app-chart-component
+      [coinId]="compareCoin.value"
+      [days]="daysValue"
+      [currency]="currency" />
+>>>>>>> bc033f8 (added chart component)
   </div>
 
   <div class="market-data">
