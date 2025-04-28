@@ -76,12 +76,24 @@
     <!-- <div>{{compareCheckbox.value |  json}}</div> -->
   </div>
 
-  <div class="chart-container">
+  <!-- <div class="chart-container">
     <highcharts-chart
       [Highcharts]="Highcharts"
       [options]="chartOptions"
       style="width: 100%; height: 100%; display: block"
       (update)="(true)"></highcharts-chart>
+  </div> -->
+
+  <app-chart-component
+    [coinId]="coinId"
+    [days]="daysValue"
+    [currency]="currency" />
+
+  <div *ngIf="compareCheckbox.value && compareCoin.value">
+    <app-chart-component
+      [coinId]="compareCoin.value"
+      [days]="daysValue"
+      [currency]="currency" />
   </div>
 
   <div class="market-data">

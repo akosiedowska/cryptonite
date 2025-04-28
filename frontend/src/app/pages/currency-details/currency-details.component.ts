@@ -29,6 +29,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox'
 import { MatAutocompleteModule } from '@angular/material/autocomplete'
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatInputModule } from '@angular/material/input'
+import { ChartComponent } from './components/chart/chart.component'
 
 interface CoinData {
   prices: SingleData[]
@@ -50,6 +51,7 @@ type SingleData = [number, number]
     FormsModule,
     MatFormFieldModule,
     MatInputModule,
+    ChartComponent,
   ],
   templateUrl: './currency-details.component.html',
   styleUrl: './currency-details.component.scss',
@@ -64,8 +66,8 @@ export class CurrencyDetailsComponent implements OnInit {
   coinPrices = signal<SingleData[]>([])
   coinData = signal<Coin | null>(null)
   private destroyRef = inject(DestroyRef)
-  private daysValue = 1
   currency = Currency.EUR
+  daysValue = 1
   formatNumber = formatNumber
   CURRENCY_SYMBOLS = CURRENCY_SYMBOLS
   filteredOptions = new Observable<string[]>()
