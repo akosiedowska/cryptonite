@@ -1,4 +1,12 @@
-import { Component, DestroyRef, inject, Input, signal, OnInit, OnChanges } from '@angular/core'
+import {
+  Component,
+  DestroyRef,
+  inject,
+  Input,
+  signal,
+  OnInit,
+  OnChanges,
+} from '@angular/core'
 import { Currency } from '../../../../constants'
 import * as Highcharts from 'highcharts'
 import { HttpClient } from '@angular/common/http'
@@ -25,6 +33,7 @@ export class ChartComponent implements OnInit, OnChanges {
   @Input() coinId = ''
   @Input() days = 1
   @Input() currency: Currency = Currency.EUR
+  @Input() color = ''
   coinPrices = signal<SingleData[]>([])
 
   Highcharts: typeof Highcharts = Highcharts
@@ -49,7 +58,6 @@ export class ChartComponent implements OnInit, OnChanges {
         type: 'line',
         name: 'Coin Price',
         data: [],
-        color: '#10b981',
       },
     ],
     time: {
@@ -85,6 +93,7 @@ export class ChartComponent implements OnInit, OnChanges {
               type: 'line',
               name: 'Coin Price',
               data: this.coinPrices(),
+              color: `${this.color}` || '#10b981',
             },
           ],
         }
