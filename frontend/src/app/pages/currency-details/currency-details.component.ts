@@ -69,7 +69,6 @@ export class CurrencyDetailsComponent implements OnInit {
   coinId = this.route.snapshot.paramMap.get('id') || ''
   coinPrices = signal<SingleData[]>([])
   coinData = signal<Coin | null>(null)
-  coinList = signal<ListCoinElement[]>([])
   private destroyRef = inject(DestroyRef)
   currency = Currency.EUR
   daysValue = 1
