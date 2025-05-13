@@ -70,7 +70,7 @@ export class WalletComponent {
                 coin.currency_id === 'fake-euro'
                   ? amount
                   : (prices[coin.currency_id]?.eur || 0) * amount
-
+              
               return {
                 ...coin,
                 currentValue,
