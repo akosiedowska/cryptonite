@@ -54,9 +54,9 @@
       </mat-form-field>
     </form>
 
-    <form>
+    <form class="compare-form">
       <mat-checkbox [formControl]="compareCheckbox">Compare</mat-checkbox>
-      <mat-form-field *ngIf="compareCheckbox.value">
+      <mat-form-field *ngIf="compareCheckbox.value" class="chart-dropdown">
         <mat-label>Coin</mat-label>
         <input
           type="text"
@@ -65,15 +65,16 @@
           matInput
           [formControl]="compareCoin"
           [matAutocomplete]="auto" />
-        <mat-autocomplete #auto="matAutocomplete">
-          @for (option of filteredOptions | async; track option) {
-            <mat-option [value]="option">{{ option }}</mat-option>
+        <mat-autocomplete
+          #auto="matAutocomplete"
+          (optionSelected)="onCoinSelected($event.option.value)">
+          <!-- @for (option of filteredOptions | async; track option) { -->
+          @for (option of filteredOptions | async; track option.id) {
+            <mat-option [value]="option.id">{{ option.name }}</mat-option>
           }
         </mat-autocomplete>
       </mat-form-field>
     </form>
-    <!-- <div>{{compareCheckbox.get('compare')?.value}}</div> -->
-    <!-- <div>{{compareCheckbox.value |  json}}</div> -->
   </div>
 
   <!-- <div class="chart-container">
@@ -89,9 +90,9 @@
     [days]="daysValue"
     [currency]="currency" />
 
-  <div *ngIf="compareCheckbox.value && compareCoin.value">
+  <div *ngIf="compareCheckbox.value && selectedCoinId()">
     <app-chart-component
-      [coinId]="compareCoin.value"
+      [coinId]="selectedCoinId()"
       [days]="daysValue"
       [currency]="currency"
       color="#06b6d4" />

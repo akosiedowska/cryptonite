@@ -55,6 +55,10 @@ html {
   .mat-mdc-select-panel.mdc-menu-surface.mdc-menu-surface--open.mat-primary {
     background-color: white !important;
   }
+
+  .mat-mdc-autocomplete-panel.mdc-menu-surface--open {
+    background-color: white !important;
+  }
 }
 
 // form styles overrrides:

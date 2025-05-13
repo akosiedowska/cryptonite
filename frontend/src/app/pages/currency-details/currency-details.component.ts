@@ -1,5 +1,11 @@
 import { HttpClient } from '@angular/common/http'
-import { Component, DestroyRef, inject, signal, OnInit } from '@angular/core'
+import {
+  Component,
+  DestroyRef,
+  inject,
+  signal,
+  OnInit,
+} from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import { environment } from '../../../environments/environment'
 import * as Highcharts from 'highcharts'
@@ -30,6 +36,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete'
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatInputModule } from '@angular/material/input'
 import { ChartComponent } from './components/chart/chart.component'
+import { ListCoinElement } from '../../types'
 
 interface CoinData {
   prices: SingleData[]
@@ -65,15 +72,25 @@ export class CurrencyDetailsComponent implements OnInit {
   coinId = this.route.snapshot.paramMap.get('id') || ''
   coinPrices = signal<SingleData[]>([])
   coinData = signal<Coin | null>(null)
+  coinList = signal<ListCoinElement[]>([])
   private destroyRef = inject(DestroyRef)
   currency = Currency.EUR
   daysValue = 1
   formatNumber = formatNumber
   CURRENCY_SYMBOLS = CURRENCY_SYMBOLS
-  filteredOptions = new Observable<string[]>()
-  options: string[] = ['bitcoin', 'dogecoin', 'ethereum']
-
-  myControl = new FormControl<string>('')
+  filteredOptions = new Observable<ListCoinElement[]>()
+  // options: string[] = ['bitcoin', 'dogecoin', 'ethereum']
+  // options = computed(() => this.coinList().map(el => el.name))
+  options = signal<ListCoinElement[]>([])
+  // filteredOptions = computed(() => {
+  //   // const input = this.compareCoin.value?.toLowerCase() || ''
+  //   // return this.options().filter(opt => opt.toLowerCase().includes(input))
+  //   const input = this.compareCoin.value?.toLowerCase() || ''
+  //   return this.options().filter(option =>
+  //     option.name.toLowerCase().includes(input)
+  //   )
+  // })
+  selectedCoinId = signal<string>('')
 
   chartForm = new FormGroup({
     days: new FormControl(1),
@@ -131,6 +148,7 @@ export class CurrencyDetailsComponent implements OnInit {
   ngOnInit() {
     this.fetchCoinPrices()
     this.fetchCoinData()
+    this.fetchCoinList()
     interval(40_0000)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(() => this.fetchCoinPrices())
@@ -144,10 +162,10 @@ export class CurrencyDetailsComponent implements OnInit {
     )
   }
 
-  private _filter(value: string): string[] {
+  private _filter(value: string): ListCoinElement[] {
     const filterValue = value.toLowerCase()
-    return this.options.filter(option =>
-      option.toLowerCase().includes(filterValue)
+    return this.options().filter(option =>
+      option.name.toLowerCase().includes(filterValue)
     )
   }
 
@@ -182,6 +200,24 @@ export class CurrencyDetailsComponent implements OnInit {
       .subscribe(data => {
         this.coinData.set(data[0])
       })
+  }
+
+  fetchCoinList() {
+    return this.http
+      .get<ListCoinElement[]>(`https://api.coingecko.com/api/v3/coins/list`)
+      .subscribe(data => {
+        this.options.set(data)
+        // this.options.set(data.map(el => el.name))
+      })
+  }
+
+  // displayFn = (coin: ListCoinElement | string): string => {
+  //   if (typeof coin === 'string') return coin
+  //   return coin?.name ?? ''
+  // }
+
+  onCoinSelected(selected: string) {
+    this.selectedCoinId.set(selected)
   }
 
   toggleFavourite(currencyId: string) {

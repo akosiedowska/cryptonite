@@ -77,6 +77,13 @@
   gap: 2rem;
   overflow: visible !important;
   position: relative;
+
+  .compare-form {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-left: 2rem;
+  }
 }
 
 .chart-container {
