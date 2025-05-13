@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router'
 import { environment } from '../../../environments/environment'
 import * as Highcharts from 'highcharts'
 import { HighchartsChartModule } from 'highcharts-angular'
+<<<<<<< HEAD
 import { interval, map, Observable, startWith } from 'rxjs'
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
 import {
@@ -12,6 +13,11 @@ import {
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms'
+=======
+import { interval } from 'rxjs'
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms'
+>>>>>>> 6a90d06 (fixed displaying balance and table data in dashboard)
 import { MatSelectModule } from '@angular/material/select'
 import { Store } from '@ngrx/store'
 import { Coin } from '../../core/store/coins/coins.model'
@@ -25,6 +31,7 @@ import { formatNumber } from '../../helpers'
 import { Currency, CURRENCY_SYMBOLS } from '../../constants'
 import { selectCurrentUser } from '../../core/store/user/user.selector'
 import { TradeModalComponent } from '../../shared/components/trade-modal/trade-modal.component'
+<<<<<<< HEAD
 import { MatCheckboxModule } from '@angular/material/checkbox'
 import { MatAutocompleteModule } from '@angular/material/autocomplete'
 import { MatFormFieldModule } from '@angular/material/form-field'
@@ -34,6 +41,8 @@ import { ListCoinElement } from '../../types'
 import syncCharts from './syncAddition'
 
 syncCharts(Highcharts)
+=======
+>>>>>>> 6a90d06 (fixed displaying balance and table data in dashboard)
 
 interface CoinData {
   prices: SingleData[]
@@ -50,12 +59,15 @@ type SingleData = [number, number]
     CommonModule,
     MatIconModule,
     ButtonComponent,
+<<<<<<< HEAD
     MatCheckboxModule,
     MatAutocompleteModule,
     FormsModule,
     MatFormFieldModule,
     MatInputModule,
     ChartComponent,
+=======
+>>>>>>> 6a90d06 (fixed displaying balance and table data in dashboard)
   ],
   templateUrl: './currency-details.component.html',
   styleUrl: './currency-details.component.scss',
@@ -79,8 +91,11 @@ export class CurrencyDetailsComponent implements OnInit {
   selectedCoinId = signal<string>('')
   selectedCoinName = signal<string>('')
 
+<<<<<<< HEAD
   myControl = new FormControl<string>('')
 
+=======
+>>>>>>> 6a90d06 (fixed displaying balance and table data in dashboard)
   chartForm = new FormGroup({
     days: new FormControl(1),
   })
@@ -90,6 +105,7 @@ export class CurrencyDetailsComponent implements OnInit {
   compareCheckbox = new FormControl(false)
   compareCoin = new FormControl<ListCoinElement | string>('')
 
+<<<<<<< HEAD
   // Highcharts: typeof Highcharts = Highcharts
   // chartOptions: Highcharts.Options = {
   //   title: {
@@ -118,11 +134,42 @@ export class CurrencyDetailsComponent implements OnInit {
   //   timezoneOffset: new Date().getTimezoneOffset(),
   // },
   // }
+=======
+  Highcharts: typeof Highcharts = Highcharts
+  chartOptions: Highcharts.Options = {
+    title: {
+      text: `${this.coinId} price - last 24 hours`,
+    },
+    xAxis: {
+      type: 'datetime',
+      title: {
+        text: 'Time',
+      },
+    },
+    yAxis: {
+      title: {
+        text: 'Price (EUR)',
+      },
+    },
+    series: [
+      {
+        type: 'line',
+        name: 'Coin Price',
+        data: [],
+        color: '#10b981',
+      },
+    ],
+    time: {
+      timezoneOffset: new Date().getTimezoneOffset(),
+    },
+  }
+>>>>>>> 6a90d06 (fixed displaying balance and table data in dashboard)
 
   constructor(
     private favouriteService: FavouritesService,
     private modalService: ModalService
   ) {
+<<<<<<< HEAD
     this.chartForm
       .get('days')
       ?.valueChanges.pipe(takeUntilDestroyed())
@@ -147,6 +194,17 @@ export class CurrencyDetailsComponent implements OnInit {
           this.selectedCoinName.set('')
         }
       })
+=======
+    this.chartForm.get('days')?.valueChanges.subscribe(value => {
+      this.daysValue = value ?? 1
+      this.fetchCoinPrices()
+    })
+    this.currencyForm.get('currency')?.valueChanges.subscribe(value => {
+      this.currency = value ?? Currency.EUR
+      this.fetchCoinPrices()
+      this.fetchCoinData()
+    })
+>>>>>>> 6a90d06 (fixed displaying balance and table data in dashboard)
   }
 
   ngOnInit() {
@@ -185,6 +243,7 @@ export class CurrencyDetailsComponent implements OnInit {
       )
       .subscribe(data => {
         this.coinPrices.set(data.prices)
+<<<<<<< HEAD
         // this.chartOptions = {
         //   ...this.chartOptions,
         //   title: {
@@ -198,6 +257,21 @@ export class CurrencyDetailsComponent implements OnInit {
         //     },
         //   ],
         // }
+=======
+        this.chartOptions = {
+          ...this.chartOptions,
+          title: {
+            text: `${this.coinId} price - last ${this.daysValue === 1 ? '24 hours' : this.daysValue === 30 ? '30 days' : '365 days'}`,
+          },
+          series: [
+            {
+              type: 'line',
+              name: 'Coin Price',
+              data: this.coinPrices(),
+            },
+          ],
+        }
+>>>>>>> 6a90d06 (fixed displaying balance and table data in dashboard)
       })
   }
 
