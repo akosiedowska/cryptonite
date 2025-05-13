@@ -79,6 +79,8 @@ export class CurrencyDetailsComponent implements OnInit {
   selectedCoinId = signal<string>('')
   selectedCoinName = signal<string>('')
 
+  myControl = new FormControl<string>('')
+
   chartForm = new FormGroup({
     days: new FormControl(1),
   })
