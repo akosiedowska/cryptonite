@@ -1,11 +1,5 @@
 import { HttpClient } from '@angular/common/http'
-import {
-  Component,
-  DestroyRef,
-  inject,
-  signal,
-  OnInit,
-} from '@angular/core'
+import { Component, DestroyRef, inject, signal, OnInit } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import { environment } from '../../../environments/environment'
 import * as Highcharts from 'highcharts'
@@ -72,24 +66,13 @@ export class CurrencyDetailsComponent implements OnInit {
   coinId = this.route.snapshot.paramMap.get('id') || ''
   coinPrices = signal<SingleData[]>([])
   coinData = signal<Coin | null>(null)
-  coinList = signal<ListCoinElement[]>([])
   private destroyRef = inject(DestroyRef)
   currency = Currency.EUR
   daysValue = 1
   formatNumber = formatNumber
   CURRENCY_SYMBOLS = CURRENCY_SYMBOLS
   filteredOptions = new Observable<ListCoinElement[]>()
-  // options: string[] = ['bitcoin', 'dogecoin', 'ethereum']
-  // options = computed(() => this.coinList().map(el => el.name))
   options = signal<ListCoinElement[]>([])
-  // filteredOptions = computed(() => {
-  //   // const input = this.compareCoin.value?.toLowerCase() || ''
-  //   // return this.options().filter(opt => opt.toLowerCase().includes(input))
-  //   const input = this.compareCoin.value?.toLowerCase() || ''
-  //   return this.options().filter(option =>
-  //     option.name.toLowerCase().includes(input)
-  //   )
-  // })
   selectedCoinId = signal<string>('')
 
   chartForm = new FormGroup({
@@ -158,7 +141,7 @@ export class CurrencyDetailsComponent implements OnInit {
 
     this.filteredOptions = this.compareCoin.valueChanges.pipe(
       startWith(''),
-      map(value => this._filter(value || ''))
+      map(value => this._filter(value || '').slice(0, 100))
     )
   }
 
@@ -207,14 +190,8 @@ export class CurrencyDetailsComponent implements OnInit {
       .get<ListCoinElement[]>(`https://api.coingecko.com/api/v3/coins/list`)
       .subscribe(data => {
         this.options.set(data)
-        // this.options.set(data.map(el => el.name))
       })
   }
-
-  // displayFn = (coin: ListCoinElement | string): string => {
-  //   if (typeof coin === 'string') return coin
-  //   return coin?.name ?? ''
-  // }
 
   onCoinSelected(selected: string) {
     this.selectedCoinId.set(selected)
