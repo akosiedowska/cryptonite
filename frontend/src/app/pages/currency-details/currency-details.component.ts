@@ -73,6 +73,8 @@ export class CurrencyDetailsComponent implements OnInit {
   filteredOptions = new Observable<string[]>()
   options: string[] = ['bitcoin', 'dogecoin', 'ethereum']
 
+  myControl = new FormControl<string>('')
+
   chartForm = new FormGroup({
     days: new FormControl(1),
   })
