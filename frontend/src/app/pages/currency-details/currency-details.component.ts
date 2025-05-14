@@ -4,9 +4,14 @@ import { ActivatedRoute } from '@angular/router'
 import { environment } from '../../../environments/environment'
 import * as Highcharts from 'highcharts'
 import { HighchartsChartModule } from 'highcharts-angular'
-import { interval } from 'rxjs'
+import { interval, map, Observable, startWith } from 'rxjs'
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms'
+import {
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms'
 import { MatSelectModule } from '@angular/material/select'
 import { Store } from '@ngrx/store'
 import { Coin } from '../../core/store/coins/coins.model'
@@ -20,6 +25,12 @@ import { formatNumber } from '../../helpers'
 import { Currency, CURRENCY_SYMBOLS } from '../../constants'
 import { selectCurrentUser } from '../../core/store/user/user.selector'
 import { TradeModalComponent } from '../../shared/components/trade-modal/trade-modal.component'
+import { MatCheckboxModule } from '@angular/material/checkbox'
+import { MatAutocompleteModule } from '@angular/material/autocomplete'
+import { MatFormFieldModule } from '@angular/material/form-field'
+import { MatInputModule } from '@angular/material/input'
+import { ChartComponent } from './components/chart/chart.component'
+import { ListCoinElement } from '../../types'
 
 interface CoinData {
   prices: SingleData[]
@@ -36,6 +47,12 @@ type SingleData = [number, number]
     CommonModule,
     MatIconModule,
     ButtonComponent,
+    MatCheckboxModule,
+    MatAutocompleteModule,
+    FormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    ChartComponent,
   ],
   templateUrl: './currency-details.component.html',
   styleUrl: './currency-details.component.scss',
@@ -50,10 +67,14 @@ export class CurrencyDetailsComponent implements OnInit {
   coinPrices = signal<SingleData[]>([])
   coinData = signal<Coin | null>(null)
   private destroyRef = inject(DestroyRef)
-  private daysValue = 1
   currency = Currency.EUR
+  daysValue = 1
   formatNumber = formatNumber
   CURRENCY_SYMBOLS = CURRENCY_SYMBOLS
+  filteredOptions = new Observable<ListCoinElement[]>()
+  options = signal<ListCoinElement[]>([])
+  selectedCoinId = signal<string>('')
+  selectedCoinName = signal<string>('')
 
   chartForm = new FormGroup({
     days: new FormControl(1),
@@ -61,6 +82,8 @@ export class CurrencyDetailsComponent implements OnInit {
   currencyForm = new FormGroup({
     currency: new FormControl(Currency.EUR),
   })
+  compareCheckbox = new FormControl(false)
+  compareCoin = new FormControl<ListCoinElement | string>('')
 
   Highcharts: typeof Highcharts = Highcharts
   chartOptions: Highcharts.Options = {
@@ -109,12 +132,30 @@ export class CurrencyDetailsComponent implements OnInit {
   ngOnInit() {
     this.fetchCoinPrices()
     this.fetchCoinData()
-    interval(40_000)
+    this.fetchCoinList()
+    interval(40_0000)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(() => this.fetchCoinPrices())
-    interval(10_000)
+    interval(10_0000)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(() => this.fetchCoinData())
+
+    this.filteredOptions = this.compareCoin.valueChanges.pipe(
+      startWith(''),
+      map(value => {
+        const filterValue =
+          typeof value === 'string'
+            ? value.toLowerCase()
+            : value?.name?.toLowerCase() || ''
+        return this._filter(filterValue).slice(0, 100)
+      })
+    )
+  }
+
+  private _filter(filterValue: string): ListCoinElement[] {
+    return this.options().filter(option =>
+      option.name.toLowerCase().includes(filterValue)
+    )
   }
 
   fetchCoinPrices() {
@@ -148,6 +189,23 @@ export class CurrencyDetailsComponent implements OnInit {
       .subscribe(data => {
         this.coinData.set(data[0])
       })
+  }
+
+  fetchCoinList() {
+    return this.http
+      .get<ListCoinElement[]>(`https://api.coingecko.com/api/v3/coins/list`)
+      .subscribe(data => {
+        this.options.set(data)
+      })
+  }
+
+  displayCoinName(coin: ListCoinElement): string {
+    return coin?.name || ''
+  }
+
+  onCoinSelected(selected: ListCoinElement) {
+    this.selectedCoinId.set(selected.id)
+    this.selectedCoinName.set(selected.name)
   }
 
   toggleFavourite(currencyId: string) {
