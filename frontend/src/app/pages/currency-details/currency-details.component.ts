@@ -12,6 +12,9 @@ import {
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms'
+import { interval } from 'rxjs'
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms'
 import { MatSelectModule } from '@angular/material/select'
 import { Store } from '@ngrx/store'
 import { Coin } from '../../core/store/coins/coins.model'

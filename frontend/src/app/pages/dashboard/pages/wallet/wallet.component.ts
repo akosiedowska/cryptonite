@@ -96,9 +96,9 @@ export class WalletComponent {
               }
             })
           )
+
       }),
       takeUntilDestroyed(),
-      // shareReplay({ bufferSize: 1, refCount: true })
       share()
     )
   }

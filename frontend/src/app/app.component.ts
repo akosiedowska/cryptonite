@@ -12,6 +12,7 @@ import { loadTransactions } from './core/store/transactions/transactions.actions
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
 import { ScrollingModule } from '@angular/cdk/scrolling'
 
+
 @Component({
   selector: 'app-root',
   imports: [RouterOutlet, HeaderComponent, FooterComponent, ScrollingModule],
