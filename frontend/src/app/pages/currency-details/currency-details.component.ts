@@ -74,6 +74,7 @@ export class CurrencyDetailsComponent implements OnInit {
   filteredOptions = new Observable<ListCoinElement[]>()
   options = signal<ListCoinElement[]>([])
   selectedCoinId = signal<string>('')
+  selectedCoinName = signal<string>('')
 
   chartForm = new FormGroup({
     days: new FormControl(1),
@@ -82,7 +83,7 @@ export class CurrencyDetailsComponent implements OnInit {
     currency: new FormControl(Currency.EUR),
   })
   compareCheckbox = new FormControl(false)
-  compareCoin = new FormControl('')
+  compareCoin = new FormControl<ListCoinElement | string>('')
 
   Highcharts: typeof Highcharts = Highcharts
   chartOptions: Highcharts.Options = {
@@ -141,12 +142,17 @@ export class CurrencyDetailsComponent implements OnInit {
 
     this.filteredOptions = this.compareCoin.valueChanges.pipe(
       startWith(''),
-      map(value => this._filter(value || '').slice(0, 100))
+      map(value => {
+        const filterValue =
+          typeof value === 'string'
+            ? value.toLowerCase()
+            : value?.name?.toLowerCase() || ''
+        return this._filter(filterValue).slice(0, 100)
+      })
     )
   }
 
-  private _filter(value: string): ListCoinElement[] {
-    const filterValue = value.toLowerCase()
+  private _filter(filterValue: string): ListCoinElement[] {
     return this.options().filter(option =>
       option.name.toLowerCase().includes(filterValue)
     )
@@ -193,8 +199,13 @@ export class CurrencyDetailsComponent implements OnInit {
       })
   }
 
-  onCoinSelected(selected: string) {
-    this.selectedCoinId.set(selected)
+  displayCoinName(coin: ListCoinElement): string {
+    return coin?.name || ''
+  }
+
+  onCoinSelected(selected: ListCoinElement) {
+    this.selectedCoinId.set(selected.id)
+    this.selectedCoinName.set(selected.name)
   }
 
   toggleFavourite(currencyId: string) {

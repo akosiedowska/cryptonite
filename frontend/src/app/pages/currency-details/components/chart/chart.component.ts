@@ -31,6 +31,7 @@ export class ChartComponent implements OnInit, OnChanges {
   private http = inject(HttpClient)
   private destroyRef = inject(DestroyRef)
   @Input() coinId = ''
+  @Input() coinName? = ''
   @Input() days = 1
   @Input() currency: Currency = Currency.EUR
   @Input() color = ''
@@ -50,7 +51,7 @@ export class ChartComponent implements OnInit, OnChanges {
     },
     yAxis: {
       title: {
-        text: 'Price (EUR)',
+        text: `Price (${this.currency})`,
       },
     },
     series: [
@@ -86,7 +87,12 @@ export class ChartComponent implements OnInit, OnChanges {
         this.chartOptions = {
           ...this.chartOptions,
           title: {
-            text: `${this.coinId} price - last ${this.days === 1 ? '24 hours' : this.days === 30 ? '30 days' : '365 days'}`,
+            text: `${this.coinName || ''} price - last ${this.days === 1 ? '24 hours' : this.days === 30 ? '30 days' : '365 days'}`,
+          },
+          yAxis: {
+            title: {
+              text: `Price (${this.currency.toUpperCase()})`,
+            },
           },
           series: [
             {

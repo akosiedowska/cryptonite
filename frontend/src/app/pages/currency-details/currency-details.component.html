@@ -67,9 +67,10 @@
           [matAutocomplete]="auto" />
         <mat-autocomplete
           #auto="matAutocomplete"
-          (optionSelected)="onCoinSelected($event.option.value)">
+          (optionSelected)="onCoinSelected($event.option.value)"
+          [displayWith]="displayCoinName">
           @for (option of filteredOptions | async; track option.id) {
-            <mat-option [value]="option.id">{{ option.name }}</mat-option>
+            <mat-option [value]="option">{{ option.name }}</mat-option>
           }
         </mat-autocomplete>
       </mat-form-field>
@@ -78,12 +79,14 @@
 
   <app-chart-component
     [coinId]="coinId"
+    [coinName]="coinData()?.name"
     [days]="daysValue"
     [currency]="currency" />
 
   <div *ngIf="compareCheckbox.value && selectedCoinId()">
     <app-chart-component
       [coinId]="selectedCoinId()"
+      [coinName]="selectedCoinName()"
       [days]="daysValue"
       [currency]="currency"
       color="#06b6d4" />
