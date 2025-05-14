@@ -55,6 +55,10 @@ html {
   .mat-mdc-select-panel.mdc-menu-surface.mdc-menu-surface--open.mat-primary {
     background-color: white !important;
   }
+
+  .mat-mdc-autocomplete-panel.mdc-menu-surface--open {
+    background-color: white !important;
+  }
 }
 
 // form styles overrrides:
@@ -118,3 +122,12 @@ html {
     height: 46px;
   }
 }
+
+.cdk-overlay-container {
+  z-index: 1000 !important;
+}
+
+.cdk-overlay-connected-position-bounding-box {
+  position: absolute !important;
+}
+

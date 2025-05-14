@@ -10,10 +10,12 @@ import { FavouritesService } from './core/services/favourites.service'
 import { loadWallet } from './core/store/wallet/wallet.actions'
 import { loadTransactions } from './core/store/transactions/transactions.actions'
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
+import { ScrollingModule } from '@angular/cdk/scrolling'
+
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, HeaderComponent, FooterComponent],
+  imports: [RouterOutlet, HeaderComponent, FooterComponent, ScrollingModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
