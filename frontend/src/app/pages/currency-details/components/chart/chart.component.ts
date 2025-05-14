@@ -100,6 +100,7 @@ export class ChartComponent implements OnInit, OnChanges {
             title: {
               text: `Price (${this.currency.toUpperCase()})`,
             },
+<<<<<<< HEAD
           },
           xAxis: {
             crosshair: true,
@@ -126,6 +127,8 @@ export class ChartComponent implements OnInit, OnChanges {
                 }
               },
             },
+=======
+>>>>>>> aa66b8d (coin names and comparison chart data fixes)
           },
           series: [
             {
