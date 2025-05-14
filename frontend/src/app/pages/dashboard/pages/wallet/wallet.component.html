@@ -1,53 +1,87 @@
-<div class="balance">
+<ng-container *ngIf="walletData$ | async as walletData">
+  <div class="balance">
     <div class="balance__title">
-        <i class="fa-solid fa-wallet"></i>
-        <h1 class="balance__title__content">Balance</h1>
+      <i class="fa-solid fa-wallet"></i>
+      <h1 class="balance__title__content">Balance</h1>
     </div>
     <div class="balance__subtitle">Total portfolio value</div>
-    <div class="balance__value">&euro;{{((walletData$ | async)?.totalWalletValue || 0).toFixed(2)}}</div>
-    <div class="balance__change" [ngClass]="((walletData$ | async)?.changePercentage || 0) < 0 
-        ? 'negative' : ((walletData$ | async)?.changePercentage || 0) > 0 
-        ? 'positive' : ''">
-        {{((walletData$ | async)?.changePercentage || 0)}}%
+    <div class="balance__value">
+      &euro;{{ (walletData?.totalWalletValue || 0).toFixed(2) }}
     </div>
-</div>
-<div>
+    <div
+      class="balance__change"
+      [ngClass]="
+        (walletData?.changePercentage || 0) < 0
+          ? 'negative'
+          : (walletData?.changePercentage || 0) > 0
+            ? 'positive'
+            : ''
+      ">
+      {{ walletData?.changePercentage || 0 }}%
+    </div>
+  </div>
+  <div>
     <h2>Portfolio</h2>
-    <p>The prices are refreshed every 10 seconds to display most up-to-date data.</p>
-    <table mat-table [dataSource]="(walletData$ | async)?.wallet ?? []" class="portfolio-table">
-        <ng-container matColumnDef="coin">
-            <th mat-header-cell *matHeaderCellDef>Name</th>
-            <td mat-cell *matCellDef="let coin">{{coin.currency_name}}</td>
-        </ng-container>
-        <ng-container matColumnDef="amount">
-            <th mat-header-cell *matHeaderCellDef>Amount</th>
-            <td mat-cell *matCellDef="let coin">{{(+coin.amount).toFixed(2)}}</td>
-        </ng-container>
-        <ng-container matColumnDef="spent">
-            <th mat-header-cell *matHeaderCellDef>Total spent</th>
-            <td mat-cell *matCellDef="let coin">&euro;{{(+coin.total_spent).toFixed(2)}}</td>
-        </ng-container>
-        <ng-container matColumnDef="curr_value">
-            <th mat-header-cell *matHeaderCellDef>Current value</th>
-            <td mat-cell *matCellDef="let coin">&euro;{{coin.currentValue.toFixed(2)}}</td>
-        </ng-container>
-        <ng-container matColumnDef="change">
-            <th mat-header-cell *matHeaderCellDef>Change</th>
-            <td mat-cell *matCellDef="let coin">
-                <div class="change-cell">
+    <p>
+      The prices are refreshed every 10 seconds to display most up-to-date data.
+    </p>
+    <table
+      mat-table
+      [dataSource]="walletData?.wallet ?? []"
+      class="portfolio-table">
+      <ng-container matColumnDef="coin">
+        <th mat-header-cell *matHeaderCellDef>Name</th>
+        <td mat-cell *matCellDef="let coin">{{ coin.currency_name }}</td>
+      </ng-container>
+      <ng-container matColumnDef="amount">
+        <th mat-header-cell *matHeaderCellDef>Amount</th>
+        <td mat-cell *matCellDef="let coin">{{ (+coin.amount).toFixed(2) }}</td>
+      </ng-container>
+      <ng-container matColumnDef="spent">
+        <th mat-header-cell *matHeaderCellDef>Total spent</th>
+        <td mat-cell *matCellDef="let coin">
+          &euro;{{ (+coin.total_spent).toFixed(2) }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="curr_value">
+        <th mat-header-cell *matHeaderCellDef>Current value</th>
+        <td mat-cell *matCellDef="let coin">
+          &euro;{{ coin.currentValue.toFixed(2) }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="change">
+        <th mat-header-cell *matHeaderCellDef>Change</th>
+        <td mat-cell *matCellDef="let coin">
+          <div class="change-cell">
+            <span
+              [ngClass]="{
+                positive: coin.change > 0,
+                negative: coin.change < 0,
+              }">
+              &euro;{{ coin.change.toFixed(2) }}
+            </span>
+            <mat-icon
+              [fontIcon]="
+                coin.change < 0
+                  ? 'trending_down'
+                  : coin.change > 0
+                    ? 'trending_up'
+                    : ''
+              "
+              class="material-icons-outlined"
+              [ngClass]="
+                coin.change < 0 ? 'negative' : coin.change > 0 ? 'positive' : ''
+              ">
+            </mat-icon>
+          </div>
+        </td>
+      </ng-container>
 
-                    <span [ngClass]="{'positive': coin.change > 0, 'negative': coin.change < 0}">
-                        &euro;{{coin.change.toFixed(2)}}
-                    </span>
-                    <mat-icon [fontIcon]="coin.change < 0 ? 'trending_down' : coin.change > 0 ? 'trending_up' : ''"
-                        class="material-icons-outlined"
-                        [ngClass]="coin.change < 0 ? 'negative' : coin.change > 0 ? 'positive' : ''">
-                    </mat-icon>
-                </div>
-            </td>
-        </ng-container>
-
-        <tr mat-header-row *matHeaderRowDef="displayedColumns" class="header"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      <tr
+        mat-header-row
+        *matHeaderRowDef="displayedColumns"
+        class="header"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
-</div>
+  </div>
+</ng-container>
