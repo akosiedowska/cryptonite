@@ -118,15 +118,30 @@ export class CurrencyDetailsComponent implements OnInit {
     private favouriteService: FavouritesService,
     private modalService: ModalService
   ) {
-    this.chartForm.get('days')?.valueChanges.subscribe(value => {
-      this.daysValue = value ?? 1
-      this.fetchCoinPrices()
-    })
-    this.currencyForm.get('currency')?.valueChanges.subscribe(value => {
-      this.currency = value ?? Currency.EUR
-      this.fetchCoinPrices()
-      this.fetchCoinData()
-    })
+    this.chartForm
+      .get('days')
+      ?.valueChanges.pipe(takeUntilDestroyed())
+      .subscribe(value => {
+        this.daysValue = value ?? 1
+        this.fetchCoinPrices()
+      })
+    this.currencyForm
+      .get('currency')
+      ?.valueChanges.pipe(takeUntilDestroyed())
+      .subscribe(value => {
+        this.currency = value ?? Currency.EUR
+        this.fetchCoinPrices()
+        this.fetchCoinData()
+      })
+    this.compareCheckbox.valueChanges
+      .pipe(takeUntilDestroyed())
+      .subscribe(checked => {
+        if (!checked) {
+          this.compareCoin.reset()
+          this.selectedCoinId.set('')
+          this.selectedCoinName.set('')
+        }
+      })
   }
 
   ngOnInit() {
