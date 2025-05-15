@@ -77,19 +77,24 @@
     </form>
   </div>
 
-  <app-chart-component
-    [coinId]="coinId"
-    [coinName]="coinData()?.name"
-    [days]="daysValue"
-    [currency]="currency" />
-
-  <div *ngIf="compareCheckbox.value && selectedCoinId()">
+  <div
+    (mousemove)="addHighlight($event)"
+    (touchmove)="addHighlight($event)"
+    (touchstart)="addHighlight($event)">
     <app-chart-component
-      [coinId]="selectedCoinId()"
-      [coinName]="selectedCoinName()"
+      [coinId]="coinId"
+      [coinName]="coinData()?.name"
       [days]="daysValue"
-      [currency]="currency"
-      color="#06b6d4" />
+      [currency]="currency" />
+
+    <div *ngIf="compareCheckbox.value && selectedCoinId()">
+      <app-chart-component
+        [coinId]="selectedCoinId()"
+        [coinName]="selectedCoinName()"
+        [days]="daysValue"
+        [currency]="currency"
+        color="#06b6d4" />
+    </div>
   </div>
 
   <div class="market-data">
