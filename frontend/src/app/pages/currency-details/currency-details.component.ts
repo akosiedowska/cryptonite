@@ -32,6 +32,10 @@ import { MatInputModule } from '@angular/material/input'
 import { ChartComponent } from './components/chart/chart.component'
 import { ListCoinElement } from '../../types'
 
+import syncCharts from './syncAddition'
+
+syncCharts(Highcharts)
+
 interface CoinData {
   prices: SingleData[]
 }
@@ -85,48 +89,63 @@ export class CurrencyDetailsComponent implements OnInit {
   compareCheckbox = new FormControl(false)
   compareCoin = new FormControl<ListCoinElement | string>('')
 
-  Highcharts: typeof Highcharts = Highcharts
-  chartOptions: Highcharts.Options = {
-    title: {
-      text: `${this.coinId} price - last 24 hours`,
-    },
-    xAxis: {
-      type: 'datetime',
-      title: {
-        text: 'Time',
-      },
-    },
-    yAxis: {
-      title: {
-        text: 'Price (EUR)',
-      },
-    },
-    series: [
-      {
-        type: 'line',
-        name: 'Coin Price',
-        data: [],
-        color: '#10b981',
-      },
-    ],
-    time: {
-      timezoneOffset: new Date().getTimezoneOffset(),
-    },
-  }
+  // Highcharts: typeof Highcharts = Highcharts
+  // chartOptions: Highcharts.Options = {
+  //   title: {
+  //     text: `${this.coinId} price - last 24 hours`,
+  //   },
+  //   xAxis: {
+  //     type: 'datetime',
+  //     title: {
+  //       text: 'Time',
+  //     },
+  //   },
+  //   yAxis: {
+  //     title: {
+  //       text: 'Price (EUR)',
+  //     },
+  //   },
+  //   series: [
+  //     {
+  //       type: 'line',
+  //       name: 'Coin Price',
+  //       data: [],
+  //       color: '#10b981',
+  //     },
+  //   ],
+  // time: {
+  //   timezoneOffset: new Date().getTimezoneOffset(),
+  // },
+  // }
 
   constructor(
     private favouriteService: FavouritesService,
     private modalService: ModalService
   ) {
-    this.chartForm.get('days')?.valueChanges.subscribe(value => {
-      this.daysValue = value ?? 1
-      this.fetchCoinPrices()
-    })
-    this.currencyForm.get('currency')?.valueChanges.subscribe(value => {
-      this.currency = value ?? Currency.EUR
-      this.fetchCoinPrices()
-      this.fetchCoinData()
-    })
+    this.chartForm
+      .get('days')
+      ?.valueChanges.pipe(takeUntilDestroyed())
+      .subscribe(value => {
+        this.daysValue = value ?? 1
+        this.fetchCoinPrices()
+      })
+    this.currencyForm
+      .get('currency')
+      ?.valueChanges.pipe(takeUntilDestroyed())
+      .subscribe(value => {
+        this.currency = value ?? Currency.EUR
+        this.fetchCoinPrices()
+        this.fetchCoinData()
+      })
+    this.compareCheckbox.valueChanges
+      .pipe(takeUntilDestroyed())
+      .subscribe(checked => {
+        if (!checked) {
+          this.compareCoin.reset()
+          this.selectedCoinId.set('')
+          this.selectedCoinName.set('')
+        }
+      })
   }
 
   ngOnInit() {
@@ -165,19 +184,19 @@ export class CurrencyDetailsComponent implements OnInit {
       )
       .subscribe(data => {
         this.coinPrices.set(data.prices)
-        this.chartOptions = {
-          ...this.chartOptions,
-          title: {
-            text: `${this.coinId} price - last ${this.daysValue === 1 ? '24 hours' : this.daysValue === 30 ? '30 days' : '365 days'}`,
-          },
-          series: [
-            {
-              type: 'line',
-              name: 'Coin Price',
-              data: this.coinPrices(),
-            },
-          ],
-        }
+        // this.chartOptions = {
+        //   ...this.chartOptions,
+        //   title: {
+        //     text: `${this.coinId} price - last ${this.daysValue === 1 ? '24 hours' : this.daysValue === 30 ? '30 days' : '365 days'}`,
+        //   },
+        //   series: [
+        //     {
+        //       type: 'line',
+        //       name: 'Coin Price',
+        //       data: this.coinPrices(),
+        //     },
+        //   ],
+        // }
       })
   }
 
@@ -215,5 +234,24 @@ export class CurrencyDetailsComponent implements OnInit {
   openTradeModal() {
     const coin = this.coinData()
     if (coin) this.modalService.openModal(TradeModalComponent, coin)
+  }
+
+  addHighlight(e: MouseEvent | TouchEvent): void {
+    let point
+    const charts = Highcharts.charts
+    charts.forEach(chart => {
+      if (chart) {
+        const event = chart.pointer.normalize(e)
+        point = chart.series[0].searchPoint(event, true)
+        if (point) {
+          // point.highlight(e)
+          ;(
+            point as Highcharts.Point & {
+              highlight: (e: MouseEvent | TouchEvent) => void
+            }
+          ).highlight(e)
+        }
+      }
+    })
   }
 }

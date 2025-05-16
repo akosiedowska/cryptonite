@@ -6,10 +6,10 @@ import { selectWallet } from '../../../../core/store/wallet/wallet.selectors'
 import { CommonModule } from '@angular/common'
 import { HttpClient } from '@angular/common/http'
 import {
-  filter,
   interval,
   map,
   Observable,
+  of,
   share,
   startWith,
   switchMap,
@@ -47,56 +47,60 @@ export class WalletComponent {
     this.walletData$ = interval(10_000).pipe(
       startWith(0),
       switchMap(() => this.wallet$),
-      // filter(wallet => wallet.length > 1),
-      filter(wallet => wallet.some(coin => coin.currency_id !== 'fake-euro')),
       switchMap(wallet => {
         const ids = wallet
           .map(coin => coin.currency_id)
-          .filter(coin => coin !== 'fake-euro')
+          .filter(id => id !== 'fake-euro')
           .join(',')
 
-        return this.http
-          .get<Record<string, { eur: number }>>(`https://api.coingecko.com/api/v3/simple/price?ids=${ids}&vs_currencies=eur&x_cg_demo_api_key=${environment.apiKey}`)
-          .pipe(
-            map(prices => {
-              this.coinPrices = prices
-              let updatedWallet = wallet.map(coin => {
-                const totalSpent = Number(coin.total_spent)
-                const amount = Number(coin.amount)
-                const currentValue =
-                  coin.currency_id === 'fake-euro'
-                    ? amount
-                    : (prices[coin.currency_id]?.eur || 0) * amount
+        const priceRequest$ = ids
+          ? this.http.get<Record<string, { eur: number }>>(
+              `https://api.coingecko.com/api/v3/simple/price?ids=${ids}&vs_currencies=eur&x_cg_demo_api_key=${environment.apiKey}`
+            )
+          : of({} as Record<string, { eur: number }>)
 
-                return {
-                  ...coin,
-                  currentValue: currentValue,
-                  change: currentValue - totalSpent,
-                }
-              })
+        return priceRequest$.pipe(
+          map(prices => {
+            this.coinPrices = prices
 
-              updatedWallet = updatedWallet.sort((a, b) => {
-                if (a.currency_id === 'fake-euro') return -1
-                if (b.currency_id === 'fake-euro') return 1
-                return 0
-              })
+            let updatedWallet = wallet.map(coin => {
+              const totalSpent = Number(coin.total_spent)
+              const amount = Number(coin.amount)
+              const currentValue =
+                coin.currency_id === 'fake-euro'
+                  ? amount
+                  : (prices[coin.currency_id]?.eur || 0) * amount
 
-              const totalWalletValue = updatedWallet.reduce(
-                (acc, curr) => acc + curr.currentValue,
-                0
-              )
-              const changePercentage = +(
-                (totalWalletValue - 10000) /
-                100
-              ).toFixed(2)
               return {
-                wallet: updatedWallet,
-                totalWalletValue,
-                changePercentage,
+                ...coin,
+                currentValue,
+                change: currentValue - totalSpent,
               }
             })
-          )
 
+            updatedWallet = updatedWallet.sort((a, b) => {
+              if (a.currency_id === 'fake-euro') return -1
+              if (b.currency_id === 'fake-euro') return 1
+              return 0
+            })
+
+            const totalWalletValue = updatedWallet.reduce(
+              (acc, coin) => acc + coin.currentValue,
+              0
+            )
+
+            const changePercentage = +(
+              (totalWalletValue - 10000) /
+              100
+            ).toFixed(2)
+
+            return {
+              wallet: updatedWallet,
+              totalWalletValue,
+              changePercentage,
+            }
+          })
+        )
       }),
       takeUntilDestroyed(),
       share()
