@@ -117,6 +117,7 @@ export class CurrencyDetailsComponent implements OnInit {
   // },
   // }
 
+
   constructor(
     private favouriteService: FavouritesService,
     private modalService: ModalService
@@ -196,6 +197,7 @@ export class CurrencyDetailsComponent implements OnInit {
         //     },
         //   ],
         // }
+
       })
   }
 
@@ -252,5 +254,6 @@ export class CurrencyDetailsComponent implements OnInit {
         }
       }
     })
+
   }
 }
