@@ -1,4 +1,4 @@
-<ng-container *ngIf="walletData$ | async as walletData">
+@if (walletData$ | async; as walletData) {
   <div class="balance">
     <div class="balance__title">
       <i class="fa-solid fa-wallet"></i>
@@ -76,7 +76,6 @@
           </div>
         </td>
       </ng-container>
-
       <tr
         mat-header-row
         *matHeaderRowDef="displayedColumns"
@@ -84,4 +83,4 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
   </div>
-</ng-container>
+}

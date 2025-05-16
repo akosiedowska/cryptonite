@@ -4,12 +4,13 @@
     <h1 class="coin-header__title">
       {{ coinData()?.name }} price ({{ coinData()?.symbol }})
     </h1>
-    <mat-icon
-      *ngIf="user$ | async"
-      fontIcon="kid_star"
-      class="material-symbols-outlined"
-      [ngClass]="{ 'filled-icon': (favourites$ | async)?.includes(coinId) }"
-      (click)="toggleFavourite(coinId)"></mat-icon>
+    @if (user$ | async) {
+      <mat-icon
+        fontIcon="kid_star"
+        class="material-symbols-outlined"
+        [ngClass]="{ 'filled-icon': (favourites$ | async)?.includes(coinId) }"
+        (click)="toggleFavourite(coinId)"></mat-icon>
+    }
   </div>
 
   <div class="trade-container">
@@ -56,24 +57,26 @@
 
     <form class="compare-form">
       <mat-checkbox [formControl]="compareCheckbox">Compare</mat-checkbox>
-      <mat-form-field *ngIf="compareCheckbox.value" class="chart-dropdown">
-        <mat-label>Coin</mat-label>
-        <input
-          type="text"
-          placeholder="Pick one"
-          aria-label="Coin"
-          matInput
-          [formControl]="compareCoin"
-          [matAutocomplete]="auto" />
-        <mat-autocomplete
-          #auto="matAutocomplete"
-          (optionSelected)="onCoinSelected($event.option.value)"
-          [displayWith]="displayCoinName">
-          @for (option of filteredOptions | async; track option.id) {
-            <mat-option [value]="option">{{ option.name }}</mat-option>
-          }
-        </mat-autocomplete>
-      </mat-form-field>
+      @if (compareCheckbox.value) {
+        <mat-form-field class="chart-dropdown">
+          <mat-label>Coin</mat-label>
+          <input
+            type="text"
+            placeholder="Pick one"
+            aria-label="Coin"
+            matInput
+            [formControl]="compareCoin"
+            [matAutocomplete]="auto" />
+          <mat-autocomplete
+            #auto="matAutocomplete"
+            (optionSelected)="onCoinSelected($event.option.value)"
+            [displayWith]="displayCoinName">
+            @for (option of filteredOptions | async; track option.id) {
+              <mat-option [value]="option">{{ option.name }}</mat-option>
+            }
+          </mat-autocomplete>
+        </mat-form-field>
+      }
     </form>
   </div>
 
@@ -87,14 +90,16 @@
       [days]="daysValue"
       [currency]="currency" />
 
-    <div *ngIf="compareCheckbox.value && selectedCoinId()">
-      <app-chart-component
-        [coinId]="selectedCoinId()"
-        [coinName]="selectedCoinName()"
-        [days]="daysValue"
-        [currency]="currency"
-        color="#06b6d4" />
-    </div>
+    @if (compareCheckbox.value && selectedCoinId()) {
+      <div>
+        <app-chart-component
+          [coinId]="selectedCoinId()"
+          [coinName]="selectedCoinName()"
+          [days]="daysValue"
+          [currency]="currency"
+          color="#06b6d4" />
+      </div>
+    }
   </div>
 
   <div class="market-data">
