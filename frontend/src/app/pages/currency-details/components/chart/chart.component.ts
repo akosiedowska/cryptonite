@@ -38,8 +38,12 @@ export class ChartComponent implements OnInit, OnChanges {
   coinPrices = signal<SingleData[]>([])
 
   Highcharts: typeof Highcharts = Highcharts
+  chart?: Highcharts.Chart
 
   chartOptions: Highcharts.Options = {
+    chart: {
+      marginLeft: 120,
+    },
     title: {
       text: `${this.coinId} price - last 24 hours`,
     },
@@ -53,6 +57,9 @@ export class ChartComponent implements OnInit, OnChanges {
       title: {
         text: `Price (${this.currency})`,
       },
+    },
+    tooltip: {
+      valueDecimals: 6,
     },
     series: [
       {
@@ -92,6 +99,32 @@ export class ChartComponent implements OnInit, OnChanges {
           yAxis: {
             title: {
               text: `Price (${this.currency.toUpperCase()})`,
+            },
+          },
+          xAxis: {
+            crosshair: true,
+            events: {
+              setExtremes: function (e) {
+                const thisChart = this.chart
+
+                if (e.trigger !== 'syncExtremes') {
+                  Highcharts.charts.forEach(chart => {
+                    if (chart !== thisChart) {
+                      if (chart?.xAxis[0].setExtremes) {
+                        chart?.xAxis[0].setExtremes(
+                          e.min,
+                          e.max,
+                          undefined,
+                          false,
+                          {
+                            trigger: 'syncExtremes',
+                          }
+                        )
+                      }
+                    }
+                  })
+                }
+              },
             },
           },
           series: [
