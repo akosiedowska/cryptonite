@@ -60,23 +60,27 @@
       }
     </div>
 
-    <div *ngIf="errorMessage" class="error-message">
-      {{ errorMessage }}
-    </div>
+    @if (errorMessage) {
+      <div class="error-message">
+        {{ errorMessage }}
+      </div>
+    }
 
-    <div class="error-message" *ngIf="tradeForm.get('value')?.hasError('min')">
-      Transaction value should be at least &euro;1
-    </div>
-    <div
-      class="error-message"
-      *ngIf="
-        tradeForm.get('value')?.hasError('required') &&
-        tradeForm.get('value')?.touched &&
-        tradeForm.get('amount')?.hasError('required') &&
-        tradeForm.get('amount')?.touched
-      ">
-      Fill the transaction value or crypto amount input
-    </div>
+    @if (tradeForm.get('value')?.hasError('min')) {
+      <div class="error-message">
+        Transaction value should be at least &euro;1
+      </div>
+    }
+    @if (
+      tradeForm.get('value')?.hasError('required') &&
+      tradeForm.get('value')?.touched &&
+      tradeForm.get('amount')?.hasError('required') &&
+      tradeForm.get('amount')?.touched
+    ) {
+      <div class="error-message">
+        Fill the transaction value or crypto amount input
+      </div>
+    }
 
     <div class="trade-modal__actions">
       <app-button label="Cancel" class="reset" (click)="handleCancel()" />

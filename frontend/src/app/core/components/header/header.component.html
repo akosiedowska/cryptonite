@@ -20,25 +20,33 @@
         >
       </li>
       <li><a routerLink="currencies" routerLinkActive="active">Market</a></li>
-      <li *ngIf="user$ | async">
-        <a routerLink="dashboard" routerLinkActive="active">Dashboard</a>
-      </li>
+      @if (user$ | async) {
+        <li>
+          <a routerLink="dashboard" routerLinkActive="active">Dashboard</a>
+        </li>
+      }
       <!-- eslint-disable-next-line @angular-eslint/template/no-negated-async -->
-      <li *ngIf="!(user$ | async)">
-        <a routerLink="login"><app-button label="Log in" /></a>
-      </li>
+      @if (!(user$ | async)) {
+        <li>
+          <a routerLink="login"><app-button label="Log in" /></a>
+        </li>
+      }
       <!-- eslint-disable-next-line @angular-eslint/template/no-negated-async -->
-      <li *ngIf="!(user$ | async)">
-        <a routerLink="signup"
-          ><app-button label="Sign up" [outlined]="true"
-        /></a>
-      </li>
-      <li *ngIf="user$ | async" class="username">
-        Hello, {{ (user$ | async)?.name }}
-      </li>
-      <li *ngIf="user$ | async">
-        <app-button label="Log out" (click)="handleLogOut()" />
-      </li>
+      @if (!(user$ | async)) {
+        <li>
+          <a routerLink="signup"
+            ><app-button label="Sign up" [outlined]="true"
+          /></a>
+        </li>
+      }
+      @if (user$ | async) {
+        <li class="username">Hello, {{ (user$ | async)?.name }}</li>
+      }
+      @if (user$ | async) {
+        <li>
+          <app-button label="Log out" (click)="handleLogOut()" />
+        </li>
+      }
     </ul>
   </div>
 </div>
