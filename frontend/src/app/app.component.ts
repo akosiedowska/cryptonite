@@ -10,10 +10,7 @@ import { FavouritesService } from './core/services/favourites.service'
 import { loadWallet } from './core/store/wallet/wallet.actions'
 import { loadTransactions } from './core/store/transactions/transactions.actions'
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
-<<<<<<< HEAD
 import { ScrollingModule } from '@angular/cdk/scrolling'
-=======
->>>>>>> 6a90d06 (fixed displaying balance and table data in dashboard)
 
 @Component({
   selector: 'app-root',
