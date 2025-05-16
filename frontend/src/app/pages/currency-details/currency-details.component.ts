@@ -31,6 +31,7 @@ import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatInputModule } from '@angular/material/input'
 import { ChartComponent } from './components/chart/chart.component'
 import { ListCoinElement } from '../../types'
+
 import syncCharts from './syncAddition'
 
 syncCharts(Highcharts)
@@ -117,7 +118,6 @@ export class CurrencyDetailsComponent implements OnInit {
   // },
   // }
 
-
   constructor(
     private favouriteService: FavouritesService,
     private modalService: ModalService
@@ -197,7 +197,6 @@ export class CurrencyDetailsComponent implements OnInit {
         //     },
         //   ],
         // }
-
       })
   }
 
@@ -254,6 +253,5 @@ export class CurrencyDetailsComponent implements OnInit {
         }
       }
     })
-
   }
 }
