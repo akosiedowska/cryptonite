@@ -127,7 +127,6 @@ export class ChartComponent implements OnInit, OnChanges {
               },
             },
           },
-
           series: [
             {
               type: 'line',
