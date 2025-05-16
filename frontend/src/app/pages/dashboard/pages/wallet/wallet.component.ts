@@ -47,8 +47,6 @@ export class WalletComponent {
     this.walletData$ = interval(10_000).pipe(
       startWith(0),
       switchMap(() => this.wallet$),
-      // filter(wallet => wallet.length > 1),
-      filter(wallet => wallet.some(coin => coin.currency_id !== 'fake-euro')),
       switchMap(wallet => {
         const ids = wallet
           .map(coin => coin.currency_id)
@@ -73,21 +71,13 @@ export class WalletComponent {
                   ? amount
                   : (prices[coin.currency_id]?.eur || 0) * amount
 
-              const totalWalletValue = updatedWallet.reduce(
-                (acc, curr) => acc + curr.currentValue,
-                0
-              )
-              const changePercentage = +(
-                (totalWalletValue - 10000) /
-                100
-              ).toFixed(2)
               return {
                 ...coin,
                 currentValue,
                 change: currentValue - totalSpent,
               }
             })
-          )
+
             updatedWallet = updatedWallet.sort((a, b) => {
               if (a.currency_id === 'fake-euro') return -1
               if (b.currency_id === 'fake-euro') return 1
