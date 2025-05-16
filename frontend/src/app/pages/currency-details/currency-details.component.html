@@ -90,7 +90,6 @@
       [days]="daysValue"
       [currency]="currency" />
 
-<<<<<<< HEAD
     @if (compareCheckbox.value && selectedCoinId()) {
       <div>
         <app-chart-component
@@ -101,16 +100,6 @@
           color="#06b6d4" />
       </div>
     }
-=======
-    <div *ngIf="compareCheckbox.value && selectedCoinId()">
-      <app-chart-component
-        [coinId]="selectedCoinId()"
-        [coinName]="selectedCoinName()"
-        [days]="daysValue"
-        [currency]="currency"
-        color="#06b6d4" />
-    </div>
->>>>>>> a3e7213 (Feat/sync charts)
   </div>
 
   <div class="market-data">
