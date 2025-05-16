@@ -1,20 +1,37 @@
 <h2>Crypto prices</h2>
-<p class="description">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quae, exercitationem error expedita
-    dolore vel similique
-    deserunt quo, facilis nisi et reprehenderit optio, ducimus facere quis labore praesentium tempore iste atque!!</p>
+<p class="description">
+  Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quae, exercitationem
+  error expedita dolore vel similique deserunt quo, facilis nisi et
+  reprehenderit optio, ducimus facere quis labore praesentium tempore iste
+  atque!!
+</p>
 
 <div class="search-container">
-    <mat-icon fontIcon="search" class="material-icons-outlined"></mat-icon>
-    <mat-form-field class="search-input">
-        <mat-label>Find crypto</mat-label>
-        <input matInput placeholder="Type to search..." [(ngModel)]="search" (ngModelChange)="onInputChange()">
-        <mat-icon *ngIf="search" (click)="clearSearch()" matSuffix aria-hidden="false" aria-label="Clear"
-            fontIcon="close" class="material-icons-outlined clear-icon"></mat-icon>
-
-    </mat-form-field>
+  <mat-icon fontIcon="search" class="material-icons-outlined"></mat-icon>
+  <mat-form-field class="search-input">
+    <mat-label>Find crypto</mat-label>
+    <input
+      matInput
+      placeholder="Type to search..."
+      [(ngModel)]="search"
+      (ngModelChange)="onInputChange()" />
+    @if (search) {
+      <mat-icon
+        (click)="clearSearch()"
+        matSuffix
+        aria-hidden="false"
+        aria-label="Clear"
+        fontIcon="close"
+        class="material-icons-outlined clear-icon"></mat-icon>
+    }
+  </mat-form-field>
 </div>
 
-<app-coins-table [dataSource]="(coins$ | async) ?? []" [showPagination]="((totalResults$ | async) || 0) > 15"
-    [isFavouritesTable]="false" [perPage]="(perPage$ | async) ?? 0" [page]="page$ | async"
-    [totalResults]="totalResults$ | async">
+<app-coins-table
+  [dataSource]="(coins$ | async) ?? []"
+  [showPagination]="((totalResults$ | async) || 0) > 15"
+  [isFavouritesTable]="false"
+  [perPage]="(perPage$ | async) ?? 0"
+  [page]="page$ | async"
+  [totalResults]="totalResults$ | async">
 </app-coins-table>
