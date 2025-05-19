@@ -1,126 +1,169 @@
 @use '../../../variables' as *;
 
 .hero-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: calc(100vh - 62px);
+  max-height: 900px;
+
+  &__content {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: calc(100vh - 62px);
+    flex-direction: column;
+    align-self: start;
+    margin-top: 10vh;
 
-    &__content {
-        display: flex;
-        flex-direction: column;
-        align-self: start;
-        margin-top: 10vh;
-
-        h1 {
-            font-size: 3rem;
-        }
-
-        p {
-            margin: 0;
-            font-size: 1.5rem;
-        }
-
-
-        a {
-            display: block;
-            margin-top: 2rem;
-            margin-left: auto;
-
-            app-button {
-                button.button {
-                    font-size: 1.2rem !important;
-                }
-
-            }
-        }
+    h1 {
+      font-size: 3rem;
     }
 
-    &__img {
-        // width: 100vh;
-        position: relative;
-        width: 70%;
+    p {
+      margin: 0;
+      font-size: 1.5rem;
     }
 
+    a {
+      display: block;
+      margin-top: 2rem;
+      margin-left: auto;
+
+      app-button {
+        button.button {
+          font-size: 1.2rem !important;
+        }
+      }
+    }
+  }
+
+  &__img {
+    // width: 100vh;
+    position: relative;
+    width: 70%;
+  }
 }
 
 .section {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 2rem;
-    height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  height: 60vh;
+  max-height: 600px;
 
-    &__img {
-        width: 60%;
+  &__img {
+    width: 60%;
+  }
+
+  &__content {
+    flex-grow: 1;
+
+    .title-wrapper {
+      position: relative;
     }
 
-    &__content {
-        flex-grow: 1;
+    .title {
+      font-size: 2rem;
+      z-index: 2;
 
-        .title-wrapper {
-            position: relative;
-        }
+      &::before {
+        content: '';
+        height: 20px;
+        min-width: 100vw;
+        background-color: $cryptonite-green;
+        position: absolute;
+        bottom: 0px;
+        right: -10px;
+        z-index: -1;
+      }
 
-        .title {
-            font-size: 2rem;
-            z-index: 2;
+      &--right::before {
+        left: -10px;
+      }
 
-            &::before {
-                content: '';
-                height: 20px;
-                min-width: 50vw;
-                background-color: $cryptonite-green;
-                position: absolute;
-                bottom: 0px;
-                right: -10px;
-                z-index: -1;
-            }
-
-            &--right::before {
-                left: -10px;
-            }
-
-            &--left {
-                text-align: right;
-            }
-        }
-
-
-        ul {
-            display: flex;
-            flex-direction: column;
-            gap: .5rem;
-        }
-
-        li {
-            font-size: 1.25rem;
-        }
+      &--left {
+        text-align: right;
+      }
     }
+
+    ul {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    li {
+      font-size: 1.25rem;
+    }
+  }
 }
 
 .attribution {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 
-    p {
-        font-size: .75rem;
+  p {
+    font-size: 0.75rem;
 
-        a {
-            text-decoration: none;
-            color: $cryptonite-green;
-        }
+    a {
+      text-decoration: none;
+      color: $cryptonite-green;
     }
+  }
 }
 
 @media (max-width: 1050px) {
-    .hero-section {
-        h1 {
-            font-size: 2rem;
-        }
-
-        p {
-            font-size: 1.25rem;
-        }
+  .hero-section {
+    h1 {
+      font-size: 2rem;
     }
+
+    p {
+      font-size: 1.25rem;
+    }
+  }
+}
+
+@media (max-width: 750px) {
+  .hero-section {
+    flex-direction: column;
+    gap: 0;
+    height: 100%;
+    margin-bottom: 5vh;
+
+    &__content {
+      margin-top: 0;
+    }
+
+    &__img {
+      width: 100%;
+      margin-top: 1rem;
+    }
+  }
+
+  .section {
+    flex-direction: column;
+    gap: 0;
+    height: 100%;
+
+    &__content {
+      align-self: start;
+      min-width: 75vw;
+    }
+
+    &__img {
+      align-self: end;
+    }
+  }
+
+  .section--reverse {
+    flex-direction: column-reverse;
+
+    .section__content {
+      align-self: end;
+    }
+
+    .section__img {
+      align-self: start;
+    }
+  }
 }
