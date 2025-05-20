@@ -7,6 +7,8 @@ import { RouterLink, RouterModule } from '@angular/router'
 import { AuthService } from '../../services/auth.service'
 import { Store } from '@ngrx/store'
 import { selectCurrentUser } from '../../store/user/user.selector'
+import { MatMenuModule } from '@angular/material/menu'
+import { MatDividerModule } from '@angular/material/divider'
 
 @Component({
   selector: 'app-header',
@@ -17,6 +19,8 @@ import { selectCurrentUser } from '../../store/user/user.selector'
     RouterLink,
     CommonModule,
     RouterModule,
+    MatMenuModule,
+    MatDividerModule,
   ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',

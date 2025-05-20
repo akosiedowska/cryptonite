@@ -48,5 +48,36 @@
         </li>
       }
     </ul>
+    @if (user$ | async) {
+      <span class="username-mobile">Hello, {{ (user$ | async)?.name }}</span>
+    }
+
+    <button
+      mat-icon-button
+      [matMenuTriggerFor]="menu"
+      aria-label="mobile menu button"
+      class="burger-btn">
+      <i class="fa-solid fa-bars mobile-icon"></i>
+    </button>
+
+    <mat-menu #menu="matMenu" xPosition="before" class="mobile-menu">
+      <button mat-menu-item routerLink="/">About</button>
+      <button mat-menu-item routerLink="/currencies">Market</button>
+      <!-- eslint-disable-next-line @angular-eslint/template/no-negated-async -->
+      @if (!(user$ | async)) {
+        <button mat-menu-item routerLink="/login">Log in</button>
+      }
+      <!-- eslint-disable-next-line @angular-eslint/template/no-negated-async -->
+      @if (!(user$ | async)) {
+        <button mat-menu-item routerLink="/signup">Sign up</button>
+      }
+      @if (user$ | async) {
+        <button mat-menu-item routerLink="/dashboard">Dashboard</button>
+      }
+      @if (user$ | async) {
+        <mat-divider></mat-divider>
+        <button mat-menu-item (click)="handleLogOut()">Log out</button>
+      }
+    </mat-menu>
   </div>
 </div>

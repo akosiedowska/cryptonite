@@ -130,3 +130,24 @@ html {
 .cdk-overlay-connected-position-bounding-box {
   position: absolute !important;
 }
+
+// mobile menu
+
+.mobile-menu {
+  .mat-mdc-menu-content {
+    padding: 0 8px;
+    background-color: white;
+    width: 150px;
+  }
+
+  .mat-divider {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+  }
+
+  @include mat.divider-overrides(
+    (
+      color: $cryptonite-green,
+    )
+  );
+}
