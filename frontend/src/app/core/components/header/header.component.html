@@ -41,7 +41,10 @@
       }
       @if (user$ | async) {
         <li class="username">
-          Hello, <span class="bolded">{{ (user$ | async)?.name }}</span>
+          Hello,
+          <span class="bolded" [title]="(user$ | async)?.name">{{
+            (user$ | async)?.name
+          }}</span>
         </li>
       }
       @if (user$ | async) {
@@ -53,7 +56,7 @@
     @if (user$ | async) {
       <span class="username-mobile"
         >Hello,
-        <span class="bolded" title="(user$ | async)?.name">{{
+        <span class="bolded" [title]="(user$ | async)?.name">{{
           (user$ | async)?.name
         }}</span></span
       >
