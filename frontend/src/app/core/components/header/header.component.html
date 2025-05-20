@@ -45,14 +45,17 @@
         </li>
       }
       @if (user$ | async) {
-        <li>
+        <li class="logout-btn">
           <app-button label="Log out" (click)="handleLogOut()" />
         </li>
       }
     </ul>
     @if (user$ | async) {
       <span class="username-mobile"
-        >Hello, <span class="bolded">{{ (user$ | async)?.name }}</span></span
+        >Hello,
+        <span class="bolded" title="(user$ | async)?.name">{{
+          (user$ | async)?.name
+        }}</span></span
       >
     }
 

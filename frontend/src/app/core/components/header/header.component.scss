@@ -58,6 +58,10 @@
       padding-left: 15px;
       @include truncate;
     }
+
+    .logout-btn {
+      flex-shrink: 0;
+    }
   }
 
   a {
@@ -81,6 +85,12 @@ mat-divider {
 
 .bolded {
   font-weight: 500;
+}
+
+@media (max-width: 780px) {
+  .username {
+    max-width: 30vw;
+  }
 }
 
 @media (min-width: 630px) {
