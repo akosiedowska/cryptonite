@@ -79,6 +79,16 @@
   color: $cryptonite-green;
 }
 
+.mobile-menu {
+  i {
+    margin-right: 8px;
+  }
+}
+
+.dashboard-submenu {
+  margin-bottom: 14px;
+}
+
 mat-divider {
   margin: 0;
 }
@@ -93,14 +103,14 @@ mat-divider {
   }
 }
 
-@media (min-width: 630px) {
+@media (min-width: 750px) {
   .burger-btn,
   .username-mobile {
     display: none;
   }
 }
 
-@media (max-width: 630px) {
+@media (max-width: 750px) {
   .header__links {
     display: none;
   }

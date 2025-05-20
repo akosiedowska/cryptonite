@@ -71,22 +71,50 @@
     </button>
 
     <mat-menu #menu="matMenu" xPosition="before" class="mobile-menu">
-      <button mat-menu-item routerLink="/">About</button>
-      <button mat-menu-item routerLink="/currencies">Market</button>
+      <button mat-menu-item routerLink="/">
+        <i class="fa-solid fa-circle-info"></i><span>About</span>
+      </button>
+      <button mat-menu-item routerLink="/currencies">
+        <i class="fa-solid fa-money-bill-trend-up"></i><span>Market</span>
+      </button>
       <!-- eslint-disable-next-line @angular-eslint/template/no-negated-async -->
       @if (!(user$ | async)) {
-        <button mat-menu-item routerLink="/login">Log in</button>
+        <button mat-menu-item routerLink="/login">
+          <i class="fa-solid fa-arrow-right-to-bracket"></i><span>Log in</span>
+        </button>
       }
       <!-- eslint-disable-next-line @angular-eslint/template/no-negated-async -->
       @if (!(user$ | async)) {
-        <button mat-menu-item routerLink="/signup">Sign up</button>
+        <button mat-menu-item routerLink="/signup">
+          <i class="fa-solid fa-user-plus"></i><span>Sign up</span>
+        </button>
       }
       @if (user$ | async) {
-        <button mat-menu-item routerLink="/dashboard">Dashboard</button>
+        <button mat-menu-item routerLink="/dashboard">
+          <i class="fa-solid fa-table-columns"></i><span>Dashboard</span>
+        </button>
+        <div class="dashboard-submenu">
+          <button mat-menu-item routerLink="dashboard/wallet">
+            <i class="fa-solid fa-wallet"></i><span>Portfolio</span>
+          </button>
+          <button mat-menu-item routerLink="dashboard/transactions">
+            <i class="fa-regular fa-rectangle-list"></i
+            ><span>Transactions</span>
+          </button>
+          <button mat-menu-item routerLink="dashboard/favourites">
+            <i class="fa-regular fa-star"></i><span>Favourites</span>
+          </button>
+          <button mat-menu-item routerLink="dashboard/profile">
+            <i class="fa-regular fa-user"></i><span>Profile</span>
+          </button>
+        </div>
       }
       @if (user$ | async) {
         <mat-divider></mat-divider>
-        <button mat-menu-item (click)="handleLogOut()">Log out</button>
+        <button mat-menu-item (click)="handleLogOut()">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i
+          ><span>Log out</span>
+        </button>
       }
     </mat-menu>
   </div>
