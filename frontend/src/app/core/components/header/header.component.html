@@ -40,7 +40,9 @@
         </li>
       }
       @if (user$ | async) {
-        <li class="username">Hello, {{ (user$ | async)?.name }}</li>
+        <li class="username">
+          Hello, <span class="bolded">{{ (user$ | async)?.name }}</span>
+        </li>
       }
       @if (user$ | async) {
         <li>
@@ -49,7 +51,9 @@
       }
     </ul>
     @if (user$ | async) {
-      <span class="username-mobile">Hello, {{ (user$ | async)?.name }}</span>
+      <span class="username-mobile"
+        >Hello, <span class="bolded">{{ (user$ | async)?.name }}</span></span
+      >
     }
 
     <button
