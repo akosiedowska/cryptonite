@@ -58,6 +58,10 @@
   }
 }
 
+.scroll-container {
+  overflow-x: scroll;
+}
+
 .positive {
   color: $snackbar-green;
 }
