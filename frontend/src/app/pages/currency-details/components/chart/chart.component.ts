@@ -42,7 +42,7 @@ export class ChartComponent implements OnInit, OnChanges {
 
   chartOptions: Highcharts.Options = {
     chart: {
-      marginLeft: 120,
+      // marginLeft: 120,
     },
     title: {
       text: `${this.coinId} price - last 24 hours`,
@@ -127,7 +127,6 @@ export class ChartComponent implements OnInit, OnChanges {
               },
             },
           },
-
           series: [
             {
               type: 'line',

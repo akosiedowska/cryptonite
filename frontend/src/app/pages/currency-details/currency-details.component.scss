@@ -26,6 +26,7 @@
     height: 30px;
     width: 30px;
     font-size: 30px;
+    min-width: 30px;
     color: $cryptonite-green;
     cursor: pointer;
   }
@@ -94,7 +95,7 @@
 
 .market-data {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: 1em;
 
   &__box {
@@ -120,4 +121,35 @@
 
 .example-full-width {
   width: 100%;
+}
+
+@media (max-width: 900px) {
+  .options-container {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+
+    .compare-form {
+      margin-left: 0;
+      gap: 10px;
+    }
+  }
+}
+
+@media (max-width: 500px) {
+  .options-container .compare-form {
+    flex-direction: column;
+    align-items: start;
+  }
+}
+
+@media (min-width: 870px) {
+  .market-data {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 440px) {
+  .coin-header__title {
+    font-size: 24px;
+  }
 }

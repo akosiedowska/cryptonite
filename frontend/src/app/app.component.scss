@@ -1,38 +1,42 @@
 @use '../variables' as *;
 
 .app-container {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow-x: hidden;
 
-    .content-wrapper {
-        padding: 0 calc((100% - 1100px)/2);
-        flex-grow: 1;
+  .content-wrapper {
+    padding: 0 calc((100% - 1100px) / 2);
+    flex-grow: 1;
 
-        .content {
-            flex-grow: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            height: 100%;
-            // height: 100%;
-            // max-height: 100%;
-            padding: 2rem;
-            // background-color: $light-background;
-            // overflow-y: auto;
-            // overflow: hidden;
-        }
+    .content {
+      flex-grow: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+      // height: 100%;
+      // max-height: 100%;
+      padding: 2rem;
+      // background-color: $light-background;
+      // overflow-y: auto;
+      // overflow: hidden;
     }
-
+  }
 }
 
 @media (min-width: 1400px) {
-    .app-container {
-        .content-wrapper {
-            padding: 0 calc((100% - 1300px)/2);
-        }
-
+  .app-container {
+    .content-wrapper {
+      padding: 0 calc((100% - 1300px) / 2);
     }
+  }
+}
+
+@media (max-width: 450px) {
+  .app-container .content-wrapper .content {
+    padding: 1rem;
+  }
 }
