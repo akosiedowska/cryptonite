@@ -1,7 +1,7 @@
 <div class="trade-modal">
   <h2 class="trade-modal__title">
     <i class="fa-solid fa-right-left trade-icon"></i>
-    <span>Trade: {{ data.name }}</span>
+    <span class="truncated" title="data.name">Trade: {{ data.name }}</span>
     <i
       class="fa-solid fa-xmark close-icon"
       (click)="handleCancel()"
