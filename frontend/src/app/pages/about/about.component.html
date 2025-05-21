@@ -1,54 +1,66 @@
 <div class="hero-section">
-    <div class="hero-section__content">
-        <h1>The future of your wallet is here</h1>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum nemo distinctio natus quo ab recusandae at ullam
-            asperiores cupiditate ipsam!</p>
-        @if(currentUserService.getCurrentUser()) {
-        <a routerLink="currencies">
-            <app-button label="Buy crypto" class="font-large"></app-button>
-        </a>
-        } @else {
-        <a routerLink="signup">
-            <app-button label="Sign up" class="font-large"></app-button>
-        </a>
-        }
-    </div>
-    <img class="hero-section__img" src="bitcoin.svg" alt="colorful image with bitocoin logo">
+  <div class="hero-section__content">
+    <h1>The future of your wallet is here</h1>
+    <p>
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum nemo
+      distinctio natus quo ab recusandae at ullam asperiores cupiditate ipsam!
+    </p>
+    @if (currentUserService.getCurrentUser()) {
+      <a routerLink="currencies">
+        <app-button label="Buy crypto" class="font-large"></app-button>
+      </a>
+    } @else {
+      <a routerLink="signup">
+        <app-button label="Sign up" class="font-large"></app-button>
+      </a>
+    }
+  </div>
+  <img
+    class="hero-section__img"
+    src="bitcoin.svg"
+    alt="colorful image with bitocoin logo" />
 </div>
 
 <div class="section">
-    <div class="section__content">
-        <div class="title-wrapper">
-            <h2 class="title title--left">Features</h2>
-        </div>
-        <ul>
-            <li>Check cryptocurrencies trends</li>
-            <li>Buy cryptocurrencies and save transaction data</li>
-            <li>Add currencies to favourites</li>
-            <li>Edit user data</li>
-        </ul>
+  <div class="section__content">
+    <div class="title-wrapper">
+      <h2 class="title title--left">Features</h2>
     </div>
-    <img class="section__img" src="chart.svg" alt="colorful image with bitocoin logo">
+    <ul>
+      <li>Check cryptocurrencies trends</li>
+      <li>Buy cryptocurrencies and save transaction data</li>
+      <li>Add currencies to favourites</li>
+      <li>Edit user data</li>
+    </ul>
+  </div>
+  <img
+    class="section__img"
+    src="chart.svg"
+    alt="colorful image with bitocoin logo" />
 </div>
 
-<div class="section">
-    <img class="section__img" src="crypto.svg" alt="colorful image with bitocoin logo">
-    <div class="section__content">
-        <div class="title-wrapper">
-            <h2 class="title title--right">Tools</h2>
-            <div class="line"></div>
-        </div>
-        <ul>
-            <li>Angular</li>
-            <li>Express</li>
-            <li>Postgresql</li>
-            <li>Material Design</li>
-        </ul>
+<div class="section section--reverse">
+  <img
+    class="section__img"
+    src="crypto.svg"
+    alt="colorful image with bitocoin logo" />
+  <div class="section__content">
+    <div class="title-wrapper">
+      <h2 class="title title--right">Tools</h2>
+      <div class="line"></div>
     </div>
+    <ul>
+      <li>Angular</li>
+      <li>Express</li>
+      <li>Postgresql</li>
+      <li>Material Design</li>
+    </ul>
+  </div>
 </div>
 
 <div class="attribution">
-    <p>
-        Images by <a href="https://pl.freepik.com/serie/20059352" target="_blank">Freepik</a>
-    </p>
+  <p>
+    Images by
+    <a href="https://pl.freepik.com/serie/20059352" target="_blank">Freepik</a>
+  </p>
 </div>
