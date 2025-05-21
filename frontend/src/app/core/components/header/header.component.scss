@@ -1,65 +1,111 @@
 @use '../../../../variables' as *;
+@use '../../../../mixins' as *;
 
 :host {
-    position: sticky;
-    top: 0;
-    z-index: 10;
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
 
 .header-wrapper {
-    padding: 0 calc((100% - 1200px)/2);
-    border-bottom: 1px solid $light-background;
-    background-color: white;
-    // backdrop-filter: blur(5px);
+  padding: 0 calc((100% - 1200px) / 2);
+  border-bottom: 1px solid $light-background;
+  background-color: white;
+  // backdrop-filter: blur(5px);
 }
 
 .header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px;
+  max-width: 1200px;
+  flex-grow: 1;
+
+  &__logo {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 15px;
-    max-width: 1200px;
-    flex-grow: 1;
+    gap: 5px;
+    color: $cryptonite-green;
 
-    &__logo {
-        display: flex;
-        align-items: center;
-        gap: 5px;
-        color: $cryptonite-green;
-
-        .app-name {
-            font-size: 20px;
-        }
+    .app-name {
+      font-size: 20px;
     }
+  }
 
-    &__links {
-        margin: 0;
-        display: flex;
-        align-items: center;
-        gap: 15px;
-        list-style-type: none;
-
-        a {
-            color: $text-main;
-            transition: color .3s ease;
-
-            &.active {
-                font-weight: 500;
-            }
-
-            &:hover {
-                color: $cryptonite-green;
-            }
-        }
-
-        .username {
-            border-left: 2px solid $cryptonite-green;
-            padding-left: 15px;
-        }
-
-    }
+  &__links {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    list-style-type: none;
 
     a {
-        text-decoration: none;
+      color: $text-main;
+      transition: color 0.3s ease;
+
+      &.active {
+        font-weight: 500;
+      }
+
+      &:hover {
+        color: $cryptonite-green;
+      }
     }
+
+    .username {
+      border-left: 2px solid $cryptonite-green;
+      padding-left: 15px;
+      @include truncate;
+    }
+
+    .logout-btn {
+      flex-shrink: 0;
+    }
+  }
+
+  a {
+    text-decoration: none;
+  }
+}
+
+.username-mobile {
+  margin-left: auto;
+  padding: 0 1rem;
+  @include truncate;
+}
+
+.mobile-icon {
+  color: $cryptonite-green;
+}
+
+.dashboard-submenu {
+  margin-bottom: 14px;
+}
+
+mat-divider {
+  margin: 0;
+}
+
+.bolded {
+  font-weight: 500;
+}
+
+@media (max-width: 780px) {
+  .username {
+    max-width: 30vw;
+  }
+}
+
+@media (min-width: 750px) {
+  .burger-btn,
+  .username-mobile {
+    display: none;
+  }
+}
+
+@media (max-width: 750px) {
+  .header__links {
+    display: none;
+  }
 }
