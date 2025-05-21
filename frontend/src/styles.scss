@@ -138,10 +138,15 @@ html {
     padding: 0 8px;
     background-color: white;
     width: 160px;
+    font-weight: normal;
   }
 
   .mat-mdc-menu-item {
     min-height: 44px;
+
+    .mat-mdc-menu-item-text {
+      font-weight: normal !important;
+    }
   }
 
   .mat-divider {

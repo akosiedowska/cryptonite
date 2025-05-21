@@ -1,141 +1,151 @@
 @use '../../../../variables' as *;
+@use '../../../../mixins' as *;
 
 :host {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.table-container {
+  // width: 100%;
+  overflow-x: scroll;
 }
 
 table {
-    // height: auto;
-    background-color: white;
+  // height: auto;
+  background-color: white;
 
-    // .header {
-    // position: sticky;
-    // top: 0;
-    // }
+  // .header {
+  // position: sticky;
+  // top: 0;
+  // }
 
-    .name-cell {
-        display: flex;
-        align-items: center;
-        gap: 10px;
+  .name-cell {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    max-width: 200px;
 
-        &__img {
-            height: 20px;
-            width: 20px;
-        }
+    &__img {
+      height: 20px;
+      width: 20px;
     }
+  }
 
-    .change-cell {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 5px;
-
-        .trending-down {
-            color: #f44336;
-        }
-
-        .trending-up {
-            color: #4caf50;
-        }
-    }
-
-    .mat-column-actions {
-        width: 100px;
-    }
-
-    .mat-column-name {
-        width: 250px;
-    }
-
-    .mat-column-favourites {
-        align-items: center;
-        width: 20px;
-        padding: 0 8px;
-
-        .mat-icon {
-            display: block;
-            width: 20px;
-            height: 20px;
-            font-size: 20px;
-            color: $cryptonite-green;
-        }
-
-        .filled-icon {
-            font-variation-settings: 'FILL' 1;
-        }
-    }
-
-    .header-cell {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 5px;
-
-        &:first-of-type {
-            justify-content: start;
-        }
-
-        .mat-icon {
-            font-size: 1rem;
-            width: 1rem;
-            height: 1rem;
-            opacity: 0;
-            transition: opacity .3s ease;
-            cursor: pointer;
-        }
-
-        .active {
-            color: $cryptonite-green;
-            opacity: 1;
-        }
-
-        &:hover {
-            .mat-icon {
-                opacity: 1;
-            }
-        }
-    }
-
-
-    .mat-mdc-row {
-        .mat-mdc-cell {
-            border-bottom: 1px solid transparent;
-            border-top: 1px solid transparent;
-
-            &:not(:first-child) {
-                text-align: center;
-            }
-        }
-
-        cursor: pointer;
-
-        &:hover {
-            background-color: $light-background;
-        }
-    }
-
-    .mat-mdc-header-row {
-        .mat-mdc-header-cell:not(:first-child) {
-            text-align: center;
-        }
-    }
-}
-
-.mat-mdc-paginator {
-    background-color: white;
-}
-
-.attribution {
-    margin-top: auto;
-    padding-top: 2rem;
+  .change-cell {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
+    gap: 5px;
 
-    img {
-        width: 130px;
+    .trending-down {
+      color: #f44336;
     }
+
+    .trending-up {
+      color: #4caf50;
+    }
+  }
+
+  .mat-column-actions {
+    width: 100px;
+  }
+
+  .mat-column-name {
+    width: 250px;
+  }
+
+  .mat-column-favourites {
+    align-items: center;
+    width: 20px;
+    padding: 0 8px;
+
+    .mat-icon {
+      display: block;
+      width: 20px;
+      height: 20px;
+      font-size: 20px;
+      color: $cryptonite-green;
+    }
+
+    .filled-icon {
+      font-variation-settings: 'FILL' 1;
+    }
+  }
+
+  .header-cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+
+    &:first-of-type {
+      justify-content: start;
+    }
+
+    .mat-icon {
+      font-size: 1rem;
+      width: 1rem;
+      height: 1rem;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      cursor: pointer;
+    }
+
+    .active {
+      color: $cryptonite-green;
+      opacity: 1;
+    }
+
+    &:hover {
+      .mat-icon {
+        opacity: 1;
+      }
+    }
+  }
+
+  .mat-mdc-row {
+    .mat-mdc-cell {
+      border-bottom: 1px solid transparent;
+      border-top: 1px solid transparent;
+
+      &:not(:first-child) {
+        text-align: center;
+      }
+    }
+
+    cursor: pointer;
+
+    &:hover {
+      background-color: $light-background;
+    }
+  }
+
+  .mat-mdc-header-row {
+    .mat-mdc-header-cell:not(:first-child) {
+      text-align: center;
+    }
+  }
+}
+
+.truncated {
+  @include truncate;
+}
+
+.mat-mdc-paginator {
+  background-color: white;
+}
+
+.attribution {
+  margin-top: auto;
+  padding-top: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  img {
+    width: 130px;
+  }
 }
