@@ -5,10 +5,12 @@
   display: flex;
   flex-direction: column;
   height: 100%;
+  overflow-x: auto;
 }
 
 .table-container {
   width: 100%;
+  overflow-x: auto;
 }
 
 table {
