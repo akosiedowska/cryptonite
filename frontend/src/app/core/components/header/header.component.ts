@@ -28,6 +28,7 @@ import { MatDividerModule } from '@angular/material/divider'
 export class HeaderComponent {
   private store = inject(Store)
   user$ = this.store.select(selectCurrentUser)
+  isMenuOpen = false
 
   constructor(private authService: AuthService) {}
 
