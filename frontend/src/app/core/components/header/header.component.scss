@@ -77,6 +77,11 @@
 
 .mobile-icon {
   color: $cryptonite-green;
+  transition: transform 0.2s ease;
+
+  &.fa-xmark {
+    transform: rotate(90deg);
+  }
 }
 
 .dashboard-submenu {

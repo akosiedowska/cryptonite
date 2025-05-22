@@ -66,11 +66,20 @@
       mat-icon-button
       [matMenuTriggerFor]="menu"
       aria-label="mobile menu button"
+      (menuOpened)="isMenuOpen = true"
+      (menuClosed)="isMenuOpen = false"
       class="burger-btn">
-      <i class="fa-solid fa-bars mobile-icon"></i>
+      <i
+        class="fa-solid mobile-icon"
+        [ngClass]="isMenuOpen ? 'fa-xmark' : 'fa-bars'"></i>
     </button>
 
-    <mat-menu #menu="matMenu" xPosition="before" class="mobile-menu">
+    <mat-menu
+      #menu="matMenu"
+      xPosition="before"
+      (closed)="isMenuOpen = false"
+      (opened)="isMenuOpen = true"
+      class="mobile-menu">
       <button mat-menu-item routerLink="/">
         <i class="fa-solid fa-circle-info"></i><span>About</span>
       </button>
