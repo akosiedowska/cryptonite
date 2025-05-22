@@ -38,3 +38,8 @@ export const capitalizeFirstLettter = (str: string) => {
   if (!str) return
   return str.charAt(0).toUpperCase() + str.slice(1)
 }
+
+export const formatFloat = (value?: number) => {
+  if (!value) return
+  return parseFloat(value.toFixed(6))
+}

@@ -21,7 +21,7 @@ import { FavouritesService } from '../../core/services/favourites.service'
 import { selectFavourites } from '../../core/store/favourites/favourites.selector'
 import { ButtonComponent } from '../../shared/components/button/button.component'
 import { ModalService } from '../../core/services/modal.service'
-import { formatNumber } from '../../helpers'
+import { formatNumber, formatFloat } from '../../helpers'
 import { Currency, CURRENCY_SYMBOLS } from '../../constants'
 import { selectCurrentUser } from '../../core/store/user/user.selector'
 import { TradeModalComponent } from '../../shared/components/trade-modal/trade-modal.component'
@@ -73,6 +73,7 @@ export class CurrencyDetailsComponent implements OnInit {
   currency = Currency.EUR
   daysValue = 1
   formatNumber = formatNumber
+  formatFloat = formatFloat
   CURRENCY_SYMBOLS = CURRENCY_SYMBOLS
   filteredOptions = new Observable<ListCoinElement[]>()
   options = signal<ListCoinElement[]>([])
