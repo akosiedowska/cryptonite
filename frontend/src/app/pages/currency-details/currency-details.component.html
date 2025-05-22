@@ -120,19 +120,20 @@
     <div class="market-data__box">
       <div class="market-data__box__label">24H Change</div>
       <div class="market-data__box__value">
-        {{ CURRENCY_SYMBOLS[currency] }}{{ coinData()?.price_change_24h }}
+        {{ CURRENCY_SYMBOLS[currency]
+        }}{{ formatFloat(coinData()?.price_change_24h) }}
       </div>
     </div>
     <div class="market-data__box">
       <div class="market-data__box__label">24H High</div>
       <div class="market-data__box__value">
-        {{ CURRENCY_SYMBOLS[currency] }}{{ coinData()?.high_24h }}
+        {{ CURRENCY_SYMBOLS[currency] }}{{ formatFloat(coinData()?.high_24h) }}
       </div>
     </div>
     <div class="market-data__box">
       <div class="market-data__box__label">24H Low</div>
       <div class="market-data__box__value">
-        {{ CURRENCY_SYMBOLS[currency] }}{{ coinData()?.low_24h }}
+        {{ CURRENCY_SYMBOLS[currency] }}{{ formatFloat(coinData()?.low_24h) }}
       </div>
     </div>
     <div class="market-data__box">
