@@ -182,6 +182,7 @@ export class CurrencyDetailsComponent implements OnInit {
       .get<CoinData>(
         `https://api.coingecko.com/api/v3/coins/${this.coinId}/market_chart?vs_currency=${this.currency}&days=${this.daysValue}&x_cg_demo_api_key=${environment.apiKey}`
       )
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(data => {
         this.coinPrices.set(data.prices)
         // this.chartOptions = {
@@ -202,9 +203,10 @@ export class CurrencyDetailsComponent implements OnInit {
 
   fetchCoinData() {
     return this.http
-      .get<
-        Coin[]
-      >(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${this.currency}&ids=${this.coinId}&x_cg_demo_api_key=${environment.apiKey}`)
+      .get<Coin[]>(
+        `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${this.currency}&ids=${this.coinId}&x_cg_demo_api_key=${environment.apiKey}`
+      )
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(data => {
         this.coinData.set(data[0])
       })
@@ -213,6 +215,7 @@ export class CurrencyDetailsComponent implements OnInit {
   fetchCoinList() {
     return this.http
       .get<ListCoinElement[]>(`https://api.coingecko.com/api/v3/coins/list`)
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(data => {
         this.options.set(data)
       })

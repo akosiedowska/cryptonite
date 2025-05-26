@@ -1,18 +1,16 @@
-import { inject, Injectable } from '@angular/core';
-import { User } from '../store/user/user.model';
-import { Store } from '@ngrx/store';
-import { clearUser, setUser } from '../store/user/user.actions';
-import { selectCurrentUser } from '../store/user/user.selector';
-import { take } from 'rxjs';
+import { inject, Injectable } from '@angular/core'
+import { User } from '../store/user/user.model'
+import { Store } from '@ngrx/store'
+import { clearUser, setUser } from '../store/user/user.actions'
+import { selectCurrentUser } from '../store/user/user.selector'
+import { take } from 'rxjs'
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CurrentUserService {
   private store = inject(Store)
   private user$ = this.store.select(selectCurrentUser)
-
-  constructor() { }
 
   initializeCurrentUser() {
     const userJSON = localStorage.getItem('CryptoniteUser')
@@ -28,13 +26,11 @@ export class CurrentUserService {
   }
 
   getCurrentUser() {
-    return this.user$.pipe(take(1)).subscribe(user => {
-      return user
-    })
+    return this.user$.pipe(take(1))
   }
 
   clearCurrentUser() {
     this.store.dispatch(clearUser())
     localStorage.removeItem('CryptoniteUser')
   }
-} 
+}
