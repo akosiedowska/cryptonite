@@ -93,7 +93,7 @@ export class TradeModalComponent {
         ) || 0
     })
 
-    this.tradeForm.valueChanges.subscribe(() => {
+    this.tradeForm.valueChanges.pipe(takeUntilDestroyed()).subscribe(() => {
       this.errorMessage = ''
     })
 
