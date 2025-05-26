@@ -1,3 +1,6 @@
-<mat-icon [fontIcon]="getSortIcon(order)" class="material-icons-outlined"
-    [class.active]="(currentOrder$ | async)?.startsWith(order)" (click)="toggleOrder(order)">
+<mat-icon
+  [fontIcon]="getSortIcon(order)"
+  class="material-icons-outlined"
+  [class.active]="currentOrder().startsWith(order)"
+  (click)="toggleOrder(order)">
 </mat-icon>

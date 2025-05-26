@@ -89,6 +89,7 @@ export class ChartComponent implements OnInit, OnChanges {
       .get<CoinData>(
         `https://api.coingecko.com/api/v3/coins/${this.coinId}/market_chart?vs_currency=${this.currency}&days=${this.days}&x_cg_demo_api_key=${environment.apiKey}`
       )
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(data => {
         this.coinPrices.set(data.prices)
         this.chartOptions = {
