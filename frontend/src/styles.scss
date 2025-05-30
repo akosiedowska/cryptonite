@@ -134,14 +134,19 @@ html {
 // mobile menu
 
 // styles for the cdk-overlay-pane - only for mobile menu
-.mobile-layout + .cdk-overlay-connected-position-bounding-box {
-  .cdk-overlay-pane {
-    top: 70px !important;
-    right: 0 !important;
-  }
-}
+// .mobile-layout+.cdk-overlay-connected-position-bounding-box {
+//   .cdk-overlay-pane {
+//     top: 70px !important;
+//     right: 0 !important;
+//   }
+// }
 
-.cdk-overlay-pane:has(.mobile-menu) {
+// .cdk-overlay-pane:has(.mobile-menu) {
+//   top: 70px !important;
+//   right: 0 !important;
+// }
+
+.cdk-overlay-pane.mobile-overlay {
   top: 70px !important;
   right: 0 !important;
 }

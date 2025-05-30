@@ -9,6 +9,7 @@ import { Store } from '@ngrx/store'
 import { selectCurrentUser } from '../../store/user/user.selector'
 import { MatMenuModule } from '@angular/material/menu'
 import { MatDividerModule } from '@angular/material/divider'
+import { MAT_MENU_DEFAULT_OPTIONS } from '@angular/material/menu'
 
 @Component({
   selector: 'app-header',
@@ -21,6 +22,15 @@ import { MatDividerModule } from '@angular/material/divider'
     RouterModule,
     MatMenuModule,
     MatDividerModule,
+  ],
+  providers: [
+    {
+      provide: MAT_MENU_DEFAULT_OPTIONS,
+      useValue: {
+        overlayPanelClass: 'mobile-overlay',
+        autoActiveFirstOption: false,
+      },
+    },
   ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
