@@ -45,6 +45,12 @@
   }
 }
 
+.flex {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
 .user-form {
   border-bottom: 1px solid $text-gray;
   border-top: 1px solid $text-gray;
@@ -94,3 +100,7 @@
     }
   }
 }
+
+// .upload-btn {
+//   background-color: pink;
+// }

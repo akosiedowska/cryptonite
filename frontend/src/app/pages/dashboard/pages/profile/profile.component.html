@@ -1,8 +1,19 @@
 <div class="profile">
   <div class="row avatar">
     <div class="label">Avatar</div>
-    <div>
+    <div class="flex">
       <div class="avatar-placeholder">{{ getInitials(user.name) }}</div>
+      <input
+        type="file"
+        accept="image/*"
+        (change)="uploadAvatar($event)"
+        style="display: none"
+        #fileInput />
+      <app-button
+        label="Upload avatar"
+        (click)="fileInput.click()"
+        [outlined]="true"
+        class="upload-btn" />
     </div>
   </div>
   <form [formGroup]="userForm" class="user-form" (submit)="updateUser()">

@@ -6,16 +6,16 @@
 }
 
 .coin-header {
-  &__title {
-    margin: 0;
-  }
-
   display: flex;
   align-items: center;
   gap: 10px;
   padding-bottom: 0.5em;
   margin-bottom: 2em;
   border-bottom: 1px solid $disabled-gray;
+
+  &__title {
+    margin: 0;
+  }
 
   &__icon {
     height: 40px;
