@@ -130,7 +130,7 @@ usersRouter.put(
   }
 )
 
-usersRouter.put(
+usersRouter.post(
   "/:id/avatar",
   (req, res, next) => {
     console.log("Middleware: before multer")
