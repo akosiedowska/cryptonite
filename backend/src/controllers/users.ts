@@ -196,7 +196,6 @@ usersRouter.post(
   }
 )
 
-
 usersRouter.delete(
   "/:id/avatar",
   verifyToken,
