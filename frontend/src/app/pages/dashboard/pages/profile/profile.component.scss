@@ -5,7 +5,6 @@
   flex-direction: column;
   gap: 1.5rem;
   width: fit-content;
-
   .row {
     display: grid;
     // grid-template-columns: 200px 300px;
@@ -34,7 +33,7 @@
       gap: 20px;
       justify-content: end;
     }
-
+  }
     .error-message {
       margin-top: 8px;
       padding: 0 16px;
@@ -103,6 +102,7 @@
   }
 
   .profile .row:not(.avatar) {
+
     grid-template-columns: 1fr;
 
     .label {
