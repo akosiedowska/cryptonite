@@ -9,7 +9,6 @@ import multer from "multer"
 import dotenv from "dotenv"
 
 dotenv.config()
-
 const storage = multer.memoryStorage()
 const upload = multer({ storage })
 export const usersRouter = express.Router()
@@ -136,20 +135,11 @@ usersRouter.put(
 
 usersRouter.post(
   "/:id/avatar",
-  (req, res, next) => {
-    console.log("Middleware: before multer")
-    next()
-  },
   verifyToken,
   upload.single("avatar"),
-  (req, res, next) => {
-    console.log("Middleware: after multer, req.file:", req.file)
-    next()
-  },
   async (req: Request, res: Response) => {
     const id = req.params.id
     const file = req.file
-
     try {
       console.log("UPLOAD HIT: ", req.method, req.url)
       console.log("PARAMS:", req.params)
@@ -200,6 +190,9 @@ usersRouter.delete(
   "/:id/avatar",
   verifyToken,
   async (req: Request, res: Response) => {
+
+    console.log("DELETE avatar hit")
+
     const id = req.params.id
     try {
       await pool.query(
