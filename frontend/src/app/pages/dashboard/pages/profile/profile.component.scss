@@ -45,9 +45,29 @@
   }
 }
 
+.flex {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
 .user-form {
   border-bottom: 1px solid $text-gray;
   border-top: 1px solid $text-gray;
+}
+
+.avatar-container {
+  height: 40px;
+  width: 40px;
+
+  img {
+    display: block;
+    border-radius: 50%;
+    border: 1px solid $text-gray;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+  }
 }
 
 .avatar-placeholder {

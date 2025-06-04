@@ -1,14 +1,43 @@
 <div class="profile">
   <div class="row avatar">
     <div class="label">Avatar</div>
-    <div>
-      <div class="avatar-placeholder">{{ getInitials(user.name) }}</div>
+    <div class="flex">
+      @if (user$ | async; as user) {
+        @if (user.avatar_url) {
+          <div class="avatar-container">
+            <img [src]="user.avatar_url" alt="user avatar" />
+          </div>
+        } @else {
+          <div class="avatar-placeholder">{{ getInitials(user.name) }}</div>
+        }
+      }
+      <input
+        type="file"
+        accept="image/*"
+        (change)="uploadAvatar($event)"
+        style="display: none"
+        #fileInput />
+      <app-button
+        label="Upload avatar"
+        (click)="fileInput.click()"
+        class="small"
+        [outlined]="true" />
+      <app-button
+        label="Remove avatar"
+        (click)="removeAvatar()"
+        class="small red"
+        [outlined]="true" />
     </div>
   </div>
   <form [formGroup]="userForm" class="user-form" (submit)="updateUser()">
     <div class="row">
       <label class="label" for="username">Username</label>
-      <input class="input" formControlName="username" id="username" required />
+      <input
+        class="input"
+        [value]="user.name"
+        formControlName="username"
+        id="username"
+        required />
       @if (userForm.get('username')?.hasError('required')) {
         <div class="error-message">Username is required</div>
       }
@@ -36,6 +65,7 @@
       <input
         class="input"
         formControlName="email"
+        [value]="user.email"
         required
         id="email"
         type="email"
