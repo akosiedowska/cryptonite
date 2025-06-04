@@ -24,7 +24,6 @@ usersRouter.get("/", async (req: Request, res: Response) => {
   } catch (err) {
     res.status(401).json({ message: "Access denied" })
   }
-
 })
 
 usersRouter.get("/:id", verifyToken, async (req: Request, res: Response) => {
@@ -131,7 +130,7 @@ usersRouter.put(
   }
 )
 
-usersRouter.put(
+usersRouter.post(
   "/:id/avatar",
   (req, res, next) => {
     console.log("Middleware: before multer")
