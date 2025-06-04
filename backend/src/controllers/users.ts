@@ -9,7 +9,9 @@ import multer from "multer"
 import dotenv from "dotenv"
 
 dotenv.config()
-const upload = multer()
+
+const storage = multer.memoryStorage()
+const upload = multer({ storage })
 export const usersRouter = express.Router()
 
 const supabase = createClient(
