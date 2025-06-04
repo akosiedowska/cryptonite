@@ -2,7 +2,15 @@
   <div class="row avatar">
     <div class="label">Avatar</div>
     <div class="flex">
-      <div class="avatar-placeholder">{{ getInitials(user.name) }}</div>
+      @if (user$ | async; as user) {
+        @if (user.avatar_url) {
+          <div class="avatar">
+            <img [src]="user.avatar_url" alt="user avatar" />
+          </div>
+        } @else {
+          <div class="avatar-placeholder">{{ getInitials(user.name) }}</div>
+        }
+      }
       <input
         type="file"
         accept="image/*"
@@ -17,9 +25,15 @@
     </div>
   </div>
   <form [formGroup]="userForm" class="user-form" (submit)="updateUser()">
+    <div>{{ user.email }}</div>
     <div class="row">
       <label class="label" for="username">Username</label>
-      <input class="input" formControlName="username" id="username" required />
+      <input
+        class="input"
+        [value]="user.name"
+        formControlName="username"
+        id="username"
+        required />
       @if (userForm.get('username')?.hasError('required')) {
         <div class="error-message">Username is required</div>
       }
@@ -47,6 +61,7 @@
       <input
         class="input"
         formControlName="email"
+        [value]="user.email"
         required
         id="email"
         type="email"

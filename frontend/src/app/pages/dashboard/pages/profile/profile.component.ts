@@ -1,4 +1,4 @@
-import { Component, inject, signal, OnInit } from '@angular/core'
+import { Component, inject, signal } from '@angular/core'
 import { CommonModule, DatePipe } from '@angular/common'
 import { getInitials } from '../../../../helpers'
 import {
@@ -34,17 +34,17 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss',
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent {
   user = JSON.parse(localStorage.getItem('CryptoniteUser') || '')
   private store = inject(Store)
   user$ = this.store.select(selectCurrentUser)
   userForm = new FormGroup({
-    username: new FormControl('', [
+    username: new FormControl(this.user.name, [
       Validators.required,
       Validators.minLength(3),
       Validators.maxLength(60),
     ]),
-    email: new FormControl('', [
+    email: new FormControl(this.user.email, [
       Validators.required,
       Validators.email,
       Validators.maxLength(256),
@@ -80,19 +80,41 @@ export class ProfileComponent implements OnInit {
     })
   }
 
-  ngOnInit() {
-    this.user$.pipe(take(1)).subscribe(user => {
-      if (user) {
-        this.userForm.patchValue({
-          username: user.name,
-          email: user.email,
-        })
-      }
-    })
-  }
-  /* eslint-disable */
+  // ngOnInit() {
+  //   this.user$.pipe(take(1)).subscribe(user => {
+  //     if (user) {
+  //       this.userForm.patchValue({
+  //         username: user.name,
+  //         email: user.email,
+  //       })
+  //     }
+  //   })
+  // }
+
   uploadAvatar(event: Event) {
-    // console.log('uploaded', event)
+    const input = event.target as HTMLInputElement
+    if (!input.files?.length) return
+
+    const formData = new FormData()
+    formData.append('avatar', input.files[0])
+
+    this.http
+      .put<{
+        avatarUrl: string
+      }>(`${environment.apiUrl}/users/${this.user.id}/avatar`, formData)
+      .subscribe({
+        next: res => {
+          const updatedUser = {
+            ...this.user,
+            avatar_url: res,
+          }
+          this.store.dispatch(setUser({ user: updatedUser }))
+          localStorage.setItem('CryptoniteUser', JSON.stringify(updatedUser))
+        },
+        error: error => {
+          this.snackBarService.open(error.error?.message, 'error')
+        },
+      })
   }
 
   updateUser() {

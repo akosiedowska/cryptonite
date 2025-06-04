@@ -56,6 +56,17 @@
   border-top: 1px solid $text-gray;
 }
 
+.avatar {
+  height: 40px;
+  width: 40px;
+
+  img {
+    display: block;
+    max-width: 100%;
+    border-radius: 50%;
+  }
+}
+
 .avatar-placeholder {
   display: flex;
   align-items: center;
@@ -100,7 +111,3 @@
     }
   }
 }
-
-// .upload-btn {
-//   background-color: pink;
-// }
