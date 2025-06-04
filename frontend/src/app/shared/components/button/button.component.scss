@@ -22,6 +22,16 @@
     &:hover {
       background-color: $cryptonite-green-light;
     }
+
+    &.red {
+      border: 1px solid $reset-btn;
+      color: $reset-btn;
+      background-color: white;
+
+      &:hover {
+        background-color: $reset-btn-hover-light;
+      }
+    }
   }
 
   &:disabled {
@@ -38,6 +48,11 @@
 .medium {
   font-size: 15px;
   padding: 10px 16px;
+}
+
+.small {
+  font-size: 12px;
+  padding: 6px 12px;
 }
 
 .wide {
