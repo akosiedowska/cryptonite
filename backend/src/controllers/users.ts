@@ -24,6 +24,7 @@ usersRouter.get("/", async (req: Request, res: Response) => {
   } catch (err) {
     res.status(401).json({ message: "Access denied" })
   }
+
 })
 
 usersRouter.get("/:id", verifyToken, async (req: Request, res: Response) => {
@@ -132,12 +133,22 @@ usersRouter.put(
 
 usersRouter.put(
   "/:id/avatar",
+  (req, res, next) => {
+    console.log("Middleware: before multer")
+    next()
+  },
   verifyToken,
   upload.single("avatar"),
+  (req, res, next) => {
+    console.log("Middleware: after multer, req.file:", req.file)
+    next()
+  },
   async (req: Request, res: Response) => {
     const id = req.params.id
     const file = req.file
-
+    console.log("UPLOAD HIT: ", req.method, req.url)
+    console.log("PARAMS:", req.params)
+    console.log("FILE:", req.file)
     if (!file || !id) {
       res.status(400).json({ error: "Missing file or user ID" })
       return
@@ -193,3 +204,10 @@ usersRouter.delete(
     }
   }
 )
+
+usersRouter.post("/test-upload", upload.single("avatar"), (req, res) => {
+  console.log("Test upload route hit")
+  console.log("File received:", req.file?.originalname)
+  res.json({ message: "Upload successful", file: req.file?.originalname })
+})
+
