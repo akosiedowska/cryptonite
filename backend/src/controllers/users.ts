@@ -209,3 +209,4 @@ usersRouter.post("/test-upload", upload.single("avatar"), (req, res) => {
   console.log("File received:", req.file?.originalname)
   res.json({ message: "Upload successful", file: req.file?.originalname })
 })
+
