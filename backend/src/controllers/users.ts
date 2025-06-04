@@ -9,6 +9,7 @@ import multer from "multer"
 import dotenv from "dotenv"
 
 dotenv.config()
+
 const storage = multer.memoryStorage()
 const upload = multer({ storage })
 export const usersRouter = express.Router()
@@ -210,3 +211,4 @@ usersRouter.post("/test-upload", upload.single("avatar"), (req, res) => {
   console.log("File received:", req.file?.originalname)
   res.json({ message: "Upload successful", file: req.file?.originalname })
 })
+
