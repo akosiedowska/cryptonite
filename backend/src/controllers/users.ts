@@ -80,7 +80,7 @@ usersRouter.post("/", validateUserData, async (req: Request, res: Response) => {
 usersRouter.put("/:id", verifyToken, async (req: Request, res: Response) => {
   const id = req.params.id
   const { name, email } = req.body
-
+  console.log("user name or email changed")
   try {
     const result = await pool.query(
       "UPDATE users SET name = $1, email = $2 WHERE id = $3 RETURNING *",
@@ -146,44 +146,49 @@ usersRouter.post(
   async (req: Request, res: Response) => {
     const id = req.params.id
     const file = req.file
-    console.log("UPLOAD HIT: ", req.method, req.url)
-    console.log("PARAMS:", req.params)
-    console.log("FILE:", req.file)
-    if (!file || !id) {
-      res.status(400).json({ error: "Missing file or user ID" })
-      return
-    }
-
-    const ext = file.originalname.split(".").pop()
-    const fileName = `${id}.${ext}`
-    const filePath = `avatars/${fileName}`
-
-    const { error } = await supabase.storage
-      .from("avatars")
-      .upload(filePath, file.buffer, {
-        contentType: file.mimetype,
-        upsert: true,
-      })
-
-    if (error) res.status(500).json({ error: error.message })
-
-    const { data } = supabase.storage.from("avatars").getPublicUrl(filePath)
-    const avatarUrl = data.publicUrl
-
     try {
-      const result = await pool.query(
-        "UPDATE users SET avatar_url = $1 WHERE id = $2 RETURNING *",
-        [avatarUrl, id]
-      )
-      if (result.rows.length === 0) {
-        res.status(404).json({ message: "User not found." })
+      console.log("UPLOAD HIT: ", req.method, req.url)
+      console.log("PARAMS:", req.params)
+      console.log("FILE:", req.file)
+      if (!file || !id) {
+        res.status(400).json({ error: "Missing file or user ID" })
+        return
       }
-    } catch (err) {
-      console.error("Database error:", err)
+
+      const ext = file.originalname.split(".").pop()
+      const fileName = `${id}.${ext}`
+      const filePath = `avatars/${fileName}`
+
+      const { error } = await supabase.storage
+        .from("avatars")
+        .upload(filePath, file.buffer, {
+          contentType: file.mimetype,
+          upsert: true,
+        })
+
+      if (error) res.status(500).json({ error: error.message })
+
+      const { data } = supabase.storage.from("avatars").getPublicUrl(filePath)
+      const avatarUrl = data.publicUrl
+
+      try {
+        const result = await pool.query(
+          "UPDATE users SET avatar_url = $1 WHERE id = $2 RETURNING *",
+          [avatarUrl, id]
+        )
+        if (result.rows.length === 0) {
+          res.status(404).json({ message: "User not found." })
+        }
+      } catch (err) {
+        console.error("Database error:", err)
+        res.status(500).json({ error: "Internal server error" })
+      }
+
+      res.status(201).json(avatarUrl)
+    } catch (error) {
+      console.error("Upload error:", error)
       res.status(500).json({ error: "Internal server error" })
     }
-
-    res.status(201).json(avatarUrl)
   }
 )
 
