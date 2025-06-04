@@ -5,7 +5,6 @@
   flex-direction: column;
   gap: 1.5rem;
   width: fit-content;
-
   .row {
     display: grid;
     // grid-template-columns: 200px 300px;
@@ -19,6 +18,20 @@
     .error-message {
       grid-column: span 2;
       text-align: right;
+    }
+  }
+
+  .user-form,
+  .password-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 1.5rem 0;
+
+    .btn-container {
+      display: flex;
+      gap: 20px;
+      justify-content: end;
     }
   }
 
@@ -102,7 +115,7 @@
     width: 100%;
   }
 
-  .profile .row:not(.avatar) {
+ .profile .row:not(.avatar) {
     grid-template-columns: 1fr;
 
     .label {
