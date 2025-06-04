@@ -101,7 +101,9 @@ export class ProfileComponent {
     this.http
       .put<{
         avatarUrl: string
-      }>(`${environment.apiUrl}/users/${this.user.id}/avatar`, formData)
+      }>(`${environment.apiUrl}/users/${this.user.id}/avatar`, formData, {
+        withCredentials: true,
+      })
       .subscribe({
         next: res => {
           const updatedUser = {
@@ -121,7 +123,9 @@ export class ProfileComponent {
     this.http
       .delete<{
         avatarUrl: null
-      }>(`${environment.apiUrl}/users/${this.user.id}/avatar`)
+      }>(`${environment.apiUrl}/users/${this.user.id}/avatar`, {
+        withCredentials: true,
+      })
       .subscribe({
         next: () => {
           const updatedUser = {
