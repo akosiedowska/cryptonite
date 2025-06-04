@@ -25,10 +25,9 @@ exports.loginRouter.post('/', async (req, res) => {
         }
         else {
             const tokenData = {
-                username: user.name,
                 id: user.id
             };
-            const accessToken = jsonwebtoken_1.default.sign(tokenData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '15min' });
+            const accessToken = jsonwebtoken_1.default.sign(tokenData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '10min' });
             const refreshToken = jsonwebtoken_1.default.sign(tokenData, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '1d' });
             const dynamicToken = (0, helpers_1.getTokenDynamicPart)(refreshToken);
             await index_1.pool.query("UPDATE users SET refresh_token = $1 WHERE id = $2", [dynamicToken, user.id]);

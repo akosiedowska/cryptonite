@@ -15,27 +15,23 @@ exports.refreshRouter.get('/', async (req, res) => {
         res.status(401).json({ message: "Access denied" });
         return;
     }
-    // jwt verification - earlier
     const refreshToken = cookies.jwt;
-    const dynamicToken = (0, helpers_1.getTokenDynamicPart)(cookies.jwt);
     try {
-        const result = await index_1.pool.query('SELECT * FROM users WHERE refresh_token=$1', [dynamicToken]);
-        const foundUser = result.rows[0];
-        if (!foundUser) {
-            res.status(403).json({ message: "Invalid token" });
-            return;
-        }
-        // assign to a value
-        jsonwebtoken_1.default.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, decoded) => {
-            if (err || foundUser.name !== decoded.username) {
+        jsonwebtoken_1.default.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, async (err, decoded) => {
+            if (err) {
+                res.status(403).json({ message: "Invalid token" });
+                return;
+            }
+            const dynamicToken = (0, helpers_1.getTokenDynamicPart)(cookies.jwt);
+            const user = await index_1.pool.query('SELECT * FROM users WHERE refresh_token=$1', [dynamicToken]);
+            if (!user.rows[0] || user.rows[0].id !== decoded.id) {
                 res.status(403).json({ message: "Invalid token" });
                 return;
             }
             const tokenData = {
-                username: decoded.username,
                 id: decoded.id
             };
-            const accessToken = jsonwebtoken_1.default.sign(tokenData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '30s' });
+            const accessToken = jsonwebtoken_1.default.sign(tokenData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '10min' });
             res.json({ accessToken });
         });
     }
