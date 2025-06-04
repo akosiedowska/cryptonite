@@ -133,16 +133,8 @@ usersRouter.put(
 
 usersRouter.post(
   "/:id/avatar",
-  (req, res, next) => {
-    console.log("Middleware: before multer")
-    next()
-  },
   verifyToken,
   upload.single("avatar"),
-  (req, res, next) => {
-    console.log("Middleware: after multer, req.file:", req.file)
-    next()
-  },
   async (req: Request, res: Response) => {
     const id = req.params.id
     const file = req.file
@@ -196,6 +188,7 @@ usersRouter.delete(
   "/:id/avatar",
   verifyToken,
   async (req: Request, res: Response) => {
+    console.log("DELETE avatar hit")
     const id = req.params.id
     try {
       await pool.query(
