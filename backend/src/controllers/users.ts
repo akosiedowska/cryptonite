@@ -175,3 +175,21 @@ usersRouter.put(
     res.status(201).json(avatarUrl)
   }
 )
+
+usersRouter.delete(
+  "/:id/avatar",
+  verifyToken,
+  async (req: Request, res: Response) => {
+    const id = req.params.id
+    try {
+      await pool.query(
+        "UPDATE users SET avatar_url = NULL WHERE id = $1 RETURNING *",
+        [id]
+      )
+      res.status(200).json({ avatar_url: null })
+    } catch (error) {
+      console.error("Error removing avatar:", error)
+      res.status(500).json({ error: "Internal server error" })
+    }
+  }
+)

@@ -117,6 +117,26 @@ export class ProfileComponent {
       })
   }
 
+  removeAvatar() {
+    this.http
+      .delete<{
+        avatarUrl: null
+      }>(`${environment.apiUrl}/users/${this.user.id}/avatar`)
+      .subscribe({
+        next: () => {
+          const updatedUser = {
+            ...this.user,
+            avatar_url: null,
+          }
+          this.store.dispatch(setUser({ user: updatedUser }))
+          localStorage.setItem('CryptoniteUser', JSON.stringify(updatedUser))
+        },
+        error: error => {
+          this.snackBarService.open(error.error?.message, 'error')
+        },
+      })
+  }
+
   updateUser() {
     if (this.userForm.invalid) return
     this.user$.pipe(take(1)).subscribe((user: User | null) => {

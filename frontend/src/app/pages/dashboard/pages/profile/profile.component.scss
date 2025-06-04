@@ -56,14 +56,17 @@
   border-top: 1px solid $text-gray;
 }
 
-.avatar {
+.avatar-container {
   height: 40px;
   width: 40px;
 
   img {
     display: block;
-    max-width: 100%;
     border-radius: 50%;
+    border: 1px solid $text-gray;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
   }
 }
 

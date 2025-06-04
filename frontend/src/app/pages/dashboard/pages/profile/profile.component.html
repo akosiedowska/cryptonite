@@ -4,7 +4,7 @@
     <div class="flex">
       @if (user$ | async; as user) {
         @if (user.avatar_url) {
-          <div class="avatar">
+          <div class="avatar-container">
             <img [src]="user.avatar_url" alt="user avatar" />
           </div>
         } @else {
@@ -20,12 +20,16 @@
       <app-button
         label="Upload avatar"
         (click)="fileInput.click()"
-        [outlined]="true"
-        class="upload-btn" />
+        class="small"
+        [outlined]="true" />
+      <app-button
+        label="Remove avatar"
+        (click)="removeAvatar()"
+        class="small red"
+        [outlined]="true" />
     </div>
   </div>
   <form [formGroup]="userForm" class="user-form" (submit)="updateUser()">
-    <div>{{ user.email }}</div>
     <div class="row">
       <label class="label" for="username">Username</label>
       <input
