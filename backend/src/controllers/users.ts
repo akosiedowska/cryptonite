@@ -80,7 +80,9 @@ usersRouter.post("/", validateUserData, async (req: Request, res: Response) => {
 usersRouter.put("/:id", verifyToken, async (req: Request, res: Response) => {
   const id = req.params.id
   const { name, email } = req.body
+
   console.log("user name or email changed")
+
   try {
     const result = await pool.query(
       "UPDATE users SET name = $1, email = $2 WHERE id = $3 RETURNING *",
@@ -188,7 +190,9 @@ usersRouter.delete(
   "/:id/avatar",
   verifyToken,
   async (req: Request, res: Response) => {
+
     console.log("DELETE avatar hit")
+
     const id = req.params.id
     try {
       await pool.query(
