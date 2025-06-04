@@ -9,6 +9,7 @@ import multer from "multer"
 import dotenv from "dotenv"
 
 dotenv.config()
+
 const storage = multer.memoryStorage()
 const upload = multer({ storage })
 export const usersRouter = express.Router()
@@ -80,7 +81,9 @@ usersRouter.post("/", validateUserData, async (req: Request, res: Response) => {
 usersRouter.put("/:id", verifyToken, async (req: Request, res: Response) => {
   const id = req.params.id
   const { name, email } = req.body
+
   console.log("user name or email changed")
+
   try {
     const result = await pool.query(
       "UPDATE users SET name = $1, email = $2 WHERE id = $3 RETURNING *",
@@ -146,6 +149,7 @@ usersRouter.post(
   async (req: Request, res: Response) => {
     const id = req.params.id
     const file = req.file
+
     try {
       console.log("UPLOAD HIT: ", req.method, req.url)
       console.log("PARAMS:", req.params)
@@ -191,6 +195,7 @@ usersRouter.post(
     }
   }
 )
+
 
 usersRouter.delete(
   "/:id/avatar",
