@@ -189,6 +189,7 @@ usersRouter.delete(
   verifyToken,
   async (req: Request, res: Response) => {
     console.log("DELETE avatar hit")
+
     const id = req.params.id
     try {
       await pool.query(
