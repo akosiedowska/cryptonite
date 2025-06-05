@@ -85,3 +85,9 @@ favouritesRouter.get(
     }
   }
 )
+
+favouritesRouter.get("/test", async (req: Request, res: Response) => {
+  console.log("fav test")
+  res.status(200).json({ message: "This is fav test" })
+})
+

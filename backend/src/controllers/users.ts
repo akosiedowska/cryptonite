@@ -17,6 +17,7 @@ const supabase = createClient(
   process.env.SUPABASE_PROJECT_URL ?? "",
   process.env.SUPABASE_SERVICE_ROLE_KEY ?? ""
 )
+
 usersRouter.post("/test-upload", upload.single("avatar"), (req, res) => {
   console.log("Test upload route hit")
   console.log("File received:", req.file?.originalname)
@@ -194,6 +195,7 @@ usersRouter.delete(
   verifyToken,
   async (req: Request, res: Response) => {
     console.log("DELETE avatar hit")
+
     const id = req.params.id
     try {
       await pool.query(
@@ -207,3 +209,4 @@ usersRouter.delete(
     }
   }
 )
+
