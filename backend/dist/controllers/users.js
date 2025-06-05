@@ -157,8 +157,6 @@ exports.usersRouter.post("/:id/avatar", verifyToken_1.verifyToken, upload.single
 });
 exports.usersRouter.delete("/:id/avatar", verifyToken_1.verifyToken, async (req, res) => {
 
-    console.log("DELETE avatar hit");
-
     const id = req.params.id;
     try {
         await index_1.pool.query("UPDATE users SET avatar_url = NULL WHERE id = $1 RETURNING *", [id]);

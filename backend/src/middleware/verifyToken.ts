@@ -12,7 +12,7 @@ export const verifyToken = (
   next: NextFunction
 ): void => {
   const token = req.header("Authorization")?.split(" ")[1]
-  console.log("verifyToken middleware hit")
+
   if (!token) {
     res.status(401).json({ message: "Invalid token" })
     return
