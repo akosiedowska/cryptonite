@@ -12,8 +12,8 @@ exports.logoutRouter.post('/', async (req, res) => {
     const cookies = req.cookies;
     if (!cookies?.jwt) {
         res.status(401).json({ message: "Access denied" });
+        return;
     }
-    const refreshToken = cookies.jwt;
     const dynamicToken = (0, helpers_1.getTokenDynamicPart)(cookies.jwt);
     try {
         const result = await index_1.pool.query('SELECT * FROM users WHERE refresh_token=$1', [dynamicToken]);
