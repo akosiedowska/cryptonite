@@ -21,9 +21,8 @@ exports.transactionsRouter.get('/:id', verifyToken_1.verifyToken, async (req, re
 exports.transactionsRouter.post('/:id', verifyToken_1.verifyToken, async (req, res) => {
     const { id } = req.params;
     const { currency_id, currency_name, transaction_type, amount, price_per_unit, total_value } = req.body;
-    const transactionDate = new Date().toISOString();
     try {
-        await index_1.pool.query('INSERT INTO transactions (user_id, currency_id, currency_name, transaction_type, amount, price_per_unit, total_value, transaction_date) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)', [id, currency_id, currency_name, transaction_type, amount, price_per_unit, total_value, transactionDate]);
+        await index_1.pool.query('INSERT INTO transactions (user_id, currency_id, currency_name, transaction_type, amount, price_per_unit, total_value) VALUES ($1, $2, $3, $4, $5, $6, $7)', [id, currency_id, currency_name, transaction_type, amount, price_per_unit, total_value]);
         const transactions = await index_1.pool.query('SELECT * FROM transactions WHERE user_id = $1', [id]);
         res.status(200).json(transactions.rows);
     }

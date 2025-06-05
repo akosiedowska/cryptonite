@@ -99,7 +99,7 @@ export class ProfileComponent {
     formData.append('avatar', input.files[0])
 
     this.http
-      .put<{
+      .post<{
         avatarUrl: string
       }>(`${environment.apiUrl}/users/${this.user.id}/avatar`, formData, {
         withCredentials: true,
