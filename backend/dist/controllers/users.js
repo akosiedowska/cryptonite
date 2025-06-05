@@ -18,6 +18,11 @@ const storage = multer_1.default.memoryStorage();
 const upload = (0, multer_1.default)({ storage });
 exports.usersRouter = express_1.default.Router();
 const supabase = (0, supabase_js_1.createClient)(process.env.SUPABASE_PROJECT_URL ?? "", process.env.SUPABASE_SERVICE_ROLE_KEY ?? "");
+exports.usersRouter.post("/test-upload", upload.single("avatar"), (req, res) => {
+    console.log("Test upload route hit");
+    console.log("File received:", req.file?.originalname);
+    res.json({ message: "Upload successful", file: req.file?.originalname });
+});
 exports.usersRouter.get("/", async (req, res) => {
     try {
         const result = await index_1.pool.query("SELECT * FROM users_public");
@@ -108,13 +113,7 @@ exports.usersRouter.put("/:id/password", verifyToken_1.verifyToken, async (req, 
         res.status(500).json({ error: "Internal server error" });
     }
 });
-exports.usersRouter.post("/:id/avatar", (req, res, next) => {
-    console.log("Middleware: before multer");
-    next();
-}, verifyToken_1.verifyToken, upload.single("avatar"), (req, res, next) => {
-    console.log("Middleware: after multer, req.file:", req.file);
-    next();
-}, async (req, res) => {
+exports.usersRouter.post("/:id/avatar", verifyToken_1.verifyToken, upload.single("avatar"), async (req, res) => {
     const id = req.params.id;
     const file = req.file;
     try {
@@ -156,6 +155,7 @@ exports.usersRouter.post("/:id/avatar", (req, res, next) => {
     }
 });
 exports.usersRouter.delete("/:id/avatar", verifyToken_1.verifyToken, async (req, res) => {
+    console.log("DELETE avatar hit");
     const id = req.params.id;
     try {
         await index_1.pool.query("UPDATE users SET avatar_url = NULL WHERE id = $1 RETURNING *", [id]);
@@ -165,9 +165,4 @@ exports.usersRouter.delete("/:id/avatar", verifyToken_1.verifyToken, async (req,
         console.error("Error removing avatar:", error);
         res.status(500).json({ error: "Internal server error" });
     }
-});
-exports.usersRouter.post("/test-upload", upload.single("avatar"), (req, res) => {
-    console.log("Test upload route hit");
-    console.log("File received:", req.file?.originalname);
-    res.json({ message: "Upload successful", file: req.file?.originalname });
 });
