@@ -42,6 +42,8 @@ export const pool = new Pool(
 )
 
 app.use(express.json())
+// app.use(express.urlencoded({ extended: true }))
+
 app.use(cookieParser())
 
 app.use("/users", usersRouter)
@@ -51,6 +53,11 @@ app.use("/logout", logoutRouter)
 app.use("/favourites", favouritesRouter)
 app.use("/wallet", walletRouter)
 app.use("/transactions", transactionsRouter)
+
+app.use("*", (req, res) => {
+  console.log("Unknown route hit:", req.originalUrl)
+  res.status(404).send("Not Found")
+})
 
 app.get("/", (req: Request, res: Response) => {
   res.send("Hello from backend")
