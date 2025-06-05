@@ -82,6 +82,7 @@ usersRouter.post("/", validateUserData, async (req: Request, res: Response) => {
   }
 })
 
+
 usersRouter.put("/:id", verifyToken, async (req: Request, res: Response) => {
   const id = req.params.id
   const { name, email } = req.body
@@ -189,11 +190,13 @@ usersRouter.post(
   }
 )
 
+
 usersRouter.delete(
   "/:id/avatar",
   verifyToken,
   async (req: Request, res: Response) => {
     console.log("DELETE avatar hit")
+
     const id = req.params.id
     try {
       await pool.query(
@@ -207,3 +210,4 @@ usersRouter.delete(
     }
   }
 )
+
