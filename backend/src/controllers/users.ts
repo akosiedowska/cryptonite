@@ -18,6 +18,12 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY ?? ""
 )
 
+usersRouter.post("/test-upload", upload.single("avatar"), (req, res) => {
+  console.log("Test upload route hit")
+  console.log("File received:", req.file?.originalname)
+  res.json({ message: "Upload successful", file: req.file?.originalname })
+})
+
 usersRouter.get("/", async (req: Request, res: Response) => {
   try {
     const result = await pool.query("SELECT * FROM users_public")
@@ -204,8 +210,3 @@ usersRouter.delete(
   }
 )
 
-usersRouter.post("/test-upload", upload.single("avatar"), (req, res) => {
-  console.log("Test upload route hit")
-  console.log("File received:", req.file?.originalname)
-  res.json({ message: "Upload successful", file: req.file?.originalname })
-})
