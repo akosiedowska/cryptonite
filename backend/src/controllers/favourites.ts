@@ -4,6 +4,10 @@ import { verifyToken } from "../middleware/verifyToken"
 
 export const favouritesRouter = express.Router()
 
+favouritesRouter.get("/test", async (req: Request, res: Response) => {
+  console.log("fav test")
+  res.status(200).json({ message: "This is fav test" })
+})
 // use dynamic params :id for user?
 favouritesRouter.post("/", verifyToken, async (req: Request, res: Response) => {
   const { userId, currencyId } = req.body
