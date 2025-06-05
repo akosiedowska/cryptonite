@@ -17,11 +17,6 @@ const supabase = createClient(
   process.env.SUPABASE_PROJECT_URL ?? "",
   process.env.SUPABASE_SERVICE_ROLE_KEY ?? ""
 )
-usersRouter.post("/test-upload", upload.single("avatar"), (req, res) => {
-  console.log("Test upload route hit")
-  console.log("File received:", req.file?.originalname)
-  res.json({ message: "Upload successful", file: req.file?.originalname })
-})
 
 usersRouter.get("/", async (req: Request, res: Response) => {
   try {
@@ -85,7 +80,6 @@ usersRouter.post("/", validateUserData, async (req: Request, res: Response) => {
 usersRouter.put("/:id", verifyToken, async (req: Request, res: Response) => {
   const id = req.params.id
   const { name, email } = req.body
-  console.log("user name or email changed")
   try {
     const result = await pool.query(
       "UPDATE users SET name = $1, email = $2 WHERE id = $3 RETURNING *",
@@ -144,9 +138,6 @@ usersRouter.post(
     const id = req.params.id
     const file = req.file
     try {
-      console.log("UPLOAD HIT: ", req.method, req.url)
-      console.log("PARAMS:", req.params)
-      console.log("FILE:", req.file)
       if (!file || !id) {
         res.status(400).json({ error: "Missing file or user ID" })
         return
@@ -193,7 +184,6 @@ usersRouter.delete(
   "/:id/avatar",
   verifyToken,
   async (req: Request, res: Response) => {
-    console.log("DELETE avatar hit")
     const id = req.params.id
     try {
       await pool.query(
