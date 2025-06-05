@@ -115,7 +115,6 @@ exports.usersRouter.put("/:id/password", verifyToken_1.verifyToken, async (req, 
     }
 });
 exports.usersRouter.post("/:id/avatar", verifyToken_1.verifyToken, upload.single("avatar"), async (req, res) => {
-
     const id = req.params.id;
     const file = req.file;
     try {
@@ -170,5 +169,4 @@ exports.usersRouter.delete("/:id/avatar", verifyToken_1.verifyToken, async (req,
         res.status(500).json({ error: "Internal server error" });
     }
 });
-
 

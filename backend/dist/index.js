@@ -42,9 +42,6 @@ exports.pool = new pg_1.Pool(isProduction
         port: 5432,
     });
 app.use(express_1.default.json());
-
-// app.use(express.urlencoded({ extended: true }))
-
 app.use((0, cookie_parser_1.default)());
 app.use("/users", users_1.usersRouter);
 app.use("/login", login_1.loginRouter);
@@ -53,10 +50,7 @@ app.use("/logout", logout_1.logoutRouter);
 app.use("/favourites", favourites_1.favouritesRouter);
 app.use("/wallet", wallet_1.walletRouter);
 app.use("/transactions", transactions_1.transactionsRouter);
-app.use("*", (req, res) => {
-    console.log("Unknown route hit:", req.originalUrl);
-    res.status(404).send("Not Found");
-});
+
 app.get("/", (req, res) => {
     res.send("Hello from backend");
 });
