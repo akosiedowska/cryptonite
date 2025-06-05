@@ -17,7 +17,6 @@ const supabase = createClient(
   process.env.SUPABASE_PROJECT_URL ?? "",
   process.env.SUPABASE_SERVICE_ROLE_KEY ?? ""
 )
-
 usersRouter.post("/test-upload", upload.single("avatar"), (req, res) => {
   console.log("Test upload route hit")
   console.log("File received:", req.file?.originalname)
@@ -82,6 +81,7 @@ usersRouter.post("/", validateUserData, async (req: Request, res: Response) => {
     res.status(500).json({ error: "Internal server error" })
   }
 })
+
 
 usersRouter.put("/:id", verifyToken, async (req: Request, res: Response) => {
   const id = req.params.id
@@ -189,6 +189,7 @@ usersRouter.post(
     }
   }
 )
+
 
 usersRouter.delete(
   "/:id/avatar",

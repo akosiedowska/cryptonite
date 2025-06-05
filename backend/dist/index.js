@@ -42,7 +42,9 @@ exports.pool = new pg_1.Pool(isProduction
         port: 5432,
     });
 app.use(express_1.default.json());
-app.use(express_1.default.urlencoded({ extended: true }));
+
+// app.use(express.urlencoded({ extended: true }))
+
 app.use((0, cookie_parser_1.default)());
 app.use("/users", users_1.usersRouter);
 app.use("/login", login_1.loginRouter);
