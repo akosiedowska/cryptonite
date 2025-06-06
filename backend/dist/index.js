@@ -50,6 +50,7 @@ app.use("/logout", logout_1.logoutRouter);
 app.use("/favourites", favourites_1.favouritesRouter);
 app.use("/wallet", wallet_1.walletRouter);
 app.use("/transactions", transactions_1.transactionsRouter);
+
 app.get("/", (req, res) => {
     res.send("Hello from backend");
 });
