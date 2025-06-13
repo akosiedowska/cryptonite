@@ -1,10 +1,10 @@
 <div class="profile">
-  <div class="row avatar">
+  <div class="row avatar-row">
     <div class="label">Avatar</div>
-    <div class="flex">
+    <div class="avatar-container">
       <!-- @if (user()) { -->
       @if (user()?.avatar_url) {
-        <div class="avatar-container">
+        <div class="avatar">
           <img [src]="user()?.avatar_url" alt="user avatar" />
         </div>
       } @else {
@@ -13,22 +13,24 @@
         </div>
       }
       <!-- } -->
-      <input
-        type="file"
-        accept="image/*"
-        (change)="uploadAvatar($event)"
-        style="display: none"
-        #fileInput />
-      <app-button
-        label="Upload avatar"
-        (click)="fileInput.click()"
-        class="small"
-        [outlined]="true" />
-      <app-button
-        label="Remove avatar"
-        (click)="removeAvatar()"
-        class="small red"
-        [outlined]="true" />
+      <div class="avatar-btn-container">
+        <input
+          type="file"
+          accept="image/*"
+          (change)="uploadAvatar($event)"
+          style="display: none"
+          #fileInput />
+        <app-button
+          label="Upload avatar"
+          (click)="fileInput.click()"
+          class="small"
+          [outlined]="true" />
+        <app-button
+          label="Remove avatar"
+          (click)="removeAvatar()"
+          class="small red"
+          [outlined]="true" />
+      </div>
     </div>
   </div>
   <form [formGroup]="userForm" class="user-form" (submit)="updateUser()">
