@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core'
+import { Component, inject, Signal, signal } from '@angular/core'
 import { CommonModule, DatePipe } from '@angular/common'
 import { getInitials } from '../../../../helpers'
 import {
@@ -13,13 +13,12 @@ import { MatInputModule } from '@angular/material/input'
 import { matchPasswordsValidator } from '../../../signup/helpers'
 import { Store } from '@ngrx/store'
 import { selectCurrentUser } from '../../../../core/store/user/user.selector'
-import { take } from 'rxjs'
 import { setUser } from '../../../../core/store/user/user.actions'
 import { User } from '../../../../core/store/user/user.model'
 import { SnackbarService } from '../../../../core/services/snackbar.service'
 import { MatSnackBarModule } from '@angular/material/snack-bar'
 import { environment } from '../../../../../environments/environment'
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop'
 
 @Component({
   selector: 'app-profile',
@@ -35,16 +34,19 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
   styleUrl: './profile.component.scss',
 })
 export class ProfileComponent {
-  user = JSON.parse(localStorage.getItem('CryptoniteUser') || '')
+  // user = JSON.parse(localStorage.getItem('CryptoniteUser') || '')
   private store = inject(Store)
   user$ = this.store.select(selectCurrentUser)
+  // user = toSignal<User | null>(this.user$)
+  user!: Signal<User | null>
+
   userForm = new FormGroup({
-    username: new FormControl(this.user.name, [
+    username: new FormControl(this.user()?.name, [
       Validators.required,
       Validators.minLength(3),
       Validators.maxLength(60),
     ]),
-    email: new FormControl(this.user.email, [
+    email: new FormControl(this.user()?.email, [
       Validators.required,
       Validators.email,
       Validators.maxLength(256),
@@ -78,6 +80,9 @@ export class ProfileComponent {
     this.passwordForm.valueChanges.pipe(takeUntilDestroyed()).subscribe(() => {
       this.passwordErrorMessage.set(null)
     })
+    this.user = toSignal(this.store.select(selectCurrentUser), {
+      initialValue: null,
+    })
   }
 
   // ngOnInit() {
@@ -98,16 +103,20 @@ export class ProfileComponent {
     const formData = new FormData()
     formData.append('avatar', input.files[0])
 
+    const currentUser = this.user()
+    if (!currentUser) return
     this.http
-      .post<{
-        avatarUrl: string
-      }>(`${environment.apiUrl}/users/${this.user.id}/avatar`, formData, {
-        withCredentials: true,
-      })
+      .post<string>(
+        `${environment.apiUrl}/users/${this.user()?.id}/avatar`,
+        formData,
+        {
+          withCredentials: true,
+        }
+      )
       .subscribe({
         next: res => {
           const updatedUser = {
-            ...this.user,
+            ...currentUser,
             avatar_url: res,
           }
           this.store.dispatch(setUser({ user: updatedUser }))
@@ -120,16 +129,18 @@ export class ProfileComponent {
   }
 
   removeAvatar() {
+    const currentUser = this.user()
+    if (!currentUser) return
     this.http
       .delete<{
         avatarUrl: null
-      }>(`${environment.apiUrl}/users/${this.user.id}/avatar`, {
+      }>(`${environment.apiUrl}/users/${this.user()?.id}/avatar`, {
         withCredentials: true,
       })
       .subscribe({
         next: () => {
           const updatedUser = {
-            ...this.user,
+            ...currentUser,
             avatar_url: null,
           }
           this.store.dispatch(setUser({ user: updatedUser }))
@@ -143,36 +154,38 @@ export class ProfileComponent {
 
   updateUser() {
     if (this.userForm.invalid) return
-    this.user$.pipe(take(1)).subscribe((user: User | null) => {
-      if (user) {
-        const updatedUser: User = {
-          ...user,
-          name: this.userForm.value.username ?? user.name,
-          email: this.userForm.value.email ?? user.email,
-        }
-
-        this.http
-          .put(`${environment.apiUrl}/users/${this.user.id}`, updatedUser, {
-            withCredentials: true,
-          })
-          .subscribe({
-            next: () => {
-              this.store.dispatch(setUser({ user: updatedUser }))
-              localStorage.setItem(
-                'CryptoniteUser',
-                JSON.stringify(updatedUser)
-              )
-              this.snackBarService.open('User data was changed')
-            },
-            error: error => {
-              this.userErrorMessage.set(
-                error.error?.message || 'Unexpected error occured'
-              )
-              this.snackBarService.open(error.error?.message, 'error')
-            },
-          })
+    // this.user$.pipe(take(1)).subscribe((user: User | null) => {
+    //   if (user) {
+    const currentUser = this.user()
+    if (!currentUser) return
+    if (this.user()?.name) {
+      const updatedUser: User = {
+        ...currentUser,
+        name: this.userForm.value.username ?? currentUser.name,
+        email: this.userForm.value.email ?? currentUser.email,
       }
-    })
+
+      this.http
+        .put(`${environment.apiUrl}/users/${this.user()?.id}`, updatedUser, {
+          withCredentials: true,
+        })
+        .subscribe({
+          next: () => {
+            this.store.dispatch(setUser({ user: updatedUser }))
+            localStorage.setItem('CryptoniteUser', JSON.stringify(updatedUser))
+            this.snackBarService.open('User data was changed')
+          },
+          error: error => {
+            this.userErrorMessage.set(
+              error.error?.message || 'Unexpected error occured'
+            )
+            this.snackBarService.open(error.error?.message, 'error')
+          },
+        })
+      // }
+      // }
+      // )
+    }
   }
 
   updatePassword() {
@@ -184,7 +197,7 @@ export class ProfileComponent {
 
     this.http
       .put(
-        `${environment.apiUrl}/users/${this.user.id}/password`,
+        `${environment.apiUrl}/users/${this.user()?.id}/password`,
         updatedPassword,
         { withCredentials: true }
       )
@@ -205,8 +218,8 @@ export class ProfileComponent {
   handleCancel(type: string) {
     if (type === 'user') {
       this.userForm.reset({
-        username: this.user.name,
-        email: this.user.email,
+        username: this.user()?.name,
+        email: this.user()?.email,
       })
     } else {
       this.passwordForm.reset()

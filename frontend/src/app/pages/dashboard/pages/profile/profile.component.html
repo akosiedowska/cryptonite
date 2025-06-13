@@ -2,15 +2,17 @@
   <div class="row avatar">
     <div class="label">Avatar</div>
     <div class="flex">
-      @if (user$ | async; as user) {
-        @if (user.avatar_url) {
-          <div class="avatar-container">
-            <img [src]="user.avatar_url" alt="user avatar" />
-          </div>
-        } @else {
-          <div class="avatar-placeholder">{{ getInitials(user.name) }}</div>
-        }
+      <!-- @if (user()) { -->
+      @if (user()?.avatar_url) {
+        <div class="avatar-container">
+          <img [src]="user()?.avatar_url" alt="user avatar" />
+        </div>
+      } @else {
+        <div class="avatar-placeholder">
+          {{ getInitials(user()?.name || '') }}
+        </div>
       }
+      <!-- } -->
       <input
         type="file"
         accept="image/*"
@@ -32,12 +34,7 @@
   <form [formGroup]="userForm" class="user-form" (submit)="updateUser()">
     <div class="row">
       <label class="label" for="username">Username</label>
-      <input
-        class="input"
-        [value]="user.name"
-        formControlName="username"
-        id="username"
-        required />
+      <input class="input" formControlName="username" id="username" required />
       @if (userForm.get('username')?.hasError('required')) {
         <div class="error-message">Username is required</div>
       }
@@ -55,7 +52,7 @@
     <div class="row">
       <div class="label" for="date">Member since</div>
       <input
-        [value]="user.created_date | date: 'shortDate'"
+        [value]="user()?.created_date | date: 'shortDate'"
         class="input"
         id="date"
         disabled />
@@ -65,7 +62,7 @@
       <input
         class="input"
         formControlName="email"
-        [value]="user.email"
+        [value]="user()?.email"
         required
         id="email"
         type="email"

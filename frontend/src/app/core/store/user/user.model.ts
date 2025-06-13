@@ -4,7 +4,7 @@ export interface User {
   password?: string
   created_date?: string
   id: number
-  avatar_url: string
+  avatar_url: string | null
 }
 
 export interface UserState {
