@@ -1,4 +1,4 @@
-import { Component, inject, Signal, signal } from '@angular/core'
+import { Component, inject, signal } from '@angular/core'
 import { CommonModule, DatePipe } from '@angular/common'
 import { getInitials } from '../../../../helpers'
 import {
@@ -37,8 +37,8 @@ export class ProfileComponent {
   // user = JSON.parse(localStorage.getItem('CryptoniteUser') || '')
   private store = inject(Store)
   user$ = this.store.select(selectCurrentUser)
-  // user = toSignal<User | null>(this.user$)
-  user!: Signal<User | null>
+  user = toSignal<User | null>(this.user$)
+  // user!: Signal<User | null>
 
   userForm = new FormGroup({
     username: new FormControl(this.user()?.name, [
@@ -80,9 +80,9 @@ export class ProfileComponent {
     this.passwordForm.valueChanges.pipe(takeUntilDestroyed()).subscribe(() => {
       this.passwordErrorMessage.set(null)
     })
-    this.user = toSignal(this.store.select(selectCurrentUser), {
-      initialValue: null,
-    })
+    // this.user = toSignal(this.store.select(selectCurrentUser), {
+    //   initialValue: null,
+    // })
   }
 
   // ngOnInit() {
