@@ -123,7 +123,8 @@ export class ProfileComponent {
           localStorage.setItem('CryptoniteUser', JSON.stringify(updatedUser))
         },
         error: error => {
-          this.snackBarService.open(error.error?.message, 'error')
+          // this.snackBarService.open('Failed to upload the image', 'error')
+          this.snackBarService.open(error.error.error, 'error')
         },
       })
   }
