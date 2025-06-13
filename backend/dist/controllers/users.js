@@ -23,6 +23,7 @@ exports.usersRouter.post("/test-upload", upload.single("avatar"), (req, res) => 
     console.log("File received:", req.file?.originalname);
     res.json({ message: "Upload successful", file: req.file?.originalname });
 });
+
 exports.usersRouter.get("/", async (req, res) => {
     try {
         const result = await index_1.pool.query("SELECT * FROM users_public");
@@ -155,7 +156,7 @@ exports.usersRouter.post("/:id/avatar", verifyToken_1.verifyToken, upload.single
     }
 });
 exports.usersRouter.delete("/:id/avatar", verifyToken_1.verifyToken, async (req, res) => {
-    console.log("DELETE avatar hit");
+
     const id = req.params.id;
     try {
         await index_1.pool.query("UPDATE users SET avatar_url = NULL WHERE id = $1 RETURNING *", [id]);

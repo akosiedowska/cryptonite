@@ -220,6 +220,7 @@ export class ProfileComponent {
       this.userForm.reset({
         username: this.user()?.name,
         email: this.user()?.email,
+
       })
     } else {
       this.passwordForm.reset()
