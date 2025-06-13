@@ -18,6 +18,14 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY ?? ""
 )
 
+const allowedAvatarTypes = [
+  "image/jpeg",
+  "image/png",
+  "image/webp",
+  "image/gif",
+]
+const maxAvatarSizeInBytes = 5 * 1024 * 1024
+
 usersRouter.get("/", async (req: Request, res: Response) => {
   try {
     const result = await pool.query("SELECT * FROM users_public")
@@ -143,6 +151,19 @@ usersRouter.post(
         return
       }
 
+      if (!allowedAvatarTypes.includes(file.mimetype)) {
+        res.status(400).json({
+          error:
+            "Unsupported file type. Only JPG, PNG, WEBP, and GIF are allowed.",
+        })
+        return
+      }
+
+      if (file.size > maxAvatarSizeInBytes) {
+        res.status(400).json({ error: "File too large. Max size is 5MB." })
+        return
+      }
+
       const ext = file.originalname.split(".").pop()
       const fileName = `${id}.${ext}`
       const filePath = `avatars/${fileName}`
@@ -154,7 +175,11 @@ usersRouter.post(
           upsert: true,
         })
 
-      if (error) res.status(500).json({ error: error.message })
+      if (error) {
+        console.log("backend error", error)
+        res.status(500).json({ error: error.message })
+        return
+      }
 
       const { data } = supabase.storage.from("avatars").getPublicUrl(filePath)
       const avatarUrl = data.publicUrl
@@ -170,6 +195,7 @@ usersRouter.post(
       } catch (err) {
         console.error("Database error:", err)
         res.status(500).json({ error: "Internal server error" })
+        return
       }
 
       res.status(201).json(avatarUrl)
