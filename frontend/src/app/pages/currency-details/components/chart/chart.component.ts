@@ -14,6 +14,7 @@ import { environment } from '../../../../../environments/environment'
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
 import { interval } from 'rxjs'
 import { HighchartsChartModule } from 'highcharts-angular'
+import 'highcharts/modules/accessibility'
 
 interface CoinData {
   prices: SingleData[]
