@@ -2,6 +2,8 @@ import { Component, effect, input } from '@angular/core'
 import { WalletData } from '../../wallet.component'
 import { HighchartsChartModule } from 'highcharts-angular'
 import * as Highcharts from 'highcharts'
+import 'highcharts/modules/accessibility'
+// Accessibility(Highcharts)
 
 @Component({
   selector: 'app-wallet-chart',
@@ -61,6 +63,24 @@ export class WalletChartComponent {
           },
         },
         showInLegend: true,
+      },
+    },
+    accessibility: {
+      description: 'Pie chart showing wallet distribution by currency',
+      announceNewData: {
+        enabled: true,
+      },
+      point: {
+        valueSuffix: '%',
+      },
+      series: {
+        describeSingleSeries: true,
+        descriptionFormatter: function (series) {
+          return (
+            `This pie chart shows ${series.name}, with ` +
+            `${series.points.length} currencies represented.`
+          )
+        },
       },
     },
     series: [
