@@ -16,8 +16,9 @@ import {
 } from 'rxjs'
 import { environment } from '../../../../../environments/environment'
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
+import { WalletChartComponent } from './components/wallet-chart/wallet-chart.component'
 
-interface WalletData {
+export interface WalletData {
   wallet: {
     currency_id: string
     currency_name: string
@@ -32,7 +33,7 @@ interface WalletData {
 
 @Component({
   selector: 'app-wallet',
-  imports: [MatIconModule, MatTableModule, CommonModule],
+  imports: [MatIconModule, MatTableModule, CommonModule, WalletChartComponent],
   templateUrl: './wallet.component.html',
   styleUrl: './wallet.component.scss',
 })
@@ -44,7 +45,7 @@ export class WalletComponent {
   walletData$: Observable<WalletData>
 
   constructor(private http: HttpClient) {
-    this.walletData$ = interval(10_000).pipe(
+    this.walletData$ = interval(10_000000).pipe(
       startWith(0),
       switchMap(() => this.wallet$),
       switchMap(wallet => {
