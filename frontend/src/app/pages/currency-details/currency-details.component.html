@@ -29,7 +29,9 @@
         (24h)</span
       >
     </div>
-    <app-button label="Trade" (click)="openTradeModal()" />
+    @if (user$ | async) {
+      <app-button label="Trade" (click)="openTradeModal($event)" />
+    }
   </div>
 
   <div class="options-container">

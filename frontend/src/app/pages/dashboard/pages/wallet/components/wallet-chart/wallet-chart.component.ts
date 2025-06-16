@@ -3,7 +3,6 @@ import { WalletData } from '../../wallet.component'
 import { HighchartsChartModule } from 'highcharts-angular'
 import * as Highcharts from 'highcharts'
 import 'highcharts/modules/accessibility'
-// Accessibility(Highcharts)
 
 @Component({
   selector: 'app-wallet-chart',
