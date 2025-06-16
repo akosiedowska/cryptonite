@@ -234,9 +234,11 @@ export class CurrencyDetailsComponent implements OnInit {
     this.favouriteService.toggleFavourite(currencyId)
   }
 
-  openTradeModal() {
+  openTradeModal(event: Event) {
     const coin = this.coinData()
     if (coin) this.modalService.openModal(TradeModalComponent, coin)
+    const target = event.target as HTMLElement
+    target.blur()
   }
 
   addHighlight(e: MouseEvent | TouchEvent): void {
