@@ -214,3 +214,9 @@ html {
   max-height: 100dvh;
   overflow-y: auto;
 }
+
+// alert form
+.mat-mdc-form-field-subscript-wrapper,
+.mat-mdc-form-field-bottom-align::before {
+  display: none !important;
+}

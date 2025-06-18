@@ -63,13 +63,13 @@ type SingleData = [number, number]
 export class CurrencyDetailsComponent implements OnInit {
   private route = inject(ActivatedRoute)
   private http = inject(HttpClient)
+  private destroyRef = inject(DestroyRef)
   store = inject(Store)
   favourites$ = this.store.select(selectFavourites)
   user$ = this.store.select(selectCurrentUser)
   coinId = this.route.snapshot.paramMap.get('id') || ''
   coinPrices = signal<SingleData[]>([])
   coinData = signal<Coin | null>(null)
-  private destroyRef = inject(DestroyRef)
   currency = Currency.EUR
   daysValue = 1
   formatNumber = formatNumber

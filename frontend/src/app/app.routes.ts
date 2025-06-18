@@ -108,6 +108,13 @@ export const routes: Routes = [
             './pages/dashboard/pages/notifications/notifications.component'
           ).then(m => m.NotificationsComponent),
       },
+      {
+        path: 'alerts',
+        loadComponent: () =>
+          import('./pages/dashboard/pages/alerts/alerts.component').then(
+            m => m.AlertsComponent
+          ),
+      },
     ],
   },
   {

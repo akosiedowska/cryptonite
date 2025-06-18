@@ -1,0 +1,72 @@
+<h2>Set alerts</h2>
+<p>
+  Set custom price alerts for your selected cryptocurrency. Get notified when
+  the price reaches your chosen threshold based on conditions like greater than,
+  less than, or equal to a target value.
+</p>
+<form [formGroup]="alertForm" (ngSubmit)="onSubmit()" class="alert-form">
+  <!-- <mat-form-field>
+    <mat-label>Currency</mat-label>
+    <mat-select formControlName="currency">
+      @for (currency of currencies; track currency) {
+        <mat-option [value]="currency">{{ currency }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field> -->
+  <mat-form-field class="chart-dropdown">
+    <mat-label>Coin</mat-label>
+    <input
+      type="text"
+      placeholder="Pick one"
+      aria-label="Coin"
+      matInput
+      formControlName="currency"
+      [matAutocomplete]="auto" />
+    <mat-autocomplete
+      #auto="matAutocomplete"
+      (optionSelected)="onCoinSelected($event.option.value)"
+      [displayWith]="displayCoinName">
+      @for (option of filteredOptions | async; track option.id) {
+        <mat-option [value]="option">{{ option.name }}</mat-option>
+      }
+    </mat-autocomplete>
+  </mat-form-field>
+  <!-- @if (
+    alertForm.controls.currency.touched && alertForm.controls.currency.invalid
+  ) {
+    <div class="error">Currency is required</div>
+  } -->
+  <mat-form-field>
+    <mat-label for="option">Option</mat-label>
+    <mat-select id="option" formControlName="option">
+      @for (option of options; track option) {
+        <mat-option [value]="option">{{ option }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+  <!-- @if (alertForm.controls.option.touched && alertForm.controls.option.invalid) {
+    <div class="error">Option is required</div>
+  } -->
+
+  <mat-form-field>
+    <mat-label>Price</mat-label>
+    <input
+      type="number"
+      matInput
+      formControlName="price"
+      placeholder="Enter price" />
+  </mat-form-field>
+  <!-- @if (alertForm.controls.price.touched && alertForm.controls.price.invalid) {
+    <div class="error">
+      @if (alertForm.controls.price.errors?.required) {
+        <span>Price is required</span>
+      }
+      @if (alertForm.controls.price.errors?.min) {
+        <span>Price must be positive</span>
+      }
+    </div>
+  } -->
+  <app-button label="Set Alert" class="large" type="submit" />
+  <!-- [disabled]="alertForm.invalid" -->
+  <!-- <button type="submit" [disabled]="alertForm.invalid">Set Alert</button> -->
+</form>
