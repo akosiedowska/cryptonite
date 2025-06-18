@@ -1,31 +1,56 @@
 <ul class="navigation">
-    <li>
-        <a routerLink="wallet" routerLinkActive="active" class="navigation__element">
-            <i class="fa-solid fa-wallet"></i>
-            <span>Portfolio</span>
-        </a>
-    </li>
-    <li>
-        <a routerLink="transactions" routerLinkActive="active" class="navigation__element">
-            <i class="fa-regular fa-rectangle-list"></i>
-            <span>Transactions</span>
-        </a>
-    </li>
-    <li>
-        <a routerLink="favourites" routerLinkActive="active" class="navigation__element">
-            <i class="fa-regular fa-star"></i>
-            <span>Favourites</span>
-        </a>
-    </li>
-    <li>
-        <a routerLink="profile" routerLinkActive="active" class="navigation__element">
-            <i class="fa-regular fa-user"></i>
-            <span>Profile</span>
-        </a>
-    </li>
-    <div class="separator"></div>
-    <li class="logout-link navigation__element" (click)="handleLogOut()">
-        <i class="fa-solid fa-arrow-right-from-bracket"></i>
-        <span>Log out</span>
-    </li>
+  <li>
+    <a
+      routerLink="wallet"
+      routerLinkActive="active"
+      class="navigation__element">
+      <i class="fa-solid fa-wallet"></i>
+      <span>Portfolio</span>
+    </a>
+  </li>
+  <li>
+    <a
+      routerLink="transactions"
+      routerLinkActive="active"
+      class="navigation__element">
+      <i class="fa-regular fa-rectangle-list"></i>
+      <span>Transactions</span>
+    </a>
+  </li>
+  <li>
+    <a
+      routerLink="favourites"
+      routerLinkActive="active"
+      class="navigation__element">
+      <i class="fa-regular fa-star"></i>
+      <span>Favourites</span>
+    </a>
+  </li>
+  <li>
+    <a
+      routerLink="profile"
+      routerLinkActive="active"
+      class="navigation__element">
+      <i class="fa-regular fa-user"></i>
+      <span>Profile</span>
+    </a>
+  </li>
+  <li>
+    <a
+      routerLink="notifications"
+      routerLinkActive="active"
+      class="navigation__element">
+      <i class="fa-regular fa-bell"></i>
+      <span>Notifications</span>
+    </a>
+  </li>
+  <div class="separator"></div>
+  <li
+    class="logout-link navigation__element"
+    (click)="handleLogOut()"
+    tabindex="0"
+    (keydown.enter)="handleLogOut()">
+    <i class="fa-solid fa-arrow-right-from-bracket"></i>
+    <span>Log out</span>
+  </li>
 </ul>

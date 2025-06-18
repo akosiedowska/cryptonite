@@ -101,6 +101,13 @@ export const routes: Routes = [
             m => m.WalletComponent
           ),
       },
+      {
+        path: 'notifications',
+        loadComponent: () =>
+          import(
+            './pages/dashboard/pages/notifications/notifications.component'
+          ).then(m => m.NotificationsComponent),
+      },
     ],
   },
   {
