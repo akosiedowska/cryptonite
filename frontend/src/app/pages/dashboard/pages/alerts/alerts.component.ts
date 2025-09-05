@@ -45,10 +45,8 @@ export class AlertsComponent implements OnInit {
     price: new FormControl(null, [Validators.required, Validators.min(0)]),
   })
 
-  // Example currency list — replace with your actual list or fetch dynamically
   currencies = ['BTC', 'ETH', 'USDT', 'EUR', 'USD']
 
-  // Options for comparison
   options = ['<', '>', '=']
 
   ngOnInit() {
@@ -86,6 +84,8 @@ export class AlertsComponent implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(data => {
         this.coinList.set(data)
+        const value = this.alertForm.get('currency')!.value || ''
+        this.alertForm.get('currency')!.setValue(value)
       })
   }
 
