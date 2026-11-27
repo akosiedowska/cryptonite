@@ -65,8 +65,6 @@ cd cryptonite
 
 ### 2. Install dependencies
 
-The project has three `package.json` files — root (Husky / lint-staged hooks), `backend` and `frontend`:
-
 ```bash
 npm install
 cd backend && npm install
@@ -109,18 +107,6 @@ npm start
 ```
 
 The app is then available at `http://localhost:4200` and the API at `http://localhost:8080`.
-
-### Other useful scripts
-
-| Command | Location | Description |
-| --- | --- | --- |
-| `npm run build` | frontend | Production build into `dist/` |
-| `npm run watch` | frontend | Development build in watch mode |
-| `npm test` | frontend | Unit tests (Karma + Jasmine) |
-| `npm run lint` | frontend | ESLint |
-| `npm run prettier` | frontend | Format the codebase |
-| `npm run build` | backend | Compile TypeScript into `dist/` |
-| `npm start` | backend | Run the compiled build |
 
 ## Screenshots
 
