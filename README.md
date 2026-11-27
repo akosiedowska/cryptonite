@@ -51,6 +51,77 @@ built with:
 
 ## Installation
 
+### Prerequisites
+
+- [Node.js](https://nodejs.org/) 18+ and npm
+- [PostgreSQL](https://www.postgresql.org/)
+
+### 1. Clone the repository
+
+```bash
+git clone https://gitlab2.eleks.com/a.kosiedowska/cryptonite.git
+cd cryptonite
+```
+
+### 2. Install dependencies
+
+The project has three `package.json` files — root (Husky / lint-staged hooks), `backend` and `frontend`:
+
+```bash
+npm install
+cd backend && npm install
+cd ../frontend && npm install
+cd ..
+```
+
+### 3. Configure environment variables
+
+Copy the example files and fill in the values:
+
+```bash
+cp backend/.env.example backend/.env
+cp frontend/.env.example frontend/.env
+```
+
+### 4. Set up the database
+
+Create the database, run the migrations and seed the wallet data:
+
+```bash
+createdb cryptonite
+cd backend
+npx knex migrate:latest
+npm run wallet
+```
+
+### 5. Run the app
+
+Backend (from `backend/`):
+
+```bash
+npm run dev
+```
+
+Frontend (from `frontend/`):
+
+```bash
+npm start
+```
+
+The app is then available at `http://localhost:4200` and the API at `http://localhost:8080`.
+
+### Other useful scripts
+
+| Command | Location | Description |
+| --- | --- | --- |
+| `npm run build` | frontend | Production build into `dist/` |
+| `npm run watch` | frontend | Development build in watch mode |
+| `npm test` | frontend | Unit tests (Karma + Jasmine) |
+| `npm run lint` | frontend | ESLint |
+| `npm run prettier` | frontend | Format the codebase |
+| `npm run build` | backend | Compile TypeScript into `dist/` |
+| `npm start` | backend | Run the compiled build |
+
 ## Screenshots
 
 <img src='./frontend/public/Screenshot_1.png' width="500" alt="screenshot"/> <br>
